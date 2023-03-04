@@ -11,20 +11,30 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class DiskUsage {
-
     public static void main(String[] args) {
-        Path startingDirectory = Paths.get(args[args.length-1]);
-        if (Files.notExists(startingDirectory.toAbsolutePath())) {
+
+        Path startDirectory = Paths.get(args[args.length-1]);
+
+        if (Files.notExists(startDirectory.toAbsolutePath())) {
             System.err.print("No such directory");
             System.exit(1);
         }
-        Directory startDir = new Directory(startingDirectory);
+
+        Directory startDir = new Directory(startDirectory);
+
         Command cmd = CommandFactory.createCommand(args);
+
         try {
+
             FileTree.fillFileTree(startDir);
             cmd.apply(startDir);
+
         } catch (IOException e){
+
             System.out.println(e.getMessage());
+
         }
+
     }
+
 }

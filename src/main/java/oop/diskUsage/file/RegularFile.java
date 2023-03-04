@@ -6,6 +6,7 @@ import java.util.List;
 public class RegularFile extends File {
 
     private final Path path;
+
     private final long size;
 
     public RegularFile(Path path, long size){

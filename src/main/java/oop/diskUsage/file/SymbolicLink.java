@@ -4,7 +4,9 @@ import java.nio.file.Path;
 import java.util.List;
 
 public class SymbolicLink extends File {
+
     private final Path path;
+
     private final long size;
 
     public SymbolicLink(Path path, long size) {

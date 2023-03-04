@@ -7,6 +7,7 @@ import java.util.List;
 public class Directory extends File {
 
     private final Path path;
+
     private final List<File> children = new ArrayList<>();
 
     public Directory(Path path) {
@@ -34,11 +35,14 @@ public class Directory extends File {
 
     @Override
     public long size() {
+
         long sum = 0;
         for (File file : children) {
             sum += file.size();
         }
+
         return sum;
+
     }
 
     @Override
