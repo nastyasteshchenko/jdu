@@ -6,12 +6,12 @@ public class CommandFactory {
     public static final int DEFAULT_LIMIT = 999;
     public static boolean DEFAULT_SYMLINK_OPTION = false;
 
-    public static boolean isDigit(String str) {
+    private static boolean isDigit(String str) {
         try {
             Integer.parseInt(str);
-            return false;
-        } catch (NumberFormatException e) {
             return true;
+        } catch (NumberFormatException e) {
+            return false;
         }
     }
 
@@ -25,7 +25,7 @@ public class CommandFactory {
 
             switch (sCmd[i]) {
                 case "--depth" -> {
-                    if (isDigit(sCmd[i + 1])) {
+                    if (!isDigit(sCmd[i + 1])) {
                         System.err.print("No arguments for option '--depth'");
                         System.exit(1);
                     }
@@ -34,7 +34,7 @@ public class CommandFactory {
                     i += 2;
                 }
                 case "--limit" -> {
-                    if (isDigit(sCmd[i + 1])) {
+                    if (!isDigit(sCmd[i + 1])) {
                         System.err.print("No arguments for option '--limit'");
                         System.exit(1);
                     }

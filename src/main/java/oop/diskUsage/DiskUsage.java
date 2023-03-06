@@ -12,24 +12,15 @@ import java.nio.file.Paths;
 
 public class DiskUsage {
 
-    public static boolean isDigit(String str) {
-        try {
-            Integer.parseInt(str);
-            return false;
-        } catch (NumberFormatException e) {
-            return true;
-        }
-    }
-
-    public static void main(String[] args) throws IOException {
+    private static Path createStartDir(String[]args) throws IOException {
 
         Path startDirectory;
 
         if (args.length == 0 || args[args.length - 1].equals("-L") ||
-                (args.length >= 2 && isDigit(args[args.length - 1]) &&
-                        (args[args.length - 2].equals("--depth") || args[args.length - 2].equals("--limit")))) {
+                args.length > 1 && isDigit(args[args.length - 1]) &&
+                        (args[args.length - 2].equals("--depth") || args[args.length - 2].equals("--limit"))) {
 
-            startDirectory = Paths.get(".").toRealPath();
+            startDirectory = Paths.get("").toRealPath();
 
         } else {
 
@@ -41,12 +32,24 @@ public class DiskUsage {
             System.exit(1);
         }
 
-        Directory startDir = new Directory(startDirectory);
+        return startDirectory;
+    }
 
-        Command cmd = CommandFactory.createCommand(args);
+    private static boolean isDigit(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
 
         try {
 
+            Directory startDir = new Directory(createStartDir(args));
+            Command cmd = CommandFactory.createCommand(args);
             FileTree.fillFileTree(startDir);
             cmd.apply(startDir);
 
