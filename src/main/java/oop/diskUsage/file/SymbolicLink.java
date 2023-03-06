@@ -24,6 +24,7 @@ public class SymbolicLink extends File {
         return path;
     }
 
+
     @Override
     public List<File> getChildren() {
         return null;

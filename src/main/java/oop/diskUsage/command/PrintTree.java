@@ -15,6 +15,7 @@ public class PrintTree extends Command {
 
     private final int num;
 
+    //CCR: Make local for method apply
     private final int limit = 1000;
 
     public PrintTree(int depth, int num, boolean symLinkOption) {
@@ -26,7 +27,7 @@ public class PrintTree extends Command {
     }
 
     private void printTree(File startDir, int currentDepth) throws IOException {
-
+        //CCR: CreateComparator.createComparator()???
         startDir.getChildren().sort(CreateComparator.createComparator());
 
         int countFiles = 0;

@@ -7,6 +7,8 @@ public class UnitOfMeasurement {
 
         DecimalFormat df = new DecimalFormat("#.###");
 
+        //CCR: Switch - Case?
+
         if (size < Math.pow(2,10)){
             return "[" + size + " B]";
         }

@@ -12,11 +12,12 @@ import java.nio.file.Paths;
 
 public class DiskUsage {
     public static void main(String[] args) {
-
+        //CCR: No default arguments provided
         if (args.length == 0) {
             System.err.print("No arguments");
             System.exit(1);
         }
+
 
         Path startDirectory = Paths.get(args[args.length - 1]);
 
@@ -35,7 +36,6 @@ public class DiskUsage {
             cmd.apply(startDir);
 
         } catch (IOException e) {
-
             System.out.println(e.getMessage());
 
         }

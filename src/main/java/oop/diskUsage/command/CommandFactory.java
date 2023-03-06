@@ -3,6 +3,7 @@ package oop.diskUsage.command;
 public class CommandFactory {
 
     public static boolean isDigit(String str) {
+
         try {
             Integer.parseInt(str);
             return false;
@@ -12,7 +13,7 @@ public class CommandFactory {
     }
 
     public static Command createCommand(String[] sCmd) {
-
+        //CCR: Magic constants
         int depth = 999;
         int limit = 999;
         boolean symLinkOption = false;
