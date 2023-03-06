@@ -11,13 +11,13 @@ public class PrintTree extends Command {
 
     private final int depth;
 
-    private final int symLinkOption;
+    private final boolean symLinkOption;
 
     private final int num;
 
     private final int limit = 1000;
 
-    public PrintTree(int depth, int num, int symLinkOption) {
+    public PrintTree(int depth, int num, boolean symLinkOption) {
 
         this.depth = depth;
         this.num = num;
@@ -57,7 +57,7 @@ public class PrintTree extends Command {
                     printTree(i, currentDepth + 1);
                 }
 
-            } else if (Files.isSymbolicLink(i.getPath()) && symLinkOption==1){
+            } else if (Files.isSymbolicLink(i.getPath()) && symLinkOption){
 
                 for (int j = 0; j < currentDepth + 1; j++) {
                     System.out.print("\t");
