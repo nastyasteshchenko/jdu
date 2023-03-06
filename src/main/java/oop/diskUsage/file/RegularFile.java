@@ -1,7 +1,6 @@
 package oop.diskUsage.file;
 
 import java.nio.file.Path;
-import java.util.List;
 
 public class RegularFile extends File {
 

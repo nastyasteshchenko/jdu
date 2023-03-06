@@ -28,7 +28,6 @@ public class Directory extends File {
         return path;
     }
 
-    //@Override
     public List<File> getChildren() {
         return children;
     }
