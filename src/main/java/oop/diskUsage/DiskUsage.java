@@ -12,7 +12,7 @@ import java.nio.file.Paths;
 
 public class DiskUsage {
 
-    private static Path createStartDir(String[]args) throws IOException {
+    private static Path createStartDirPath(String[]args) throws IOException {
 
         Path startDirectory;
 
@@ -48,7 +48,7 @@ public class DiskUsage {
 
         try {
 
-            Directory startDir = new Directory(createStartDir(args));
+            Directory startDir = new Directory(createStartDirPath(args));
             Command cmd = CommandFactory.createCommand(args);
             FileTree.fillFileTree(startDir);
             cmd.apply(startDir);
