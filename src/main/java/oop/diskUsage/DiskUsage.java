@@ -13,7 +13,12 @@ import java.nio.file.Paths;
 public class DiskUsage {
     public static void main(String[] args) {
 
-        Path startDirectory = Paths.get(args[args.length-1]);
+        if (args.length == 0) {
+            System.err.print("No arguments");
+            System.exit(1);
+        }
+
+        Path startDirectory = Paths.get(args[args.length - 1]);
 
         if (Files.notExists(startDirectory.toAbsolutePath())) {
             System.err.print("No such directory");
@@ -29,7 +34,7 @@ public class DiskUsage {
             FileTree.fillFileTree(startDir);
             cmd.apply(startDir);
 
-        } catch (IOException e){
+        } catch (IOException e) {
 
             System.out.println(e.getMessage());
 

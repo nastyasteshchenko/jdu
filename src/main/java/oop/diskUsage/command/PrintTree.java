@@ -27,9 +27,7 @@ public class PrintTree extends Command {
 
     private void printTree(File startDir, int currentDepth) throws IOException {
 
-        if (num != -1) {
             startDir.getChildren().sort(CreateComparator.createComparator());
-        }
 
         int countFiles = 0;
 
@@ -39,7 +37,7 @@ public class PrintTree extends Command {
 
         System.out.println("/" + startDir.getName() + " " + UnitOfMeasurement.sizeOfFile(startDir.size()));
 
-        if (currentDepth == depth && depth != -1) {
+        if (currentDepth == depth) {
             return;
         }
 
@@ -73,9 +71,7 @@ public class PrintTree extends Command {
                 System.out.println(i.getName() + " " + UnitOfMeasurement.sizeOfFile(i.size()));
             }
 
-            if (num != -1) {
                 countFiles++;
-            }
         }
 
     }

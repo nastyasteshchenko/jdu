@@ -1,63 +1,54 @@
 package oop.diskUsage.command;
 
 public class CommandFactory {
+
+    public static boolean isDigit(String str) {
+        try {
+            Integer.parseInt(str);
+            return false;
+        } catch (NumberFormatException e) {
+            return true;
+        }
+    }
+
     public static Command createCommand(String[] sCmd) {
 
-        Command cmd = null;
+        int depth = 999;
+        int limit = 999;
+        boolean symLinkOption = false;
 
-        if (sCmd.length <= 3) {
+        for (int i = 0; i < sCmd.length - 1; ) {
 
-            switch (sCmd[0]) {
-                case "--depth" -> cmd = new PrintTree(Integer.parseInt(sCmd[1]), -1, -1);
-                case "--limit" -> cmd = new PrintTree(-1, Integer.parseInt(sCmd[1]), -1);
-                case "-L" -> cmd = new PrintTree(-1, -1, 1);
-                default -> cmd = new PrintTree(-1, -1, -1);
-            }
+            switch (sCmd[i]) {
+                case "--depth" -> {
+                    if (isDigit(sCmd[i + 1])) {
+                        System.err.print("No arguments for option '--depth'");
+                        System.exit(1);
+                    }
 
-        } else if (sCmd.length <= 5) {
-
-            if (sCmd[0].equals("--depth") && sCmd[2].equals("--limit")) {
-                cmd = new PrintTree(Integer.parseInt(sCmd[1]), Integer.parseInt(sCmd[3]), -1);
-            }
-            if (sCmd[2].equals("--depth") && sCmd[0].equals("--limit")) {
-                cmd = new PrintTree(Integer.parseInt(sCmd[3]), Integer.parseInt(sCmd[1]), -1);
-            }
-            if (sCmd[0].equals("-L") && sCmd[1].equals("--limit")) {
-                cmd = new PrintTree(-1, Integer.parseInt(sCmd[2]), 1);
-            }
-            if (sCmd[0].equals("--limit") && sCmd[2].equals("-L")) {
-                cmd = new PrintTree(-1, Integer.parseInt(sCmd[1]), 1);
-            }
-            if (sCmd[0].equals("--depth") && sCmd[2].equals("-L")) {
-                cmd = new PrintTree(Integer.parseInt(sCmd[1]), -1, 1);
-            }
-            if (sCmd[0].equals("-L") && sCmd[1].equals("--depth")) {
-                cmd = new PrintTree(Integer.parseInt(sCmd[2]), -1, 1);
-            }
-
-        } else if (sCmd.length <= 7) {
-
-            if (sCmd[0].equals("--depth") && sCmd[2].equals("--limit") && sCmd[4].equals("-L")) {
-                cmd = new PrintTree(Integer.parseInt(sCmd[1]), Integer.parseInt(sCmd[3]), 1);
-            }
-            if (sCmd[0].equals("--depth") && sCmd[2].equals("-L") && sCmd[3].equals("--limit")) {
-                cmd = new PrintTree(Integer.parseInt(sCmd[1]), Integer.parseInt(sCmd[4]), 1);
-            }
-            if (sCmd[0].equals("-L") && sCmd[1].equals("--limit") && sCmd[3].equals("--depth")) {
-                cmd = new PrintTree(Integer.parseInt(sCmd[4]), Integer.parseInt(sCmd[2]), 1);
-            }
-            if (sCmd[0].equals("-L") && sCmd[1].equals("--depth") && sCmd[3].equals("--limit")) {
-                cmd = new PrintTree(Integer.parseInt(sCmd[2]), Integer.parseInt(sCmd[4]), 1);
-            }
-            if (sCmd[0].equals("--depth") && sCmd[2].equals("-L") && sCmd[3].equals("--limit")) {
-                cmd = new PrintTree(Integer.parseInt(sCmd[1]), Integer.parseInt(sCmd[4]), 1);
-            }
-            if (sCmd[0].equals("--limit") && sCmd[2].equals("-L") && sCmd[3].equals("--depth")) {
-                cmd = new PrintTree(Integer.parseInt(sCmd[4]), Integer.parseInt(sCmd[1]), 1);
+                    depth = Integer.parseInt(sCmd[i + 1]);
+                    i += 2;
+                }
+                case "--limit" -> {
+                    if (isDigit(sCmd[i + 1])) {
+                        System.err.print("No arguments for option '--limit'");
+                        System.exit(1);
+                    }
+                    limit = Integer.parseInt(sCmd[i + 1]);
+                    i += 2;
+                }
+                case "-L" -> {
+                    symLinkOption = true;
+                    i++;
+                }
+                default -> {
+                    System.err.print("No such command '" + sCmd[i] +"'");
+                    System.exit(1);
+                }
             }
 
         }
 
-        return cmd;
-}
+        return new PrintTree(depth, limit, symLinkOption);
+    }
 }
