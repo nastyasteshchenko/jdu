@@ -11,14 +11,30 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class DiskUsage {
-    public static void main(String[] args) {
 
-        if (args.length == 0) {
-            System.err.print("No arguments");
-            System.exit(1);
+    public static boolean isDigit(String str) {
+        try {
+            Integer.parseInt(str);
+            return false;
+        } catch (NumberFormatException e) {
+            return true;
         }
+    }
 
-        Path startDirectory = Paths.get(args[args.length - 1]);
+    public static void main(String[] args) throws IOException {
+
+        Path startDirectory;
+
+        if (args.length == 0 || args[args.length - 1].equals("-L") ||
+                (args.length >= 2 && isDigit(args[args.length - 1]) &&
+                        (args[args.length - 2].equals("--depth") || args[args.length - 2].equals("--limit")))) {
+
+            startDirectory = Paths.get(".").toRealPath();
+
+        } else {
+
+            startDirectory = Paths.get(args[args.length - 1]);
+        }
 
         if (Files.notExists(startDirectory.toAbsolutePath())) {
             System.err.print("No such directory");

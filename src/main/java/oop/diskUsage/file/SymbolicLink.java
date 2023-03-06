@@ -25,11 +25,6 @@ public class SymbolicLink extends File {
     }
 
     @Override
-    public List<File> getChildren() {
-        return null;
-    }
-
-    @Override
     public long size() {
         return size;
     }

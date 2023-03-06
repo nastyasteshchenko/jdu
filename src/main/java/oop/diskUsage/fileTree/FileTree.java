@@ -6,34 +6,43 @@ import oop.diskUsage.file.RegularFile;
 import oop.diskUsage.file.SymbolicLink;
 
 import java.io.IOException;
-import java.nio.file.Files;
+import java.nio.file.*;
+
 public class FileTree {
-        public static void fillFileTree(Directory startDir) throws IOException {
+    public static void fillFileTree(Directory startDir) throws IOException {
 
-            java.io.File[] list = startDir.getPath().toFile().listFiles();
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(startDir.getPath())) {
 
-            File f;
+            for (Path filePath : stream) {
 
-            for (java.io.File file : list) {
+                File f;
 
-                if (Files.isDirectory(file.toPath())) {
-                    f = new Directory(file.toPath());
+                if (Files.isDirectory(filePath)) {
+                    f = new Directory(filePath);
                     fillFileTree((Directory) f);
                     startDir.addChild(f);
                     continue;
                 }
-                if (Files.isRegularFile(file.toPath())) {
-                    f = new RegularFile(file.toPath(), Files.size(file.toPath()));
+                if (Files.isRegularFile(filePath)) {
+                    f = new RegularFile(filePath, Files.size(filePath));
                     startDir.addChild(f);
                     continue;
                 }
-                if (Files.isSymbolicLink(file.toPath())) {
-                    f = new SymbolicLink(file.toPath(), Files.size(file.toPath()));
+                if (Files.isSymbolicLink(filePath)) {
+                    f = new SymbolicLink(filePath, Files.size(filePath));
                     startDir.addChild(f);
                 }
 
             }
 
+        } catch (IOException | DirectoryIteratorException x) {
+
+            System.err.println(x);
+            System.exit(1);
+
         }
+
+
+    }
 
 }

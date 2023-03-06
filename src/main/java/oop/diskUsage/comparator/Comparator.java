@@ -1,10 +1,9 @@
 package oop.diskUsage.comparator;
 
 import oop.diskUsage.file.File;
-import java.util.Comparator;
 
-public class CreateComparator {
-    public static Comparator<File> createComparator() {
+public class Comparator {
+    public static java.util.Comparator<File> createComparator() {
 
         return (o1, o2) -> {
             if (o1.getPath() == o2.getPath()) {

@@ -9,8 +9,6 @@ public abstract class File{
 
     public abstract Path getPath();
 
-    public abstract List<File> getChildren();
-
     public abstract long size();
 
     public abstract boolean isDirectory();

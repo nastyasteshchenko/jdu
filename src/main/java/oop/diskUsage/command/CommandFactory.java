@@ -2,6 +2,9 @@ package oop.diskUsage.command;
 
 public class CommandFactory {
 
+    public static final int DEFAULT_DEPTH = 999;
+    public static final int DEFAULT_LIMIT = 999;
+
     public static boolean isDigit(String str) {
         try {
             Integer.parseInt(str);
@@ -13,8 +16,9 @@ public class CommandFactory {
 
     public static Command createCommand(String[] sCmd) {
 
-        int depth = 999;
-        int limit = 999;
+        int depth = DEFAULT_DEPTH;
+        int limit = DEFAULT_LIMIT;
+
         boolean symLinkOption = false;
 
         for (int i = 0; i < sCmd.length - 1; ) {

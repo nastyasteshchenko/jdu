@@ -1,6 +1,7 @@
 package oop.diskUsage.command;
 
-import oop.diskUsage.comparator.CreateComparator;
+import oop.diskUsage.comparator.Comparator;
+import oop.diskUsage.file.Directory;
 import oop.diskUsage.measurement.UnitOfMeasurement;
 import oop.diskUsage.file.File;
 
@@ -15,8 +16,6 @@ public class PrintTree extends Command {
 
     private final int num;
 
-    private final int limit = 1000;
-
     public PrintTree(int depth, int num, boolean symLinkOption) {
 
         this.depth = depth;
@@ -25,9 +24,9 @@ public class PrintTree extends Command {
 
     }
 
-    private void printTree(File startDir, int currentDepth) throws IOException {
+    private void printTree(Directory startDir, int currentDepth) throws IOException {
 
-        startDir.getChildren().sort(CreateComparator.createComparator());
+        startDir.getChildren().sort(Comparator.createComparator());
 
         int countFiles = 0;
 
@@ -50,9 +49,9 @@ public class PrintTree extends Command {
             if (i.isDirectory()) {
 
                 if (Files.isSameFile(i.getPath().getParent(), startDir.getPath().getParent())) {
-                    printTree(i, currentDepth);
+                    printTree((Directory) i, currentDepth);
                 } else {
-                    printTree(i, currentDepth + 1);
+                    printTree((Directory) i, currentDepth + 1);
                 }
 
             } else if (Files.isSymbolicLink(i.getPath()) && symLinkOption) {
@@ -80,8 +79,9 @@ public class PrintTree extends Command {
     }
 
     @Override
-    public void apply(File startDir) {
+    public void apply(Directory startDir) {
 
+        final int limit = 1000;
         if (num > limit) {
             System.err.print("File limit exceeded");
             System.exit(1);
