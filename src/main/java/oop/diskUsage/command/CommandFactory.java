@@ -4,6 +4,7 @@ public class CommandFactory {
 
     public static final int DEFAULT_DEPTH = 999;
     public static final int DEFAULT_LIMIT = 999;
+    public static boolean DEFAULT_SYMLINK_OPTION = false;
 
     public static boolean isDigit(String str) {
         try {
@@ -18,8 +19,7 @@ public class CommandFactory {
 
         int depth = DEFAULT_DEPTH;
         int limit = DEFAULT_LIMIT;
-
-        boolean symLinkOption = false;
+        boolean symLinkOption = DEFAULT_SYMLINK_OPTION;
 
         for (int i = 0; i < sCmd.length - 1; ) {
 
