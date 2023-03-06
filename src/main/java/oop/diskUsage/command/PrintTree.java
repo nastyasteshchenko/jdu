@@ -21,13 +21,13 @@ public class PrintTree extends Command {
 
         this.depth = depth;
         this.num = num;
-        this.symLinkOption=symLinkOption;
+        this.symLinkOption = symLinkOption;
 
     }
 
     private void printTree(File startDir, int currentDepth) throws IOException {
 
-            startDir.getChildren().sort(CreateComparator.createComparator());
+        startDir.getChildren().sort(CreateComparator.createComparator());
 
         int countFiles = 0;
 
@@ -55,29 +55,32 @@ public class PrintTree extends Command {
                     printTree(i, currentDepth + 1);
                 }
 
-            } else if (Files.isSymbolicLink(i.getPath()) && symLinkOption){
+            } else if (Files.isSymbolicLink(i.getPath()) && symLinkOption) {
 
                 for (int j = 0; j < currentDepth + 1; j++) {
                     System.out.print("\t");
                 }
                 System.out.print(i.getName() + " " + UnitOfMeasurement.sizeOfFile(i.size()));
 
-                System.out.println( " -> " + Files.readSymbolicLink(i.getPath()).getFileName()  );
+                System.out.println(" -> " + Files.readSymbolicLink(i.getPath()).getFileName());
+
             } else {
+
                 for (int j = 0; j < currentDepth + 1; j++) {
                     System.out.print("\t");
                 }
 
                 System.out.println(i.getName() + " " + UnitOfMeasurement.sizeOfFile(i.size()));
+
             }
 
-                countFiles++;
+            countFiles++;
         }
 
     }
 
     @Override
-    public void apply(File startDir) throws IOException {
+    public void apply(File startDir) {
 
         if (num > limit) {
             System.err.print("File limit exceeded");
@@ -93,7 +96,7 @@ public class PrintTree extends Command {
 
             printTree(startDir, 0);
 
-        } catch (IOException e){
+        } catch (IOException e) {
 
             System.out.println(e.getMessage());
 
