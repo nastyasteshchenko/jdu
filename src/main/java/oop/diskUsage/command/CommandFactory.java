@@ -2,9 +2,9 @@ package oop.diskUsage.command;
 
 public class CommandFactory {
 
-    public static final int DEFAULT_DEPTH = 999;
-    public static final int DEFAULT_LIMIT = 999;
-    public static boolean DEFAULT_SYMLINK_OPTION = false;
+    private static final int DEFAULT_DEPTH = 999;
+    private static final int DEFAULT_LIMIT = 999;
+    private static final boolean DEFAULT_SYMLINK_OPTION = false;
 
     private static boolean isDigit(String str) {
         try {

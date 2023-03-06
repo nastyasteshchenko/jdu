@@ -23,11 +23,13 @@ public class FileTree {
                     startDir.addChild(f);
                     continue;
                 }
+
                 if (Files.isRegularFile(filePath)) {
                     f = new RegularFile(filePath, Files.size(filePath));
                     startDir.addChild(f);
                     continue;
                 }
+
                 if (Files.isSymbolicLink(filePath)) {
                     f = new SymbolicLink(filePath, Files.size(filePath));
                     startDir.addChild(f);
@@ -37,7 +39,7 @@ public class FileTree {
 
         } catch (IOException | DirectoryIteratorException x) {
 
-            System.err.println(x);
+            System.err.println(x.getMessage());
             System.exit(1);
 
         }
