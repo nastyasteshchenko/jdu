@@ -10,6 +10,7 @@ import java.nio.file.Files;
 
 public class PrintTree extends Command { //tree printer
 
+    static final int LIMIT = 1000; // for depth
     private final int depth;
 
     private final boolean symLinkOption; //pass through symlink
@@ -26,7 +27,7 @@ public class PrintTree extends Command { //tree printer
 
     private void printTree(Directory startDir, int currentDepth) throws IOException {
 
-        startDir.getChildren().sort(Comparator.createComparator());
+        startDir.getChildren().sort(Comparator.createComparator()); //class tree sorter
 
         int countFiles = 0;
 
@@ -81,13 +82,12 @@ public class PrintTree extends Command { //tree printer
     @Override
     public void apply(Directory startDir) {
 
-        final int limit = 1000;
-        if (num > limit) {
+        if (num > LIMIT) {
             System.err.print("File limit exceeded");
             System.exit(1);
         }
 
-        if (depth > limit) {
+        if (depth > LIMIT) {
             System.err.print("Recurse limit exceeded");
             System.exit(1);
         }

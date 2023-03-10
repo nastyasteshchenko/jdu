@@ -16,6 +16,8 @@ public class DiskUsage {
             Directory startDir = new Directory(StartDirPath.createStartDirPath(args));
             Command cmd = CommandFactory.createCommand(args);
             FileTree.fillFileTree(startDir);
+            // sort
+            // print
             cmd.apply(startDir);
 
         } catch (IOException e) { // user shouldn't see that
