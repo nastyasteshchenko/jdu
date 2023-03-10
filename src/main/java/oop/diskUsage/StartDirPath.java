@@ -39,3 +39,14 @@ public class StartDirPath {
         return startDirectory;
     }
 }
+
+
+record JduOptions {
+
+    //fields from PrintTree
+
+    static JduOptions creste(String[] args) {
+
+    }
+
+}

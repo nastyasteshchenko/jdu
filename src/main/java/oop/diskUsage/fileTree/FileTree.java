@@ -11,11 +11,11 @@ import java.nio.file.*;
 public class FileTree {
     public static void fillFileTree(Directory startDir) throws IOException {
 
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(startDir.getPath())) {
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(startDir.getPath())) { //прочитать что происходит
 
             for (Path filePath : stream) {
 
-                File f;
+                File f; //move to if blocks
 
                 if (Files.isDirectory(filePath)) {
                     f = new Directory(filePath);

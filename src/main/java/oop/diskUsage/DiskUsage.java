@@ -18,7 +18,7 @@ public class DiskUsage {
             FileTree.fillFileTree(startDir);
             cmd.apply(startDir);
 
-        } catch (IOException e) {
+        } catch (IOException e) { // user shouldn't see that
 
             System.out.println(e.getMessage());
 

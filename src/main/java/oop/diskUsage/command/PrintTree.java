@@ -8,13 +8,13 @@ import oop.diskUsage.file.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
-public class PrintTree extends Command {
+public class PrintTree extends Command { //tree printer
 
     private final int depth;
 
-    private final boolean symLinkOption;
+    private final boolean symLinkOption; //pass through symlink
 
-    private final int num;
+    private final int num; //amount of file
 
     public PrintTree(int depth, int num, boolean symLinkOption) {
 
