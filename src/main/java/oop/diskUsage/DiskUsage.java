@@ -1,29 +1,28 @@
 package oop.diskUsage;
 
-import oop.diskUsage.command.Command;
-import oop.diskUsage.command.CommandFactory;
-import oop.diskUsage.file.Directory;
-import oop.diskUsage.fileTree.FileTree;
-
 import java.io.IOException;
 
 public class DiskUsage {
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
         try {
 
-            Directory startDir = new Directory(StartDirPath.createStartDirPath(args));
-            Command cmd = CommandFactory.createCommand(args);
-            FileTree.fillFileTree(startDir);
-            cmd.apply(startDir);
+            UserInput userInput = new UserInput(args);
+            FileTree.fillFileTree(userInput.getStartDir(), userInput.getOptions().passThroughSymLink(), 0);
 
-        } catch (IOException e) {
+            if (userInput.getOptions().limitAmountOfFiles() > 1) {
+                TreeSorter.sortTree(userInput.getStartDir());
+            }
 
-            System.out.println(e.getMessage());
+            TreePrinter.printTree(userInput.getStartDir(), userInput.getOptions(), 0);
+
+        } catch (UserInputException | IOException e) {
+
+            if (e instanceof UserInputException) {
+                System.err.println(e.getMessage());
+            }
 
         }
-
     }
-
 }
