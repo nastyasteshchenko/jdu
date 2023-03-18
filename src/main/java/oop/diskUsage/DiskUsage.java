@@ -11,9 +11,7 @@ public class DiskUsage {
             UserInput userInput = new UserInput(args);
             FileTree.fillFileTree(userInput.getStartDir(), userInput.getOptions().passThroughSymLink(), 0);
 
-            if (userInput.getOptions().limitAmountOfFiles() > 1) {
-                TreeSorter.sortTree(userInput.getStartDir());
-            }
+            TreeSorter.sortTree(userInput.getStartDir());
 
             TreePrinter.printTree(userInput.getStartDir(), userInput.getOptions(), 0);
 

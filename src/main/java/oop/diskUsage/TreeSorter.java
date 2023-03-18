@@ -7,7 +7,7 @@ public class TreeSorter {
 
     public static void sortTree(DirectoryTreeNode startDir) {
 
-        startDir.getChildren().sort(Comparator.createComparator());
+        startDir.getChildren().sort(TreeNodesComparator.createComparator());
 
         for (TreeNode i : startDir.getChildren()) {
             if (i instanceof DirectoryTreeNode) {

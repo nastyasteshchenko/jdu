@@ -2,8 +2,10 @@ package oop.diskUsage;
 
 import oop.diskUsage.file.TreeNode;
 
-public class Comparator {
-    public static java.util.Comparator<TreeNode> createComparator() {
+import java.util.Comparator;
+
+public class TreeNodesComparator {
+    public static Comparator<TreeNode> createComparator() {
 
         return (o1, o2) -> {
             if (o1.path().equals(o2.path())) {
