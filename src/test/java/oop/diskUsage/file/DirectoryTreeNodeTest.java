@@ -48,5 +48,4 @@ public class DirectoryTreeNodeTest {
 
         TestCase.assertEquals(0, startDir.size());
     }
-
 }

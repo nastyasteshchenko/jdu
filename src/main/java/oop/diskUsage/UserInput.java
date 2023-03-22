@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+// TODO expected start dir: either input from args or current dir from system props
 record JduOptions(int depth, int limitAmountOfFiles, boolean passThroughSymLink) {
     static final int DEFAULT_DEPTH = 1000;
     static final int DEFAULT_LIMIT_AMOUNT_OF_FILES = 1000;
@@ -52,6 +53,7 @@ public class UserInput {
         int limitAmountOfFiles = JduOptions.DEFAULT_LIMIT_AMOUNT_OF_FILES;
         boolean passThroughSymLink = JduOptions.DEFAULT_PASS_THROUGH_SYMLINK;
 
+        // TODO what if input params was set twice? TODO add tests
         for (int i = 0; i < args.length; ) {
             switch (args[i]) {
                 case "--depth" -> {
@@ -63,7 +65,7 @@ public class UserInput {
                     i += 2;
                 }
                 case "--limit" -> {
-                    if (!isDigit(args[i + 1])) {
+                    if (!isDigit(args[i + 1])) { // TODO remove double check
                         if (!isDigit(args[i + 1])) {
                             throw new UserInputException("option requires an argument -- 'limit'");
                         }

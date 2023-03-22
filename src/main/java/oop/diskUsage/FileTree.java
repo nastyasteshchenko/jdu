@@ -13,7 +13,12 @@ public class FileTree {
     private static String startDirectoryPath;
     static final int LIMIT_DEPTH = 1000;
 
-    public static void fillFileTree(DirectoryTreeNode startDir, boolean passThroughSymLink, int currentDepth) throws IOException {
+    public static void fillFileTree(DirectoryTreeNode startDir, boolean passThroughSymLink) {
+        fillFileTree(startDir, passThroughSymLink, 0);
+    }
+
+    private static void fillFileTree(DirectoryTreeNode startDir, boolean passThroughSymLink, int currentDepth) throws IOException {
+
 
         if (currentDepth == 0) {
             startDirectoryPath = startDir.path().toString();
@@ -23,8 +28,8 @@ public class FileTree {
             return;
         }
 
+        // TODO fix
         DirectoryStream<Path> stream = Files.newDirectoryStream(startDir.path());
-
         for (Path filePath : stream) {
 
             if (Files.isSymbolicLink(filePath)) {
@@ -33,6 +38,7 @@ public class FileTree {
 
                 SymbolicLinkTreeNode f = new SymbolicLinkTreeNode(filePath, pathToChild.toString().length());
 
+                // TODO think about symlink dest, when it's a not a part of our hierarchy
                 if (passThroughSymLink) {
 
                     Path child = filePath.getParent().resolve(pathToChild).toRealPath();

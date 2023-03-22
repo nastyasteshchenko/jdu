@@ -16,6 +16,8 @@ public class TreePrinter {
         }
     }
 
+    // TODO remove currentDepth from public API
+    // TODO support cycles
     public static void printTree(DirectoryTreeNode startDir, JduOptions jduOptions, int currentDepth) throws IOException {
 
         int countFiles = 0;

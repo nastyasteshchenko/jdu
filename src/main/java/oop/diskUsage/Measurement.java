@@ -3,7 +3,7 @@ package oop.diskUsage;
 import java.text.DecimalFormat;
 
 public class Measurement {
-    public static String printSizeOfFile(double size){
+    public static String printSizeOfFile(double size){ // TODO double to long
 
         DecimalFormat df = new DecimalFormat("#.###");
 

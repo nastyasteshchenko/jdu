@@ -3,13 +3,17 @@ package oop.diskUsage;
 import oop.diskUsage.file.DirectoryTreeNode;
 import oop.diskUsage.file.TreeNode;
 
+import java.util.Comparator;
+
 public class TreeSorter {
 
-    public static void sortTree(DirectoryTreeNode startDir) {
+    public static void sortTree(DirectoryTreeNode root) {
 
-        startDir.getChildren().sort(TreeNodesComparator.createComparator());
+        // TODO see Comparator.comparing()
+        root.getChildren().sort(TreeNodesComparator.createComparator());
 
-        for (TreeNode i : startDir.getChildren()) {
+        // TODO support cycles
+        for (TreeNode i : root.getChildren()) {
             if (i instanceof DirectoryTreeNode) {
                 sortTree((DirectoryTreeNode) i);
             }
