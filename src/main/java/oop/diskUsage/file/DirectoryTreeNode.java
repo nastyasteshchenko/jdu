@@ -9,6 +9,8 @@ public final class DirectoryTreeNode implements TreeNode {
     private final Path path;
     private final List<TreeNode> children = new ArrayList<>();
 
+    private long size = -1;
+
     public DirectoryTreeNode(Path path) {
         this.path = path;
     }
@@ -27,6 +29,10 @@ public final class DirectoryTreeNode implements TreeNode {
 
     @Override
     public long size() {
+
+        if (size > -1) {
+            return size;
+        }
 
         long sum = 0;
         for (TreeNode file : children) {

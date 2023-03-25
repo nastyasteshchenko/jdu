@@ -1,5 +1,7 @@
 package oop.diskUsage;
 
+import oop.diskUsage.file.DirectoryTreeNode;
+
 import java.io.IOException;
 
 public class DiskUsage {
@@ -8,12 +10,13 @@ public class DiskUsage {
 
         try {
 
-            UserInput userInput = new UserInput(args);
-            FileTree.fillFileTree(userInput.getStartDir(), userInput.getOptions().passThroughSymLink(), 0);
+            JduOptions jduOptions = JduOptionsParser.create(args);
 
-            TreeSorter.sortTree(userInput.getStartDir());
+            DirectoryTreeNode root = TreeBuilder.build(jduOptions);
 
-            TreePrinter.printTree(userInput.getStartDir(), userInput.getOptions(), 0);
+            TreeSorter.sort(root);
+
+            TreePrinter.print(root, jduOptions);
 
         } catch (UserInputException | IOException e) {
 

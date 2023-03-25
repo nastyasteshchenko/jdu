@@ -1,19 +1,17 @@
 package oop.diskUsage;
 
-import oop.diskUsage.file.DirectoryTreeNode;
-
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-record JduOptions(int depth, int limitAmountOfFiles, boolean passThroughSymLink) {
+record JduOptions(int depth, int limitAmountOfFiles, boolean passThroughSymLink, Path startDir) {
     static final int DEFAULT_DEPTH = 1000;
     static final int DEFAULT_LIMIT_AMOUNT_OF_FILES = 1000;
     static final boolean DEFAULT_PASS_THROUGH_SYMLINK = false;
+    static final Path DEFAULT_PATH_STARTDIR =  Paths.get(System.getProperty("user.dir")) ;
 }
 
-public class UserInput {
+public class JduOptionsParser {
 
     private static final String availableOptions = """
             Available options:
@@ -22,22 +20,7 @@ public class UserInput {
             --depth n\tset recursion depth n
             -L\t\t\tfollow symlinks""";
 
-    private final JduOptions jduOptions;
-    private DirectoryTreeNode startDir = new DirectoryTreeNode(Paths.get("").toRealPath());
-
-    UserInput(String[] args) throws IOException, UserInputException {
-        jduOptions = create(args);
-    }
-
-    public JduOptions getOptions() {
-        return jduOptions;
-    }
-
-    public DirectoryTreeNode getStartDir() {
-        return startDir;
-    }
-
-    private boolean isDigit(String str) {
+    private static boolean isDigit(String str) {
         try {
             Integer.parseInt(str);
             return true;
@@ -46,11 +29,12 @@ public class UserInput {
         }
     }
 
-    private JduOptions create(String[] args) throws UserInputException {
+    public static JduOptions create(String[] args) throws UserInputException {
 
         int depth = JduOptions.DEFAULT_DEPTH;
         int limitAmountOfFiles = JduOptions.DEFAULT_LIMIT_AMOUNT_OF_FILES;
         boolean passThroughSymLink = JduOptions.DEFAULT_PASS_THROUGH_SYMLINK;
+        Path startDir = JduOptions.DEFAULT_PATH_STARTDIR;
 
         for (int i = 0; i < args.length; ) {
             switch (args[i]) {
@@ -82,7 +66,7 @@ public class UserInput {
                         if (Files.notExists(dir.toAbsolutePath())) {
                             throw new UserInputException("cannot access '" + args[i] + "': No such file or directory");
                         }
-                        startDir = new DirectoryTreeNode(dir);
+                        startDir = dir;
                     } else {
                         throw new UserInputException("invalid option '" + args[i] + "'\n\n" + availableOptions);
                     }
@@ -91,7 +75,7 @@ public class UserInput {
                 }
             }
         }
-        return new JduOptions(depth, limitAmountOfFiles, passThroughSymLink);
+        return new JduOptions(depth, limitAmountOfFiles, passThroughSymLink, startDir);
 
     }
 }

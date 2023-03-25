@@ -8,19 +8,23 @@ import oop.diskUsage.file.SymbolicLinkTreeNode;
 import java.io.IOException;
 import java.nio.file.*;
 
-public class FileTree {
+public class TreeBuilder {
 
     private static String startDirectoryPath;
     static final int LIMIT_DEPTH = 1000;
 
-    public static void fillFileTree(DirectoryTreeNode startDir, boolean passThroughSymLink, int currentDepth) throws IOException {
+    public static DirectoryTreeNode build(JduOptions jduOptions) throws IOException {
+        return build(new DirectoryTreeNode(jduOptions.startDir()), jduOptions.passThroughSymLink(), 0);
+    }
+
+    public static DirectoryTreeNode build(DirectoryTreeNode startDir, boolean passThroughSymLink, int currentDepth) throws IOException {
 
         if (currentDepth == 0) {
             startDirectoryPath = startDir.path().toString();
         }
 
         if (currentDepth == LIMIT_DEPTH) {
-            return;
+            return null;
         }
 
         DirectoryStream<Path> stream = Files.newDirectoryStream(startDir.path());
@@ -43,7 +47,7 @@ public class FileTree {
                         if (Files.isDirectory(child)) {
 
                             fChild = new DirectoryTreeNode(child);
-                            fillFileTree((DirectoryTreeNode) fChild, true, currentDepth + 1);
+                            build((DirectoryTreeNode) fChild, true, currentDepth + 1);
 
                         } else {
 
@@ -61,7 +65,7 @@ public class FileTree {
             if (Files.isDirectory(filePath)) {
 
                 DirectoryTreeNode f = new DirectoryTreeNode(filePath);
-                fillFileTree(f, passThroughSymLink, currentDepth + 1);
+                build(f, passThroughSymLink, currentDepth + 1);
                 startDir.addChild(f);
                 continue;
 
@@ -74,5 +78,9 @@ public class FileTree {
 
             }
         }
+        if (currentDepth == 0) {
+            return startDir;
+        }
+        return null;
     }
 }

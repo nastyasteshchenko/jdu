@@ -5,13 +5,13 @@ import oop.diskUsage.file.TreeNode;
 
 public class TreeSorter {
 
-    public static void sortTree(DirectoryTreeNode startDir) {
+    public static void sort(DirectoryTreeNode startDir) {
 
         startDir.getChildren().sort(TreeNodesComparator.createComparator());
 
         for (TreeNode i : startDir.getChildren()) {
             if (i instanceof DirectoryTreeNode) {
-                sortTree((DirectoryTreeNode) i);
+                sort((DirectoryTreeNode) i);
             }
         }
 

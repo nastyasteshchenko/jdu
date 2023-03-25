@@ -16,7 +16,10 @@ public class TreePrinter {
         }
     }
 
-    public static void printTree(DirectoryTreeNode startDir, JduOptions jduOptions, int currentDepth) throws IOException {
+    public static void print(DirectoryTreeNode startDir, JduOptions jduOptions) throws IOException {
+        print(startDir, jduOptions, 0);
+    }
+    public static void print(DirectoryTreeNode startDir, JduOptions jduOptions, int currentDepth) throws IOException {
 
         int countFiles = 0;
 
@@ -37,9 +40,9 @@ public class TreePrinter {
             if (i instanceof DirectoryTreeNode) {
 
                 if (Files.isSameFile(i.path().getParent(), startDir.path().getParent())) {
-                    printTree((DirectoryTreeNode) i, jduOptions, currentDepth);
+                    print((DirectoryTreeNode) i, jduOptions, currentDepth);
                 } else {
-                    printTree((DirectoryTreeNode) i, jduOptions, currentDepth + 1);
+                    print((DirectoryTreeNode) i, jduOptions, currentDepth + 1);
                 }
 
                 continue;
@@ -68,9 +71,9 @@ public class TreePrinter {
                     if (child instanceof DirectoryTreeNode) {
 
                         if (Files.isSameFile(i.path().getParent(), startDir.path().getParent())) {
-                            printTree((DirectoryTreeNode) child, jduOptions, currentDepth);
+                            print((DirectoryTreeNode) child, jduOptions, currentDepth);
                         } else {
-                            printTree((DirectoryTreeNode) child, jduOptions, currentDepth + 1);
+                            print((DirectoryTreeNode) child, jduOptions, currentDepth + 1);
                         }
 
                     } else {
