@@ -7,6 +7,7 @@ import java.util.List;
 public final class DirectoryTreeNode implements TreeNode {
 
     private final Path path;
+
     private final List<TreeNode> children = new ArrayList<>();
 
     private long size = -1;
@@ -34,12 +35,14 @@ public final class DirectoryTreeNode implements TreeNode {
             return size;
         }
 
-        long sum = 0;
+        long sumChildrenSize = 0;
         for (TreeNode file : children) {
-            sum += file.size();
+            sumChildrenSize += file.size();
         }
 
-        return sum;
+        size = sumChildrenSize;
+
+        return size;
 
     }
 

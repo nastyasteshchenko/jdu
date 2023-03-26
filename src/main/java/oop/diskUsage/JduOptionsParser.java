@@ -6,13 +6,12 @@ import java.nio.file.Paths;
 
 record JduOptions(int depth, int limitAmountOfFiles, boolean passThroughSymLink, Path startDir) {
     static final int DEFAULT_DEPTH = 1000;
-    static final int DEFAULT_LIMIT_AMOUNT_OF_FILES = 1000;
+    static final int DEFAULT_AMOUNT_OF_FILES = 1000;
     static final boolean DEFAULT_PASS_THROUGH_SYMLINK = false;
     static final Path DEFAULT_PATH_STARTDIR = Paths.get(System.getProperty("user.dir"));
 }
 
 public class JduOptionsParser {
-
     private static final String availableOptions = """
             Available options:
 
@@ -20,6 +19,7 @@ public class JduOptionsParser {
             --depth n\tset recursion depth n
             -L\t\t\tfollow symlinks""";
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     private static boolean isDigit(String str) {
         try {
             Integer.parseInt(str);
@@ -32,7 +32,7 @@ public class JduOptionsParser {
     public static JduOptions create(String[] args) throws UserInputException {
 
         int depth = JduOptions.DEFAULT_DEPTH;
-        int limitAmountOfFiles = JduOptions.DEFAULT_LIMIT_AMOUNT_OF_FILES;
+        int amountOfFiles = JduOptions.DEFAULT_AMOUNT_OF_FILES;
         boolean passThroughSymLink = JduOptions.DEFAULT_PASS_THROUGH_SYMLINK;
         Path startDir = JduOptions.DEFAULT_PATH_STARTDIR;
 
@@ -46,10 +46,13 @@ public class JduOptionsParser {
                     if (!isDigit(args[i + 1])) {
                         throw new UserInputException("option requires an argument -- 'depth'");
                     }
+
                     if (countDepthOption++ == 1) {
                         throw new UserInputException("double definition of 'depth' option");
                     }
+
                     depth = Integer.parseInt(args[i + 1]);
+
                     i += 2;
                 }
 
@@ -57,10 +60,13 @@ public class JduOptionsParser {
                     if (!isDigit(args[i + 1])) {
                         throw new UserInputException("option requires an argument -- 'limit'");
                     }
+
                     if (countLimitOption++ == 1) {
                         throw new UserInputException("double definition of 'limit' option");
                     }
-                    limitAmountOfFiles = Integer.parseInt(args[i + 1]);
+
+                    amountOfFiles = Integer.parseInt(args[i + 1]);
+
                     i += 2;
                 }
 
@@ -84,6 +90,6 @@ public class JduOptionsParser {
                 }
             }
         }
-        return new JduOptions(depth, limitAmountOfFiles, passThroughSymLink, startDir);
+        return new JduOptions(depth, amountOfFiles, passThroughSymLink, startDir);
     }
 }

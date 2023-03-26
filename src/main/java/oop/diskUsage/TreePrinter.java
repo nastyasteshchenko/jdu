@@ -5,9 +5,6 @@ import oop.diskUsage.file.RegularFileTreeNode;
 import oop.diskUsage.file.SymbolicLinkTreeNode;
 import oop.diskUsage.file.TreeNode;
 
-import java.io.IOException;
-import java.nio.file.Files;
-
 public class TreePrinter {
 
     private static void printTab(int count) {
@@ -16,10 +13,15 @@ public class TreePrinter {
         }
     }
 
-    public static void print(DirectoryTreeNode startDir, JduOptions jduOptions) throws IOException {
+    public static void print(DirectoryTreeNode startDir, JduOptions jduOptions)  {
         print(startDir, jduOptions, 0);
     }
-    public static void print(DirectoryTreeNode startDir, JduOptions jduOptions, int currentDepth) throws IOException {
+
+    public static void print(DirectoryTreeNode startDir, JduOptions jduOptions, int currentDepth) {
+
+        if (currentDepth >= jduOptions.depth()-1) {
+            return;
+        }
 
         int countFiles = 0;
 
@@ -27,9 +29,6 @@ public class TreePrinter {
 
         System.out.println("/" + startDir.path().getFileName() + " " + Measurement.printSizeOfFile(startDir.size()));
 
-        if (currentDepth == jduOptions.depth()) {
-            return;
-        }
 
         for (TreeNode i : startDir.getChildren()) {
 
@@ -39,11 +38,7 @@ public class TreePrinter {
 
             if (i instanceof DirectoryTreeNode) {
 
-                if (Files.isSameFile(i.path().getParent(), startDir.path().getParent())) {
-                    print((DirectoryTreeNode) i, jduOptions, currentDepth);
-                } else {
                     print((DirectoryTreeNode) i, jduOptions, currentDepth + 1);
-                }
 
                 continue;
 
@@ -53,45 +48,35 @@ public class TreePrinter {
 
                 printTab(currentDepth + 1);
 
-                System.out.print(i.path().getFileName() + " " + Measurement.printSizeOfFile(i.size()));
+                System.out.println("*" + i.path().getFileName() + " " + Measurement.printSizeOfFile(i.size()));
 
                 if (jduOptions.passThroughSymLink()) {
-
-                    System.out.println(" -> ");
-
-                    printTab(currentDepth + 2);
-
-                    if (((SymbolicLinkTreeNode) i).getChild() == null) {
-                        System.out.println(Files.readSymbolicLink(i.path()));
-                        continue;
-                    }
 
                     TreeNode child = ((SymbolicLinkTreeNode) i).getChild();
 
                     if (child instanceof DirectoryTreeNode) {
-
-                        if (Files.isSameFile(i.path().getParent(), startDir.path().getParent())) {
-                            print((DirectoryTreeNode) child, jduOptions, currentDepth);
-                        } else {
-                            print((DirectoryTreeNode) child, jduOptions, currentDepth + 1);
-                        }
+                            print((DirectoryTreeNode) child, jduOptions, currentDepth + 2);
 
                     } else {
 
-                        System.out.print(child.path().getFileName() + " " + Measurement.printSizeOfFile(child.size()));
+                        if (child != null ) {
+                            if (currentDepth +1  >= jduOptions.depth()-1) {
+                                continue;
+                            }
+                            printTab(currentDepth+2);
+                            System.out.println(child.path().getFileName() + " " + Measurement.printSizeOfFile(child.size()));
+                        }
+
                     }
 
                 }
-                System.out.println();
 
                 continue;
             }
 
             if (i instanceof RegularFileTreeNode) {
 
-                for (int j = 0; j < currentDepth + 1; j++) {
-                    System.out.print("\t");
-                }
+                printTab(currentDepth+1);
 
                 System.out.println(i.path().getFileName() + " " + Measurement.printSizeOfFile(i.size()));
 
