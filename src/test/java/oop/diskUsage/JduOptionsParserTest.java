@@ -22,7 +22,7 @@ public class JduOptionsParserTest {
 
         TestCase.assertEquals(jduOptions.depth(), JduOptions.DEFAULT_DEPTH);
         TestCase.assertEquals(jduOptions.limitAmountOfFiles(), JduOptions.DEFAULT_AMOUNT_OF_FILES);
-        TestCase.assertEquals(jduOptions.passThroughSymLink(), true);
+        TestCase.assertTrue(jduOptions.passThroughSymLink());
     }
 
     @Test
