@@ -12,7 +12,7 @@ import java.util.Set;
 
 public class FileTreeBuilder {
 
-    private static final Set<Path> visitedSymlinks = new HashSet<>();
+    private static final Set<Path> visitedSymlinksChildren = new HashSet<>();
 
     public static DirectoryTreeNode build(JduOptions jduOptions) throws IOException {
         return build(new DirectoryTreeNode(jduOptions.startDir()), jduOptions, 0);
@@ -21,8 +21,6 @@ public class FileTreeBuilder {
     private static DirectoryTreeNode build(DirectoryTreeNode startDir, JduOptions jduOptions, int currentDepth) throws IOException {
 
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(startDir.path())) {
-
-            HashSet<Path> symlinksChildren = new HashSet<>();
 
             for (Path filePath : stream) {
 
@@ -34,31 +32,14 @@ public class FileTreeBuilder {
 
                     if (jduOptions.passThroughSymLink()) {
 
-                        if (!symlinksChildren.contains(pathToChild)) {
+                        if (!visitedSymlinksChildren.contains(pathToChild)) {
 
-                            if (Files.isDirectory(filePath)) {
-                                symlinksChildren.add(pathToChild);
+                            if (Files.isDirectory(pathToChild)) {
+                                visitedSymlinksChildren.add(pathToChild);
                             }
 
                         } else {
 
-                            startDir.addChild(f);
-
-                            continue;
-
-                        }
-
-                        if (!visitedSymlinks.contains(filePath)) {
-
-                            if (Files.isDirectory(filePath)) {
-                                visitedSymlinks.add(filePath);
-                            }
-
-                        } else {
-
-//                        if (Files.isDirectory(filePath)) {
-//                            visitedSymlinks.remove(filePath);
-//                        }
                             startDir.addChild(f);
                             continue;
                         }
