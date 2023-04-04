@@ -2,8 +2,8 @@ package oop.diskUsage;
 
 import java.text.DecimalFormat;
 
-public class Measurement {
-    public static String printSizeOfFile(long size){
+public class SizePrinter {
+    public static String print(long size){
 
         DecimalFormat df = new DecimalFormat("#.###");
 

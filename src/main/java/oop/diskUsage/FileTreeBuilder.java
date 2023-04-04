@@ -85,10 +85,6 @@ public class FileTreeBuilder {
             }
         }
 
-        if (currentDepth == 0) {
-            return startDir;
-        }
-
-        return null;
+        return startDir;
     }
 }

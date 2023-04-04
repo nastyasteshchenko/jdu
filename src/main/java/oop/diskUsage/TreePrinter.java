@@ -27,7 +27,7 @@ public class TreePrinter {
 
         printTab(currentDepth);
 
-        System.out.println("/" + startDir.path().getFileName() + " " + Measurement.printSizeOfFile(startDir.size()));
+        System.out.println("/" + startDir.path().getFileName() + " " + SizePrinter.print(startDir.size()));
 
 
         for (TreeNode i : startDir.getChildren()) {
@@ -35,6 +35,8 @@ public class TreePrinter {
             if (countFiles == jduOptions.limitAmountOfFiles()) {
                 break;
             }
+
+            countFiles++;
 
             if (i instanceof DirectoryTreeNode) {
 
@@ -48,7 +50,7 @@ public class TreePrinter {
 
                 printTab(currentDepth + 1);
 
-                System.out.println("*" + i.path().getFileName() + " " + Measurement.printSizeOfFile(i.size()));
+                System.out.println("*" + i.path().getFileName() + " " + SizePrinter.print(i.size()));
 
                 if (jduOptions.passThroughSymLink()) {
 
@@ -64,7 +66,7 @@ public class TreePrinter {
                                 continue;
                             }
                             printTab(currentDepth+2);
-                            System.out.println(child.path().getFileName() + " " + Measurement.printSizeOfFile(child.size()));
+                            System.out.println(child.path().getFileName() + " " + SizePrinter.print(child.size()));
                         }
 
                     }
@@ -78,11 +80,9 @@ public class TreePrinter {
 
                 printTab(currentDepth+1);
 
-                System.out.println(i.path().getFileName() + " " + Measurement.printSizeOfFile(i.size()));
+                System.out.println(i.path().getFileName() + " " + SizePrinter.print(i.size()));
 
             }
-
-            countFiles++;
         }
     }
 }
