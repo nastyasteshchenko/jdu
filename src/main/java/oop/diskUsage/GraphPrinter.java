@@ -5,10 +5,11 @@ import oop.diskUsage.file.RegularFileGraphNode;
 import oop.diskUsage.file.SymbolicLinkGraphNode;
 import oop.diskUsage.file.GraphNode;
 
-import java.nio.file.Path;
 import java.util.HashSet;
 
 public class GraphPrinter {
+
+    private static JduOptions jduOptions;
 
     private static void printTab(int count) {
         for (int j = 0; j < count; j++) {
@@ -17,20 +18,21 @@ public class GraphPrinter {
     }
 
     public static void print(DirectoryGraphNode startDir, JduOptions jduOptions) {
-        print(startDir, jduOptions, 0);
+        GraphPrinter.jduOptions = jduOptions;
+        print(startDir, 0);
     }
 
-    public static void print(DirectoryGraphNode startDir, JduOptions jduOptions, int currentDepth) {
-
-        if (currentDepth >= jduOptions.getDepth() - 1) {
-            return;
-        }
+    private static void print(DirectoryGraphNode startDir, int currentDepth) {
 
         int countFiles = 0;
 
         printTab(currentDepth);
 
         System.out.println("/" + startDir.path().getFileName() + " " + SizePrinter.print(startDir.size()));
+
+        if (currentDepth + 1 >= jduOptions.getDepth() - 1) {
+            return;
+        }
 
         HashSet<DirectoryGraphNode> visitedSymlinkChildren = new HashSet<>();
 
@@ -44,7 +46,7 @@ public class GraphPrinter {
 
             if (i instanceof DirectoryGraphNode) {
 
-                print((DirectoryGraphNode) i, jduOptions, currentDepth + 1);
+                print((DirectoryGraphNode) i, currentDepth + 1);
 
                 continue;
 
@@ -71,12 +73,10 @@ public class GraphPrinter {
                             continue;
                         }
 
-                        print((DirectoryGraphNode) child, jduOptions, currentDepth + 2);
+                        print((DirectoryGraphNode) child, currentDepth + 2);
 
                     } else {
-                        if (currentDepth + 1 >= jduOptions.getDepth() - 1) {
-                            continue;
-                        }
+
                         printTab(currentDepth + 2);
                         System.out.println(child.path().getFileName() + " " + SizePrinter.print(child.size()));
                     }

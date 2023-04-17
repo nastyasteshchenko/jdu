@@ -40,7 +40,7 @@ public class JduOptions {
             jduOptions = new JduOptions();
         }
 
-        public int inSegment(int value, int a, int b) {
+        private int inSegment(int value, int a, int b) {
 
             if (value < a) {
                 return -1;
@@ -63,6 +63,7 @@ public class JduOptions {
             }
         }
 
+        @SuppressWarnings("ReturnValueOfTheMethodIsNeverUsed")
         public Builder depth(String depth) throws UserInputException {
             if (jduOptions.depth != null) {
                 throw UserInputException.duplicateOption("depth");
@@ -84,6 +85,7 @@ public class JduOptions {
             return this;
         }
 
+        @SuppressWarnings("ReturnValueOfTheMethodIsNeverUsed")
         public Builder limit(String limit) throws UserInputException {
             if (jduOptions.limitAmountOfFiles != null) {
                 throw UserInputException.duplicateOption("limit");
@@ -104,6 +106,7 @@ public class JduOptions {
             return this;
         }
 
+        @SuppressWarnings("ReturnValueOfTheMethodIsNeverUsed")
         public Builder passThroughtSymlink(boolean isPass) throws UserInputException {
 
             if (jduOptions.passThroughSymLink != null) {
@@ -114,6 +117,7 @@ public class JduOptions {
             return this;
         }
 
+        @SuppressWarnings("unused")
         public Builder startDir(String startDir) throws UserInputException {
 
             Path dir = Paths.get(startDir);
@@ -126,7 +130,7 @@ public class JduOptions {
             return this;
         }
 
-        JduOptions build() {
+        public JduOptions build() {
             if (jduOptions.depth == null) {
                 jduOptions.depth = MAX_DEPTH;
             }

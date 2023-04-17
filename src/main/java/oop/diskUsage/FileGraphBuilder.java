@@ -42,6 +42,8 @@ public class FileGraphBuilder {
 
                             fChild = new DirectoryGraphNode(pathToChild);
 
+                            graphNodes.put(pathToChild, fChild);
+
                             if (jduOptions.isPassThroughSymLink() && currentDepth < jduOptions.getDepth()) {
 
                                 build((DirectoryGraphNode) fChild, currentDepth + 1);
@@ -52,9 +54,9 @@ public class FileGraphBuilder {
 
                             fChild = new RegularFileGraphNode(pathToChild, Files.size(pathToChild));
 
-                        }
+                            graphNodes.put(pathToChild, fChild);
 
-                        graphNodes.put(pathToChild, fChild);
+                        }
 
                         f.addChild(fChild);
 
@@ -78,9 +80,10 @@ public class FileGraphBuilder {
                     } else {
 
                         f = new DirectoryGraphNode(filePath);
-                        build((DirectoryGraphNode) f, currentDepth + 1);
 
                         graphNodes.put(filePath, f);
+
+                        build((DirectoryGraphNode) f, currentDepth + 1);
 
                     }
 

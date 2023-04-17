@@ -10,16 +10,13 @@ import java.util.HashMap;
 
 public class GraphSorter {
 
+    private static final HashMap<Path, DirectoryGraphNode> sortedDirs = new HashMap<>();
+
     private static boolean childIsDir(SymbolicLinkGraphNode node) {
         return node.getChild() instanceof DirectoryGraphNode;
     }
 
     public static void sort(DirectoryGraphNode startDir) {
-        final HashMap<Path, DirectoryGraphNode> sortedDirs = new HashMap<>();
-        sort(startDir, sortedDirs);
-    }
-
-    private static void sort(DirectoryGraphNode startDir, HashMap<Path, DirectoryGraphNode> sortedDirs) {
 
         if (sortedDirs.containsKey(startDir.path())) {
             return;
@@ -30,11 +27,14 @@ public class GraphSorter {
         sortedDirs.put(startDir.path(), startDir);
 
         for (GraphNode i : startDir.getChildren()) {
+
             if (i instanceof DirectoryGraphNode) {
-                sort((DirectoryGraphNode) i, sortedDirs);
+                sort((DirectoryGraphNode) i);
+                continue;
             }
+
             if (i instanceof SymbolicLinkGraphNode && childIsDir((SymbolicLinkGraphNode) i)) {
-                sort((DirectoryGraphNode) ((SymbolicLinkGraphNode) i).getChild(), sortedDirs);
+                sort((DirectoryGraphNode) ((SymbolicLinkGraphNode) i).getChild());
             }
         }
 

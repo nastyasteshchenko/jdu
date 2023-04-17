@@ -8,7 +8,7 @@ public sealed class GraphNode permits RegularFileGraphNode, SymbolicLinkGraphNod
 
     protected long size;
 
-    public Path path(){
+    public Path path() {
         return path;
     }
 
