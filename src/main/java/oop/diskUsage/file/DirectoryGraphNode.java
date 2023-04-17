@@ -4,27 +4,20 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class DirectoryTreeNode implements TreeNode {
+public final class DirectoryGraphNode extends GraphNode {
 
-    private final Path path;
+    private final List<GraphNode> children = new ArrayList<>();
 
-    private final List<TreeNode> children = new ArrayList<>();
-
-    private long size = -1;
-
-    public DirectoryTreeNode(Path path) {
+    public DirectoryGraphNode(Path path) {
         this.path = path;
+        this.size = -1;
     }
 
-    public Path path() {
-        return path;
-    }
-
-    public void addChild(TreeNode file) {
+    public void addChild(GraphNode file) {
         children.add(file);
     }
 
-    public List<TreeNode> getChildren() {
+    public List<GraphNode> getChildren() {
         return children;
     }
 
@@ -36,7 +29,7 @@ public final class DirectoryTreeNode implements TreeNode {
         }
 
         long sumChildrenSize = 0;
-        for (TreeNode file : children) {
+        for (GraphNode file : children) {
             sumChildrenSize += file.size();
         }
 
