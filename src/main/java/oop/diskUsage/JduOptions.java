@@ -117,7 +117,7 @@ public class JduOptions {
             return this;
         }
 
-        @SuppressWarnings("unused")
+        @SuppressWarnings("ReturnValueOfTheMethodIsNeverUsed")
         public Builder startDir(String startDir) throws UserInputException {
 
             Path dir = Paths.get(startDir);

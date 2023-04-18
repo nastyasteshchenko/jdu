@@ -1,8 +1,5 @@
 package oop.diskUsage;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 public class UserInputException extends Exception{
 
     private static final String availableOptions = """
