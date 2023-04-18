@@ -7,44 +7,59 @@ import java.nio.file.Paths;
 
 public class DirectoryTreeNodeTest {
 
+    private RegularFileGraphNode createRegularFileNode(String path, long size) {
+        return new RegularFileGraphNode(Paths.get(path), size);
+    }
+
+    private DirectoryGraphNode createDirectoryNode(String path) {
+        return new DirectoryGraphNode(Paths.get(path));
+
+    }
+
+    private SymbolicLinkGraphNode createSymbolicLinkGraphNode(String path, long size) {
+        return new SymbolicLinkGraphNode(Paths.get(path), size);
+
+    }
+
     @Test
     public void testSizeOfOneFileDirectory() {
-        DirectoryGraphNode startDir = new DirectoryGraphNode(Paths.get("/foo"));
-        startDir.addChild(new RegularFileGraphNode(Paths.get("/foo/bar.txt"), 6));
+        DirectoryGraphNode startDir = createDirectoryNode("/foo");
+        startDir.addChild(createRegularFileNode("/foo/bar.txt", 6));
 
         TestCase.assertEquals(6, startDir.size());
     }
+
     @Test
-    public void testSizeOfDirectoryWithOneDepth() {
-        DirectoryGraphNode startDir = new DirectoryGraphNode(Paths.get("/foo"));
-        startDir.addChild(new RegularFileGraphNode(Paths.get("/foo/bar.txt"), 176));
-        startDir.addChild(new SymbolicLinkGraphNode(Paths.get("/foo/link_to_bar"), 11));
-        startDir.addChild(new RegularFileGraphNode(Paths.get("/foo/baz.pdf"), 1009));
+    public void testSizeOfDirectoryWithOneLevel() {
+        DirectoryGraphNode startDir = createDirectoryNode("/foo");
+        startDir.addChild(createRegularFileNode("/foo/bar.txt", 176));
+        startDir.addChild(createSymbolicLinkGraphNode("/foo/link_to_bar", 11));
+        startDir.addChild(createRegularFileNode("/foo/baz.pdf", 1009));
 
         TestCase.assertEquals(1196, startDir.size());
     }
 
     @Test
-    public void testSizeOfDirectoryWithThreeDepth() {
-        DirectoryGraphNode startDir = new DirectoryGraphNode(Paths.get("/foo"));
-        startDir.addChild(new RegularFileGraphNode(Paths.get("/foo/bar.txt"), 176));
+    public void testSizeOfDirectoryWithThreeLevels() {
+        DirectoryGraphNode startDir = createDirectoryNode("/foo");
+        startDir.addChild(createRegularFileNode("/foo/bar.txt", 176));
 
-        DirectoryGraphNode secondDir = new DirectoryGraphNode(Paths.get("/foo/dir2"));
+        DirectoryGraphNode secondDir = createDirectoryNode("/foo/dir2");
         startDir.addChild(secondDir);
-        secondDir.addChild(new SymbolicLinkGraphNode(Paths.get("/foo/link_to_bar"), 11));
-        secondDir.addChild(new RegularFileGraphNode(Paths.get("/foo/baz.pdf"), 1109));
+        secondDir.addChild(createSymbolicLinkGraphNode("/foo/link_to_bar", 11));
+        secondDir.addChild(createRegularFileNode("/foo/baz.pdf", 1109));
 
-        DirectoryGraphNode thirdDir = new DirectoryGraphNode(Paths.get("/foo/dir2/dir3"));
+        DirectoryGraphNode thirdDir = createDirectoryNode("/foo/dir2/dir3");
         secondDir.addChild(thirdDir);
-        thirdDir.addChild(new SymbolicLinkGraphNode(Paths.get("/foo/link_to_baz"), 8));
-        thirdDir.addChild(new RegularFileGraphNode(Paths.get("/foo/tuc.doc"), 100));
+        thirdDir.addChild(createSymbolicLinkGraphNode("/foo/link_to_baz", 8));
+        thirdDir.addChild(createRegularFileNode("/foo/tuc.doc", 100));
 
         TestCase.assertEquals(1404, startDir.size());
     }
 
     @Test
     public void testSizeOfEmptyDirectory() {
-        DirectoryGraphNode startDir = new DirectoryGraphNode(Paths.get("/foo"));
+        DirectoryGraphNode startDir = createDirectoryNode("/foo");
 
         TestCase.assertEquals(0, startDir.size());
     }

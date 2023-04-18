@@ -42,11 +42,11 @@ public class FileGraphBuilder {
 
                             fChild = new DirectoryGraphNode(pathToChild);
 
-                            graphNodes.put(pathToChild, fChild);
-
                             if (jduOptions.isPassThroughSymLink() && currentDepth < jduOptions.getDepth()) {
 
                                 build((DirectoryGraphNode) fChild, currentDepth + 1);
+
+                                graphNodes.put(pathToChild, fChild);
 
                             }
 

@@ -10,8 +10,8 @@ public class JduOptions {
     private Boolean passThroughSymLink;
     private Path startDir;
 
-    static final int MIN_DEPTH = 0;
-    static final int MIN_AMOUNT_OF_FILES = 0;
+    static final int MIN_DEPTH = 1;
+    static final int MIN_AMOUNT_OF_FILES = 1;
     static final int MAX_DEPTH = 1000;
     static final int MAX_AMOUNT_OF_FILES = 1000;
     static final boolean DEFAULT_PASS_THROUGH_SYMLINK = false;
@@ -110,7 +110,7 @@ public class JduOptions {
         public Builder passThroughtSymlink(boolean isPass) throws UserInputException {
 
             if (jduOptions.passThroughSymLink != null) {
-                throw UserInputException.duplicateOption("-L");
+                throw UserInputException.duplicateOption("L");
             }
 
             jduOptions.passThroughSymLink = isPass;

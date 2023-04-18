@@ -78,6 +78,7 @@ public class GraphPrinter {
                     } else {
 
                         printTab(currentDepth + 2);
+
                         System.out.println(child.path().getFileName() + " " + SizePrinter.print(child.size()));
                     }
 
