@@ -2,18 +2,17 @@ package oop.diskUsage.file;
 
 import java.nio.file.Path;
 
-public sealed class GraphNode permits RegularFileGraphNode, SymbolicLinkGraphNode, DirectoryGraphNode {
+public sealed abstract class GraphNode permits GraphCompositeNode, RegularFileGraphNode {
 
-    protected Path path;
+    private final Path path;
 
-    protected long size;
+    GraphNode(Path path) {
+        this.path = path;
+    }
 
     public Path path() {
         return path;
     }
 
-    public long size() {
-        return size;
-    }
-
+    public abstract long size();
 }

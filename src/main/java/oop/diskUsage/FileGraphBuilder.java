@@ -1,117 +1,63 @@
 package oop.diskUsage;
 
-import oop.diskUsage.file.DirectoryGraphNode;
-import oop.diskUsage.file.GraphNode;
-import oop.diskUsage.file.RegularFileGraphNode;
-import oop.diskUsage.file.SymbolicLinkGraphNode;
+import oop.diskUsage.file.*;
 
 import java.io.IOException;
-import java.nio.file.*;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.Map;
 
-public class FileGraphBuilder {
-    private static JduOptions jduOptions;
-    private static final HashMap<Path, GraphNode> graphNodes = new HashMap<>();
+class FileGraphBuilder {
+    private final JduOptions jduOptions;
 
-    public static DirectoryGraphNode build(JduOptions jduOptions) throws IOException {
-        FileGraphBuilder.jduOptions = jduOptions;
-        return build(new DirectoryGraphNode(jduOptions.getStartDir()), 0);
+    FileGraphBuilder(JduOptions jduOptions) {
+        this.jduOptions = jduOptions;
     }
 
-    private static DirectoryGraphNode build(DirectoryGraphNode startDir, int currentDepth) throws IOException {
+    DirectoryGraphNode build() throws IOException {
+        Map<Path, GraphNode> visitedNodes = new HashMap<>();
+        build(null, jduOptions.getStartDir(), 0, visitedNodes);
+        return (DirectoryGraphNode) visitedNodes.get(jduOptions.getStartDir());
+    }
 
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(startDir.path())) {
-
-            for (Path filePath : stream) {
-
-                if (Files.isSymbolicLink(filePath)) {
-
-                    Path pathToChild = Files.readSymbolicLink(filePath);
-
-                    SymbolicLinkGraphNode f = new SymbolicLinkGraphNode(filePath, pathToChild.toString().length());
-
-                    if (graphNodes.containsKey(pathToChild)) {
-
-                        f.addChild(graphNodes.get(pathToChild));
-
-                    } else {
-
-                        GraphNode fChild;
-
-                        if (Files.isDirectory(pathToChild)) {
-
-                            fChild = new DirectoryGraphNode(pathToChild);
-
-                            if (jduOptions.isPassThroughSymLink() && currentDepth < jduOptions.getDepth()) {
-
-                                build((DirectoryGraphNode) fChild, currentDepth + 1);
-
-                                graphNodes.put(pathToChild, fChild);
-
-                            }
-
-                        } else {
-
-                            fChild = new RegularFileGraphNode(pathToChild, Files.size(pathToChild));
-
-                            graphNodes.put(pathToChild, fChild);
-
-                        }
-
-                        f.addChild(fChild);
-
-                    }
-
-                    startDir.addChild(f);
-
-                    graphNodes.put(filePath, f);
-
-                    continue;
-                }
-
-                if (Files.isDirectory(filePath)) {
-
-                    GraphNode f;
-
-                    if (graphNodes.containsKey(filePath)) {
-
-                        f = graphNodes.get(filePath);
-
-                    } else {
-
-                        f = new DirectoryGraphNode(filePath);
-
-                        graphNodes.put(filePath, f);
-
-                        build((DirectoryGraphNode) f, currentDepth + 1);
-
-                    }
-
-                    startDir.addChild(f);
-
-                    continue;
-                }
-
-                if (Files.isRegularFile(filePath)) {
-
-                    GraphNode f;
-
-                    if (graphNodes.containsKey(filePath)) {
-
-                        f = graphNodes.get(filePath);
-
-                    } else {
-
-                        f = new RegularFileGraphNode(filePath, Files.size(filePath));
-
-                        graphNodes.put(filePath, f);
-
-                    }
-                    startDir.addChild(f);
+    // TODO check:
+    //1)graph build correctness, also for symlinks with cycles
+    //2) no duplicates are created
+    private void build(GraphCompositeNode parent, Path currFile, int depth, Map<Path, GraphNode> visitedNodes) throws IOException {
+        if (depth > jduOptions.getDepth()) {
+            // TODO need to throw exception?
+            return;
+        }
+        GraphNode currNode = visitedNodes.get(currFile);
+        if (currNode != null) {
+            parent.addChild(currNode);
+            return;
+        }
+        // TODO to check order
+        if (Files.isDirectory(currFile)) {
+            DirectoryGraphNode dirNode = new DirectoryGraphNode(currFile);
+            visitedNodes.put(currFile, dirNode);
+            // TODO check parent if null
+            parent.addChild(dirNode);
+            try (DirectoryStream<Path> filesStream = Files.newDirectoryStream(currFile)) {
+                for (Path file : filesStream) {
+                    build(dirNode, file, depth + 1, visitedNodes);
                 }
             }
+        } else if (Files.isSymbolicLink(currFile)) {
+            Path pathToChild = Files.readSymbolicLink(currFile);
+            SymbolicLinkGraphNode symLinkNode = new SymbolicLinkGraphNode(currFile, pathToChild.toString().length());
+            visitedNodes.put(currFile, symLinkNode);
+            parent.addChild(symLinkNode);
+            if (jduOptions.passThroughSymLink()) {
+                build(symLinkNode, pathToChild, depth + 1, visitedNodes);
+            }
+        } else if (Files.isRegularFile(currFile)) {
+            RegularFileGraphNode fileNode = new RegularFileGraphNode(currFile, Files.size(currFile));
+            visitedNodes.put(currFile, fileNode);
+            parent.addChild(fileNode);
         }
-
-        return startDir;
     }
 }

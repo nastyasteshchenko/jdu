@@ -13,7 +13,6 @@ public class JduOptionsParser {
                 case "--depth" -> {
 
                     builder.depth(args[i + 1]);
-
                     i += 2;
                 }
 
@@ -26,13 +25,13 @@ public class JduOptionsParser {
 
                 case "-L" -> {
 
-                    builder.passThroughtSymlink(true);
+                    builder.passThroughSymlink(true);
 
                     ++i;
                 }
 
                 default -> {
-
+                    // TODO what if dir name is not the last argument? seems, for linux du it's completely ok
                     if (args.length - 1 == i) {
 
                         builder.startDir(args[i]);
@@ -50,5 +49,16 @@ public class JduOptionsParser {
         }
 
         return builder.build();
+    }
+
+    // TODO reuse in parse
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+    private static boolean isDigit(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 }

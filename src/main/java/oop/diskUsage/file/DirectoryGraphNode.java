@@ -4,19 +4,21 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class DirectoryGraphNode extends GraphNode {
+public final class DirectoryGraphNode extends GraphCompositeNode {
 
     private final List<GraphNode> children = new ArrayList<>();
+    private long size = -1;
 
     public DirectoryGraphNode(Path path) {
-        this.path = path;
-        this.size = -1;
+        super(path);
     }
 
+    @Override
     public void addChild(GraphNode file) {
         children.add(file);
     }
 
+    @Override
     public List<GraphNode> getChildren() {
         return children;
     }

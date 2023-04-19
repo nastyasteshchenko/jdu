@@ -7,7 +7,9 @@ import oop.diskUsage.file.GraphNode;
 
 import java.util.HashSet;
 
-public class GraphPrinter {
+// TODO rewrite in the same style as in FileTreeBuilder and FileGraphSorter.
+// TODO if some collisions/troubles are detected, ask questions
+class FileGraphPrinter {
 
     private static JduOptions jduOptions;
 
@@ -18,7 +20,7 @@ public class GraphPrinter {
     }
 
     public static void print(DirectoryGraphNode startDir, JduOptions jduOptions) {
-        GraphPrinter.jduOptions = jduOptions;
+        FileGraphPrinter.jduOptions = jduOptions;
         print(startDir, 0);
     }
 
@@ -28,7 +30,7 @@ public class GraphPrinter {
 
         printTab(currentDepth);
 
-        System.out.println("/" + startDir.path().getFileName() + " " + SizePrinter.print(startDir.size()));
+        System.out.println("/" + startDir.path().getFileName() + " " + FileSizePrinter.print(startDir.size()));
 
         if (currentDepth + 1 >= jduOptions.getDepth() - 1) {
             return;
@@ -56,9 +58,10 @@ public class GraphPrinter {
 
                 printTab(currentDepth + 1);
 
-                System.out.println("*" + i.path().getFileName() + " " + SizePrinter.print(i.size()));
+                System.out.println("*" + i.path().getFileName() + " " + FileSizePrinter.print(i.size()));
 
-                if (jduOptions.isPassThroughSymLink()) {
+                // TODO no need to check this condition here, as the graph is already built.
+                if (jduOptions.passThroughSymLink()) {
 
                     GraphNode child = ((SymbolicLinkGraphNode) i).getChild();
 
@@ -79,7 +82,7 @@ public class GraphPrinter {
 
                         printTab(currentDepth + 2);
 
-                        System.out.println(child.path().getFileName() + " " + SizePrinter.print(child.size()));
+                        System.out.println(child.path().getFileName() + " " + FileSizePrinter.print(child.size()));
                     }
 
                 }
@@ -91,7 +94,7 @@ public class GraphPrinter {
 
                 printTab(currentDepth + 1);
 
-                System.out.println(i.path().getFileName() + " " + SizePrinter.print(i.size()));
+                System.out.println(i.path().getFileName() + " " + FileSizePrinter.print(i.size()));
 
             }
         }

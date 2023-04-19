@@ -5,17 +5,25 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class JduOptions {
-    private Integer depth;
-    private Integer limitAmountOfFiles;
-    private Boolean passThroughSymLink;
+    private int depth;
+    private int limitAmountOfFiles;
+    private boolean passThroughSymLink;
     private Path startDir;
 
-    static final int MIN_DEPTH = 1;
-    static final int MIN_AMOUNT_OF_FILES = 1;
+    // TODO check modifiers
+    static final int MIN_DEPTH = 0;
+    static final int MIN_AMOUNT_OF_FILES = 0;
     static final int MAX_DEPTH = 1000;
     static final int MAX_AMOUNT_OF_FILES = 1000;
     static final boolean DEFAULT_PASS_THROUGH_SYMLINK = false;
     static final Path USER_DIR = Paths.get(System.getProperty("user.dir"));
+
+    public JduOptions(int depth, int limitAmountOfFiles, boolean passThroughSymLink, Path startDir) {
+        this.depth = depth;
+        this.limitAmountOfFiles = limitAmountOfFiles;
+        this.passThroughSymLink = passThroughSymLink;
+        this.startDir = startDir;
+    }
 
     public int getDepth() {
         return depth;
@@ -29,42 +37,20 @@ public class JduOptions {
         return limitAmountOfFiles;
     }
 
-    public boolean isPassThroughSymLink() {
+    public boolean passThroughSymLink() {
         return passThroughSymLink;
     }
 
+    // TODO rewrite builder according to new field layout and API
     static class Builder {
-        private final JduOptions jduOptions;
 
-        public Builder() {
-            jduOptions = new JduOptions();
-        }
-
-        private int inSegment(int value, int a, int b) {
-
-            if (value < a) {
-                return -1;
-            }
-
-            if (value > b) {
-                return 1;
-            }
-
-            return 0;
-        }
-
-        @SuppressWarnings("BooleanMethodIsAlwaysInverted")
-        private static boolean isDigit(String str) {
-            try {
-                Integer.parseInt(str);
-                return true;
-            } catch (NumberFormatException e) {
-                return false;
-            }
-        }
+        private Integer depth;
+        private Integer limitAmountOfFiles;
+        private Boolean passThroughSymLink;
+        private Path startDir;
 
         @SuppressWarnings("ReturnValueOfTheMethodIsNeverUsed")
-        public Builder depth(String depth) throws UserInputException {
+        public Builder depth(int depth) throws UserInputException {
             if (jduOptions.depth != null) {
                 throw UserInputException.duplicateOption("depth");
             }
@@ -86,7 +72,7 @@ public class JduOptions {
         }
 
         @SuppressWarnings("ReturnValueOfTheMethodIsNeverUsed")
-        public Builder limit(String limit) throws UserInputException {
+        public Builder limit(int limit) throws UserInputException {
             if (jduOptions.limitAmountOfFiles != null) {
                 throw UserInputException.duplicateOption("limit");
             }
@@ -107,13 +93,13 @@ public class JduOptions {
         }
 
         @SuppressWarnings("ReturnValueOfTheMethodIsNeverUsed")
-        public Builder passThroughtSymlink(boolean isPass) throws UserInputException {
+        public Builder passThroughSymlink(boolean passThroughSymLink) throws UserInputException {
 
             if (jduOptions.passThroughSymLink != null) {
-                throw UserInputException.duplicateOption("L");
+                throw UserInputException.duplicateOption("-L");
             }
 
-            jduOptions.passThroughSymLink = isPass;
+            jduOptions.passThroughSymLink = passThroughSymLink;
             return this;
         }
 
@@ -130,7 +116,7 @@ public class JduOptions {
             return this;
         }
 
-        public JduOptions build() {
+        JduOptions build() {
             if (jduOptions.depth == null) {
                 jduOptions.depth = MAX_DEPTH;
             }
@@ -143,7 +129,21 @@ public class JduOptions {
             if (jduOptions.startDir == null) {
                 jduOptions.startDir = USER_DIR;
             }
-            return jduOptions;
+            return new JduOptions(depth, limitAmountOfFiles, passThroughSymLink, startDir);
+        }
+
+        // TODO just check, that value is in [a, b]. if not, throw a single type exception
+        private int inSegment(int value, int a, int b) {
+
+            if (value < a) {
+                return -1;
+            }
+
+            if (value > b) {
+                return 1;
+            }
+
+            return 0;
         }
 
     }

@@ -1,22 +1,24 @@
 package oop.diskUsage;
 
-import junit.framework.TestCase;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertTrue;
+
 public class JduOptionsParserTest {
 
-    @Rule
+    @Rule // TODO do not use deprecated API
     public ExpectedException thrownUserInputException = ExpectedException.none();
 
     @Test
     public void testNoOptions() throws UserInputException {
         JduOptions jduOptions = JduOptionsParser.parse(new String[]{""});
 
-        TestCase.assertEquals(jduOptions.getDepth(), JduOptions.MAX_DEPTH);
-        TestCase.assertEquals(jduOptions.getLimitAmountOfFiles(), JduOptions.MAX_AMOUNT_OF_FILES);
-        TestCase.assertEquals(jduOptions.isPassThroughSymLink(), JduOptions.DEFAULT_PASS_THROUGH_SYMLINK);
+        assertEquals(jduOptions.getDepth(), JduOptions.MAX_DEPTH);
+        assertEquals(jduOptions.getLimitAmountOfFiles(), JduOptions.MAX_AMOUNT_OF_FILES);
+        assertEquals(jduOptions.passThroughSymLink(), JduOptions.DEFAULT_PASS_THROUGH_SYMLINK);
 
     }
 
@@ -24,54 +26,54 @@ public class JduOptionsParserTest {
     public void testWithSymLinkOption() throws UserInputException {
         JduOptions jduOptions = JduOptionsParser.parse(new String[]{"-L"});
 
-        TestCase.assertEquals(jduOptions.getDepth(), JduOptions.MAX_DEPTH);
-        TestCase.assertEquals(jduOptions.getLimitAmountOfFiles(), JduOptions.MAX_AMOUNT_OF_FILES);
-        TestCase.assertTrue(jduOptions.isPassThroughSymLink());
+        assertEquals(jduOptions.getDepth(), JduOptions.MAX_DEPTH);
+        assertEquals(jduOptions.getLimitAmountOfFiles(), JduOptions.MAX_AMOUNT_OF_FILES);
+        assertTrue(jduOptions.passThroughSymLink());
     }
 
     @Test
     public void testWithDepthOption() throws UserInputException {
         JduOptions jduOptions = JduOptionsParser.parse(new String[]{"--depth", "6"});
 
-        TestCase.assertEquals(jduOptions.getDepth(), 6);
-        TestCase.assertEquals(jduOptions.getLimitAmountOfFiles(), JduOptions.MAX_AMOUNT_OF_FILES);
-        TestCase.assertEquals(jduOptions.isPassThroughSymLink(), JduOptions.DEFAULT_PASS_THROUGH_SYMLINK);
+        assertEquals(jduOptions.getDepth(), 6);
+        assertEquals(jduOptions.getLimitAmountOfFiles(), JduOptions.MAX_AMOUNT_OF_FILES);
+        assertEquals(jduOptions.passThroughSymLink(), JduOptions.DEFAULT_PASS_THROUGH_SYMLINK);
     }
 
     @Test
     public void testWithLimitOption() throws UserInputException {
         JduOptions jduOptions = JduOptionsParser.parse(new String[]{"--limit", "8"});
 
-        TestCase.assertEquals(jduOptions.getDepth(), JduOptions.MAX_DEPTH);
-        TestCase.assertEquals(jduOptions.getLimitAmountOfFiles(), 8);
-        TestCase.assertEquals(jduOptions.isPassThroughSymLink(), JduOptions.DEFAULT_PASS_THROUGH_SYMLINK);
+        assertEquals(jduOptions.getDepth(), JduOptions.MAX_DEPTH);
+        assertEquals(jduOptions.getLimitAmountOfFiles(), 8);
+        assertEquals(jduOptions.passThroughSymLink(), JduOptions.DEFAULT_PASS_THROUGH_SYMLINK);
     }
 
     @Test
     public void testWithTwoOptions1() throws UserInputException {
         JduOptions jduOptions = JduOptionsParser.parse(new String[]{"--limit", "8", "--depth", "7"});
 
-        TestCase.assertEquals(jduOptions.getDepth(), 7);
-        TestCase.assertEquals(jduOptions.getLimitAmountOfFiles(), 8);
-        TestCase.assertEquals(jduOptions.isPassThroughSymLink(), JduOptions.DEFAULT_PASS_THROUGH_SYMLINK);
+        assertEquals(jduOptions.getDepth(), 7);
+        assertEquals(jduOptions.getLimitAmountOfFiles(), 8);
+        assertEquals(jduOptions.passThroughSymLink(), JduOptions.DEFAULT_PASS_THROUGH_SYMLINK);
     }
 
     @Test
     public void testWithTwoOptions2() throws UserInputException {
         JduOptions jduOptions = JduOptionsParser.parse(new String[]{"-L", "--limit", "8"});
 
-        TestCase.assertEquals(jduOptions.getDepth(), JduOptions.MAX_DEPTH);
-        TestCase.assertEquals(jduOptions.getLimitAmountOfFiles(), 8);
-        TestCase.assertTrue(jduOptions.isPassThroughSymLink());
+        assertEquals(jduOptions.getDepth(), JduOptions.MAX_DEPTH);
+        assertEquals(jduOptions.getLimitAmountOfFiles(), 8);
+        assertTrue(jduOptions.passThroughSymLink());
     }
 
     @Test
     public void testWithThreeOption() throws UserInputException {
         JduOptions jduOptions = JduOptionsParser.parse(new String[]{"--depth", "10", "--limit", "8", "-L"});
 
-        TestCase.assertEquals(jduOptions.getDepth(), 10);
-        TestCase.assertEquals(jduOptions.getLimitAmountOfFiles(), 8);
-        TestCase.assertTrue(jduOptions.isPassThroughSymLink());
+        assertEquals(jduOptions.getDepth(), 10);
+        assertEquals(jduOptions.getLimitAmountOfFiles(), 8);
+        assertTrue(jduOptions.passThroughSymLink());
     }
 
     @Test
@@ -80,7 +82,6 @@ public class JduOptionsParserTest {
         thrownUserInputException.expectMessage("double definition of 'L' option");
 
         JduOptionsParser.parse(new String[]{"-L", "--limit", "8", "-L"});
-
     }
 
     @Test
@@ -89,7 +90,6 @@ public class JduOptionsParserTest {
         thrownUserInputException.expectMessage("double definition of 'depth' option");
 
         JduOptionsParser.parse(new String[]{"--depth", "10", "--limit", "8", "--depth", "90"});
-
     }
 
     @Test
@@ -98,7 +98,6 @@ public class JduOptionsParserTest {
         thrownUserInputException.expectMessage("double definition of 'limit' option");
 
         JduOptionsParser.parse(new String[]{"--depth", "10", "--limit", "8", "--limit", "8", "-L"});
-
     }
 
     @Test
@@ -107,7 +106,6 @@ public class JduOptionsParserTest {
         thrownUserInputException.expectMessage("limit exceeded for option 'limit'");
 
         JduOptionsParser.parse(new String[]{"--depth", "10", "--limit", "800000", "-L"});
-
     }
 
     @Test
@@ -116,7 +114,6 @@ public class JduOptionsParserTest {
         thrownUserInputException.expectMessage("limit exceeded for option 'depth'");
 
         JduOptionsParser.parse(new String[]{"--depth", "100000", "--limit", "8", "-L"});
-
     }
 
     @Test
@@ -134,7 +131,6 @@ public class JduOptionsParserTest {
         thrownUserInputException.expectMessage("option requires an argument -- 'depth'");
 
         JduOptionsParser.parse(new String[]{"--depth", "--limit", "8", "-L"});
-
     }
 
     @Test
@@ -143,7 +139,6 @@ public class JduOptionsParserTest {
         thrownUserInputException.expectMessage("wrong argument for option 'limit'");
 
         JduOptionsParser.parse(new String[]{"--depth", "10", "--limit", "-8", "-L"});
-
     }
 
     @Test
@@ -152,7 +147,6 @@ public class JduOptionsParserTest {
         thrownUserInputException.expectMessage("wrong argument for option 'depth'");
 
         JduOptionsParser.parse(new String[]{"--depth", "-10", "--limit", "8", "-L"});
-
     }
 
     @Test
@@ -161,15 +155,13 @@ public class JduOptionsParserTest {
         thrownUserInputException.expectMessage("no such option '--lmit'\n\n" + availableOptions);
 
         JduOptionsParser.parse(new String[]{"--depth", "10", "--lmit", "8", "-L"});
-
     }
 
+    // TODO remove duplicates (oop.diskUsage.UserInputException.availableOptions)
     private static final String availableOptions = """
             Available options:
 
             --limit n\tshow n the heaviest files and / or directories
             --depth n\tset recursion depth n
             -L\t\t\tfollow symlinks""";
-
-
 }

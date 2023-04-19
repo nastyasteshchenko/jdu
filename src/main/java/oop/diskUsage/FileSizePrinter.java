@@ -2,7 +2,7 @@ package oop.diskUsage;
 
 import java.text.DecimalFormat;
 
-public class SizePrinter {
+public class FileSizePrinter {
     public static String print(long size){
 
         DecimalFormat df = new DecimalFormat("#.###");
