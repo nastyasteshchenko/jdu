@@ -40,12 +40,16 @@ class FileGraphPrinter {
             int limitAmountOfFiles = 0;
             for (GraphNode file : children) {
 
-                ++limitAmountOfFiles;
-                if (limitAmountOfFiles > jduOptions.limitAmountOfFiles()) {
-                    return;
-                }
+                if (file!=null) {
 
-                print(file, depth + 1);
+                    ++limitAmountOfFiles;
+                    if (limitAmountOfFiles > jduOptions.limitAmountOfFiles()) {
+                        return;
+                    }
+
+                    print(file, depth + 1);
+
+                }
             }
 
         } else if (currFile instanceof RegularFileGraphNode) {
