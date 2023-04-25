@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class DirectoryGraphNode extends GraphCompositeNode {
-
     private final List<GraphNode> children = new ArrayList<>();
     private long size = -1;
 
@@ -38,7 +37,6 @@ public final class DirectoryGraphNode extends GraphCompositeNode {
         size = sumChildrenSize;
 
         return size;
-
     }
 
 }

@@ -3,7 +3,6 @@ package oop.diskUsage.file;
 import java.nio.file.Path;
 
 public sealed abstract class GraphNode permits GraphCompositeNode, RegularFileGraphNode {
-
     private final Path path;
 
     public GraphNode(Path path) {

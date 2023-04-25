@@ -18,19 +18,14 @@ public class UserInputException extends Exception{
     }
 
     static UserInputException noArgument(String optionName) {
-        return new UserInputException(String.format("option requires an argument -- '%s'", optionName));
+        return new UserInputException(String.format("option requires an argument -- '%s'\n\n" + availableOptions, optionName));
     }
 
     static UserInputException wrongDirectory(String dirName) {
-        return new UserInputException(String.format("cannot access '%s': No such file or directory", dirName));
+        return new UserInputException(String.format("cannot access '%s': No such file or directory\n\n" + availableOptions, dirName));
     }
 
     static UserInputException wrongArgument(String optionName) {
-        return new UserInputException(String.format("wrong argument for option '%s'", optionName));
+        return new UserInputException(String.format("wrong argument for option '%s'\n\n" + availableOptions, optionName));
     }
-
-    static UserInputException invalidOption(String optionName) {
-        return new UserInputException(String.format("no such option '%s'\n\n" + availableOptions, optionName));
-    }
-
 }

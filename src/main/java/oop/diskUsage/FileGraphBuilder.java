@@ -24,7 +24,7 @@ class FileGraphBuilder {
 
     private void build(GraphCompositeNode parent, Path currFile, int depth, Map<Path, GraphNode> visitedNodes) throws IOException {
 
-        if (depth > jduOptions.depth()-1) {
+        if (depth > jduOptions.depth() - 1) {
             return;
         }
 

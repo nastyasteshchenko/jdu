@@ -9,6 +9,7 @@ import java.nio.file.Path;
 public class Jdu {
 
     public static void main(String[] args) throws IOException {
+
         JduOptions jduOptions = parseOptions(args);
         if (jduOptions == null) {
             return;
@@ -41,7 +42,7 @@ public class Jdu {
         return jduOptions;
     }
 
-    private static void printGraph(DirectoryGraphNode root, JduOptions jduOptions) throws IOException {
+    private static void printGraph(DirectoryGraphNode root, JduOptions jduOptions){
         new FileGraphPrinter(jduOptions).print(root);
     }
 

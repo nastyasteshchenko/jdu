@@ -17,7 +17,7 @@ class FileGraphPrinter {
 
     private void print(GraphNode currFile, int depth) {
 
-        if (depth > jduOptions.depth()-1) {
+        if (depth > jduOptions.depth() - 1) {
             return;
         }
 
@@ -39,10 +39,12 @@ class FileGraphPrinter {
 
             int limitAmountOfFiles = 0;
             for (GraphNode file : children) {
+
                 ++limitAmountOfFiles;
                 if (limitAmountOfFiles > jduOptions.limitAmountOfFiles()) {
                     return;
                 }
+
                 print(file, depth + 1);
             }
 

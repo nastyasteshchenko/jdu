@@ -5,7 +5,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public record JduOptions(int depth, int limitAmountOfFiles, boolean passThroughSymLink, Path startDir) {
-    // TODO check modifiers
     static final int MAX_DEPTH = 1000;
     static final int MAX_AMOUNT_OF_FILES = 1000;
     private static final int MIN_DEPTH = 0;
@@ -85,12 +84,15 @@ public record JduOptions(int depth, int limitAmountOfFiles, boolean passThroughS
             if (depth == null) {
                 depth = MAX_DEPTH;
             }
+
             if (limitAmountOfFiles == null) {
                 limitAmountOfFiles = MAX_AMOUNT_OF_FILES;
             }
+
             if (passThroughSymLink == null) {
                 passThroughSymLink = DEFAULT_PASS_THROUGH_SYMLINK;
             }
+
             if (startDir == null) {
                 startDir = USER_DIR;
             }

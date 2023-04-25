@@ -4,7 +4,7 @@ import java.nio.file.Path;
 import java.util.List;
 
 public abstract sealed class GraphCompositeNode extends GraphNode permits DirectoryGraphNode, SymbolicLinkGraphNode {
-    GraphCompositeNode(Path path) {
+    public GraphCompositeNode(Path path) {
         super(path);
     }
 

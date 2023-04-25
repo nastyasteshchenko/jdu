@@ -11,7 +11,7 @@ public class JduOptionsParser {
                 case "--depth" -> {
 
                     if (!isDigit(args[i + 1])) {
-                        throw UserInputException.wrongArgument("depth");
+                        throw UserInputException.noArgument("depth");
                     }
 
                     builder.depth(Integer.parseInt(args[i + 1]));
@@ -21,7 +21,7 @@ public class JduOptionsParser {
                 case "--limit" -> {
 
                     if (!isDigit(args[i + 1])) {
-                        throw UserInputException.wrongArgument("limit");
+                        throw UserInputException.noArgument("limit");
                     }
 
                     builder.limit(Integer.parseInt(args[i + 1]));

@@ -16,7 +16,7 @@ public class JduOptionsParserTest {
 
         TestCase.assertEquals(jduOptions.depth(), JduOptions.MAX_DEPTH);
         TestCase.assertEquals(jduOptions.limitAmountOfFiles(), JduOptions.MAX_AMOUNT_OF_FILES);
-        TestCase.assertEquals(jduOptions.isPassThroughSymLink(), JduOptions.DEFAULT_PASS_THROUGH_SYMLINK);
+        TestCase.assertFalse(jduOptions.passThroughSymLink());
 
     }
 
@@ -26,7 +26,7 @@ public class JduOptionsParserTest {
 
         TestCase.assertEquals(jduOptions.depth(), JduOptions.MAX_DEPTH);
         TestCase.assertEquals(jduOptions.limitAmountOfFiles(), JduOptions.MAX_AMOUNT_OF_FILES);
-        TestCase.assertTrue(jduOptions.isPassThroughSymLink());
+        TestCase.assertTrue(jduOptions.passThroughSymLink());
     }
 
     @Test
@@ -35,7 +35,7 @@ public class JduOptionsParserTest {
 
         TestCase.assertEquals(jduOptions.depth(), 6);
         TestCase.assertEquals(jduOptions.limitAmountOfFiles(), JduOptions.MAX_AMOUNT_OF_FILES);
-        TestCase.assertEquals(jduOptions.isPassThroughSymLink(), JduOptions.DEFAULT_PASS_THROUGH_SYMLINK);
+        TestCase.assertFalse(jduOptions.passThroughSymLink());
     }
 
     @Test
@@ -44,7 +44,7 @@ public class JduOptionsParserTest {
 
         TestCase.assertEquals(jduOptions.depth(), JduOptions.MAX_DEPTH);
         TestCase.assertEquals(jduOptions.limitAmountOfFiles(), 8);
-        TestCase.assertEquals(jduOptions.isPassThroughSymLink(), JduOptions.DEFAULT_PASS_THROUGH_SYMLINK);
+        TestCase.assertFalse(jduOptions.passThroughSymLink());
     }
 
     @Test
@@ -53,7 +53,7 @@ public class JduOptionsParserTest {
 
         TestCase.assertEquals(jduOptions.depth(), 7);
         TestCase.assertEquals(jduOptions.limitAmountOfFiles(), 8);
-        TestCase.assertEquals(jduOptions.isPassThroughSymLink(), JduOptions.DEFAULT_PASS_THROUGH_SYMLINK);
+        TestCase.assertFalse(jduOptions.passThroughSymLink());
     }
 
     @Test
@@ -62,7 +62,7 @@ public class JduOptionsParserTest {
 
         TestCase.assertEquals(jduOptions.depth(), JduOptions.MAX_DEPTH);
         TestCase.assertEquals(jduOptions.limitAmountOfFiles(), 8);
-        TestCase.assertTrue(jduOptions.isPassThroughSymLink());
+        TestCase.assertTrue(jduOptions.passThroughSymLink());
     }
 
     @Test
@@ -71,7 +71,7 @@ public class JduOptionsParserTest {
 
         TestCase.assertEquals(jduOptions.depth(), 10);
         TestCase.assertEquals(jduOptions.limitAmountOfFiles(), 8);
-        TestCase.assertTrue(jduOptions.isPassThroughSymLink());
+        TestCase.assertTrue(jduOptions.passThroughSymLink());
     }
 
     @Test
