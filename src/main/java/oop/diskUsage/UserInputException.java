@@ -25,10 +25,6 @@ public class UserInputException extends Exception{
         return new UserInputException(String.format("cannot access '%s': No such file or directory", dirName));
     }
 
-    static UserInputException limitExceeded(String optionName) {
-        return new UserInputException(String.format("limit exceeded for option '%s'", optionName));
-    }
-
     static UserInputException wrongArgument(String optionName) {
         return new UserInputException(String.format("wrong argument for option '%s'", optionName));
     }

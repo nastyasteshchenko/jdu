@@ -7,48 +7,52 @@ public class JduOptionsParser {
         JduOptions.Builder builder = new JduOptions.Builder();
 
         for (int i = 0; i < args.length; ) {
-
             switch (args[i]) {
-
                 case "--depth" -> {
 
-                    builder.depth(args[i + 1]);
+                    if (!isDigit(args[i + 1])) {
+                        throw UserInputException.wrongArgument("depth");
+                    }
 
+                    builder.depth(Integer.parseInt(args[i + 1]));
                     i += 2;
                 }
 
                 case "--limit" -> {
 
-                    builder.limit(args[i + 1]);
+                    if (!isDigit(args[i + 1])) {
+                        throw UserInputException.wrongArgument("limit");
+                    }
 
+                    builder.limit(Integer.parseInt(args[i + 1]));
                     i += 2;
                 }
 
                 case "-L" -> {
 
-                    builder.passThroughtSymlink(true);
-
+                    builder.passThroughSymlink(true);
                     ++i;
                 }
 
                 default -> {
 
-                    if (args.length - 1 == i) {
-
-                        builder.startDir(args[i]);
-
-                    } else {
-
-                        throw UserInputException.invalidOption(args[i]);
-
-                    }
-
+                    builder.startDir(args[i]);
                     ++i;
-
                 }
             }
         }
 
         return builder.build();
+    }
+
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+    private static boolean isDigit(String str) {
+
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 }
