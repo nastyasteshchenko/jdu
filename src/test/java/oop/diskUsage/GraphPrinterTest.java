@@ -7,7 +7,7 @@ import java.io.IOException;
 
 import static junit.framework.TestCase.assertEquals;
 
-public class JduTest {
+public class GraphPrinterTest {
 
     private static final TempFolder tempFolder = new TempFolder();
 
