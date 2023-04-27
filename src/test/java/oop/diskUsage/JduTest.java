@@ -1,0 +1,114 @@
+package oop.diskUsage;
+
+import oop.diskUsage.file.DirectoryGraphNode;
+import org.junit.Test;
+
+import java.io.IOException;
+
+import static junit.framework.TestCase.assertEquals;
+
+public class JduTest {
+
+    private static final TempFolder tempFolder = new TempFolder();
+
+    @Test
+    public void printGraphTest() throws IOException, UserInputException {
+
+        JduOptions jduOptions = JduOptionsParser.parse(new String[]{tempFolder.getStartDirPath().toString()});
+
+        DirectoryGraphNode root = new FileGraphBuilder(jduOptions).build();
+
+        FileGraphSorter.sort(root);
+
+        int sizeSymLink = tempFolder.getStartDirPath().toString().length();
+
+        String expectedOutput = "/dir1 [" + sizeSymLink + " B]\n" +
+                "\t/dir2 [" + sizeSymLink + " B]\n" +
+                "\t\t*link_to_dir1 [" + sizeSymLink + " B]\n" + """
+                \t\t/dir3 [0 B]
+                \t\t\tDasha [0 B]
+                \tfile2 [0 B]
+                \tfile1 [0 B]
+                """;
+
+        assertEquals(new FileGraphPrinter(jduOptions).print(root), expectedOutput);
+    }
+
+    @Test
+    public void printGraphWithCertainDepthTest() throws IOException, UserInputException {
+
+        JduOptions jduOptions = JduOptionsParser.parse(new String[]{tempFolder.getStartDirPath().toString(), "--depth", "2"});
+
+        DirectoryGraphNode root = new FileGraphBuilder(jduOptions).build();
+
+        FileGraphSorter.sort(root);
+
+
+        String expectedOutput = """
+                /dir1 [0 B]
+                \t/dir2 [0 B]
+                \tfile2 [0 B]
+                \tfile1 [0 B]
+                """;
+
+        assertEquals(new FileGraphPrinter(jduOptions).print(root), expectedOutput);
+    }
+
+    @Test
+    public void printGraphWithCertainLimitTest() throws IOException, UserInputException {
+
+        JduOptions jduOptions = JduOptionsParser.parse(new String[]{tempFolder.getStartDirPath().toString(), "--limit", "2"});
+
+        DirectoryGraphNode root = new FileGraphBuilder(jduOptions).build();
+
+        FileGraphSorter.sort(root);
+
+        int sizeSymLink = tempFolder.getStartDirPath().toString().length();
+
+        String expectedOutput = "/dir1 [" + sizeSymLink + " B]\n" +
+                "\t/dir2 [" + sizeSymLink + " B]\n" +
+                "\t\t*link_to_dir1 [" + sizeSymLink + " B]\n" + """
+                \t\t/dir3 [0 B]
+                \t\t\tDasha [0 B]
+                \tfile2 [0 B]
+                """;
+
+        assertEquals(new FileGraphPrinter(jduOptions).print(root), expectedOutput);
+    }
+
+    @Test
+    public void printGraphWithCyclesTest() throws IOException, UserInputException {
+
+        JduOptions jduOptions = JduOptionsParser.parse(new String[]{tempFolder.getStartDirPath().toString(), "-L", "--depth", "9"});
+
+        DirectoryGraphNode root = new FileGraphBuilder(jduOptions).build();
+
+        FileGraphSorter.sort(root);
+
+        int sizeSymLink = tempFolder.getStartDirPath().toString().length();
+
+        String expectedOutput = "/dir1 [" + sizeSymLink + " B]\n" +
+                "\t/dir2 [" + sizeSymLink + " B]\n" +
+                "\t\t*link_to_dir1 [" + sizeSymLink + " B]\n" +
+                "\t\t\t/dir1 [" + sizeSymLink + " B]\n" +
+                "\t\t\t\t/dir2 [" + sizeSymLink + " B]\n" +
+                "\t\t\t\t\t*link_to_dir1 [" + sizeSymLink + " B]\n" +
+                "\t\t\t\t\t\t/dir1 [" + sizeSymLink + " B]\n" +
+                "\t\t\t\t\t\t\t/dir2 [" + sizeSymLink + " B]\n" +
+                "\t\t\t\t\t\t\t\t*link_to_dir1 [" + sizeSymLink + " B]\n" + """
+                \t\t\t\t\t\t\t\t/dir3 [0 B]
+                \t\t\t\t\t\t\tfile2 [0 B]
+                \t\t\t\t\t\t\tfile1 [0 B]
+                \t\t\t\t\t/dir3 [0 B]
+                \t\t\t\t\t\tDasha [0 B]
+                \t\t\t\tfile2 [0 B]
+                \t\t\t\tfile1 [0 B]
+                \t\t/dir3 [0 B]
+                \t\t\tDasha [0 B]
+                \tfile2 [0 B]
+                \tfile1 [0 B]
+                """;
+
+        assertEquals(new FileGraphPrinter(jduOptions).print(root), expectedOutput);
+    }
+}

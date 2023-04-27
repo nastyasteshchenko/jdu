@@ -82,9 +82,8 @@ public class JduOptionsParserTest {
 
     @Test
     public void testWithDuplicateDepthOption() {
-        Throwable thrown = assertThrows(UserInputException.class, () -> {
-            JduOptionsParser.parse(new String[]{"--depth", "10", "--limit", "8", "--depth", "90"});
-        });
+        Throwable thrown = assertThrows(UserInputException.class, () ->
+                JduOptionsParser.parse(new String[]{"--depth", "10", "--limit", "8", "--depth", "90"}));
 
         assertEquals("double definition of 'depth' option", thrown.getMessage());
 
@@ -92,9 +91,8 @@ public class JduOptionsParserTest {
 
     @Test
     public void testWithDuplicateLimitOption() {
-        Throwable thrown = assertThrows(UserInputException.class, () -> {
-            JduOptionsParser.parse(new String[]{"--depth", "10", "--limit", "8", "--limit", "8", "-L"});
-        });
+        Throwable thrown = assertThrows(UserInputException.class, () ->
+                JduOptionsParser.parse(new String[]{"--depth", "10", "--limit", "8", "--limit", "8", "-L"}));
 
         assertEquals("double definition of 'limit' option", thrown.getMessage());
 

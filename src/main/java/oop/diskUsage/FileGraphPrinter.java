@@ -11,57 +11,66 @@ class FileGraphPrinter {
         this.jduOptions = jduOptions;
     }
 
-    public void print(GraphNode root) {
-        print(root, 0);
+    public String print(GraphNode root) {
+        StringBuilder output = new StringBuilder();
+        graphToString(root, 0, output);
+        System.out.println(output);
+        return output.toString();
     }
 
-    private void print(GraphNode currFile, int depth) {
+    private void graphToString(GraphNode currFile, int depth, StringBuilder output) {
 
         if (depth > jduOptions.depth() - 1) {
             return;
         }
 
-        printTab(depth);
+        addTabs(output, depth);
 
         if (currFile instanceof GraphCompositeNode) {
 
             if (currFile instanceof SymbolicLinkGraphNode) {
 
-                System.out.print("*");
+                output.append("*");
             } else {
 
-                System.out.print("/");
+                output.append("/");
             }
 
-            System.out.println(currFile.path().getFileName() + " " + FileSizePrinter.print(currFile.size()));
+            output.append(currFile.path().getFileName())
+                    .append(" ")
+                    .append(FileSizeConverter.print(currFile.size()));
+
+            output.append("\n");
 
             List<GraphNode> children = ((GraphCompositeNode) currFile).getChildren();
 
             int limitAmountOfFiles = 0;
             for (GraphNode file : children) {
 
-                if (file!=null) {
+                if (file != null) {
 
                     ++limitAmountOfFiles;
                     if (limitAmountOfFiles > jduOptions.limitAmountOfFiles()) {
                         return;
                     }
 
-                    print(file, depth + 1);
+                    graphToString(file, depth + 1, output);
 
                 }
             }
 
         } else if (currFile instanceof RegularFileGraphNode) {
 
-            System.out.println(currFile.path().getFileName() + " " + FileSizePrinter.print(currFile.size()));
+            output.append(currFile.path().getFileName())
+                    .append(" ")
+                    .append(FileSizeConverter.print(currFile.size()));
+
+            output.append("\n");
 
         }
     }
 
-    private static void printTab(int count) {
-        for (int j = 0; j < count; j++) {
-            System.out.print("\t");
-        }
+    private static void addTabs(StringBuilder string, int count) {
+        string.append("\t".repeat(count));
     }
 }
