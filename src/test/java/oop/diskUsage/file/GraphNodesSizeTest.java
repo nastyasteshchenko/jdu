@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 
 public class GraphNodesSizeTest {
     @Test
-    public void testSizeOfOneFileDirectory() {
+    public void testSizeOfDirectory1() {
         DirectoryGraphNode startDir = createDirectoryNode("/foo");
         startDir.addChild(createRegularFileNode("/foo/bar.txt", 6));
 
@@ -16,7 +16,7 @@ public class GraphNodesSizeTest {
     }
 
     @Test
-    public void testSizeOfDirectoryWithOneLevel() {
+    public void testSizeOfDirectory2() {
         DirectoryGraphNode startDir = createDirectoryNode("/foo");
         startDir.addChild(createRegularFileNode("/foo/bar.txt", 176));
         startDir.addChild(createSymbolicLinkGraphNode("/foo/link_to_bar", 11));
@@ -26,7 +26,7 @@ public class GraphNodesSizeTest {
     }
 
     @Test
-    public void testSizeOfDirectoryWithThreeLevels() {
+    public void testSizeOfDirectory3() {
         DirectoryGraphNode startDir = createDirectoryNode("/foo");
         startDir.addChild(createRegularFileNode("/foo/bar.txt", 176));
 

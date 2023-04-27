@@ -18,7 +18,7 @@ public class JduOptionsParserTest {
     }
 
     @Test
-    public void testWithSymLinkOption() throws UserInputException {
+    public void testSymLinkOption() throws UserInputException {
         JduOptions jduOptions = JduOptionsParser.parse(new String[]{"-L"});
 
         assertEquals(jduOptions.depth(), JduOptions.MAX_DEPTH);
@@ -27,7 +27,7 @@ public class JduOptionsParserTest {
     }
 
     @Test
-    public void testWithDepthOption() throws UserInputException {
+    public void testDepthOption() throws UserInputException {
         JduOptions jduOptions = JduOptionsParser.parse(new String[]{"--depth", "6"});
 
         assertEquals(jduOptions.depth(), 6);
@@ -36,7 +36,7 @@ public class JduOptionsParserTest {
     }
 
     @Test
-    public void testWithLimitOption() throws UserInputException {
+    public void testLimitOption() throws UserInputException {
         JduOptions jduOptions = JduOptionsParser.parse(new String[]{"--limit", "8"});
 
         assertEquals(jduOptions.depth(), JduOptions.MAX_DEPTH);
@@ -45,7 +45,7 @@ public class JduOptionsParserTest {
     }
 
     @Test
-    public void testWithTwoOptions1() throws UserInputException {
+    public void testTwoOptions1() throws UserInputException {
         JduOptions jduOptions = JduOptionsParser.parse(new String[]{"--limit", "8", "--depth", "7"});
 
         assertEquals(jduOptions.depth(), 7);
@@ -54,7 +54,7 @@ public class JduOptionsParserTest {
     }
 
     @Test
-    public void testWithTwoOptions2() throws UserInputException {
+    public void testTwoOptions2() throws UserInputException {
         JduOptions jduOptions = JduOptionsParser.parse(new String[]{"-L", "--limit", "8"});
 
         assertEquals(jduOptions.depth(), JduOptions.MAX_DEPTH);
@@ -63,7 +63,7 @@ public class JduOptionsParserTest {
     }
 
     @Test
-    public void testWithThreeOption() throws UserInputException {
+    public void testThreeOption() throws UserInputException {
         JduOptions jduOptions = JduOptionsParser.parse(new String[]{"--depth", "10", "--limit", "8", "-L"});
 
         assertEquals(jduOptions.depth(), 10);
@@ -72,7 +72,7 @@ public class JduOptionsParserTest {
     }
 
     @Test
-    public void testWithDuplicateSymLinkOption() {
+    public void testDuplicateSymLinkOption() {
         Throwable thrown = assertThrows(UserInputException.class, () ->
                 JduOptionsParser.parse(new String[]{"-L", "--limit", "8", "-L"}));
 
@@ -81,7 +81,7 @@ public class JduOptionsParserTest {
     }
 
     @Test
-    public void testWithDuplicateDepthOption() {
+    public void testDuplicateDepthOption() {
         Throwable thrown = assertThrows(UserInputException.class, () ->
                 JduOptionsParser.parse(new String[]{"--depth", "10", "--limit", "8", "--depth", "90"}));
 
@@ -90,7 +90,7 @@ public class JduOptionsParserTest {
     }
 
     @Test
-    public void testWithDuplicateLimitOption() {
+    public void testDuplicateLimitOption() {
         Throwable thrown = assertThrows(UserInputException.class, () ->
                 JduOptionsParser.parse(new String[]{"--depth", "10", "--limit", "8", "--limit", "8", "-L"}));
 
@@ -116,7 +116,7 @@ public class JduOptionsParserTest {
     }
 
     @Test
-    public void testWrongArgumentForLimit() {
+    public void testWrongArgumentForLimit1() {
         Throwable thrown = assertThrows(UserInputException.class, () ->
                 JduOptionsParser.parse(new String[]{"--depth", "10", "--limit", "-8", "-L"}));
 
@@ -125,11 +125,36 @@ public class JduOptionsParserTest {
     }
 
     @Test
-    public void testWrongArgumentForDepth() {
+    public void testWrongArgumentForLimit2() {
+        Throwable thrown = assertThrows(UserInputException.class, () ->
+                JduOptionsParser.parse(new String[]{"--depth", "10", "--limit", "8000", "-L"}));
+
+        assertEquals("wrong argument for option 'limit'\n\n" + availableOptions, thrown.getMessage());
+
+    }
+
+    @Test
+    public void testWrongArgumentForDepth1() {
         Throwable thrown = assertThrows(UserInputException.class, () ->
                 JduOptionsParser.parse(new String[]{"--depth", "-10", "--limit", "8", "-L"}));
 
         assertEquals("wrong argument for option 'depth'\n\n" + availableOptions, thrown.getMessage());
+    }
+
+    @Test
+    public void testWrongArgumentForDepth2() {
+        Throwable thrown = assertThrows(UserInputException.class, () ->
+                JduOptionsParser.parse(new String[]{"--depth", "8000", "--limit", "8", "-L"}));
+
+        assertEquals("wrong argument for option 'depth'\n\n" + availableOptions, thrown.getMessage());
+    }
+
+    @Test
+    public void testNoDirectory() {
+        Throwable thrown = assertThrows(UserInputException.class, () ->
+                JduOptionsParser.parse(new String[]{"--depth", "80", "fhfhhfhff", "--limit", "8", "-L"}));
+
+        assertEquals("cannot access 'fhfhhfhff': No such file or directory\n\n" + availableOptions, thrown.getMessage());
     }
 
 }
