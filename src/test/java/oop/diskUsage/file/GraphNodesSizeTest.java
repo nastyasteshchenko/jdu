@@ -1,11 +1,11 @@
 package oop.diskUsage.file;
 
-import junit.framework.TestCase;
 import org.junit.Test;
+import static junit.framework.TestCase.assertEquals;
 
 import java.nio.file.Paths;
 
-public class DirectoryTreeNodeTest {
+public class GraphNodesSizeTest {
 
     private RegularFileGraphNode createRegularFileNode(String path, long size) {
         return new RegularFileGraphNode(Paths.get(path), size);
@@ -26,7 +26,7 @@ public class DirectoryTreeNodeTest {
         DirectoryGraphNode startDir = createDirectoryNode("/foo");
         startDir.addChild(createRegularFileNode("/foo/bar.txt", 6));
 
-        TestCase.assertEquals(6, startDir.size());
+        assertEquals(6, startDir.size());
     }
 
     @Test
@@ -36,7 +36,7 @@ public class DirectoryTreeNodeTest {
         startDir.addChild(createSymbolicLinkGraphNode("/foo/link_to_bar", 11));
         startDir.addChild(createRegularFileNode("/foo/baz.pdf", 1009));
 
-        TestCase.assertEquals(1196, startDir.size());
+        assertEquals(1196, startDir.size());
     }
 
     @Test
@@ -54,14 +54,13 @@ public class DirectoryTreeNodeTest {
         thirdDir.addChild(createSymbolicLinkGraphNode("/foo/link_to_baz", 8));
         thirdDir.addChild(createRegularFileNode("/foo/tuc.doc", 100));
 
-        TestCase.assertEquals(1404, startDir.size());
+        assertEquals(1404, startDir.size());
     }
 
     @Test
     public void testSizeOfEmptyDirectory() {
         DirectoryGraphNode startDir = createDirectoryNode("/foo");
 
-        TestCase.assertEquals(0, startDir.size());
+        assertEquals(0, startDir.size());
     }
-
 }

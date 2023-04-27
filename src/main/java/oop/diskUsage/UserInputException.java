@@ -2,7 +2,7 @@ package oop.diskUsage;
 
 public class UserInputException extends Exception{
 
-    private static final String availableOptions = """
+    public static final String availableOptions = """
             Available options:
 
             --limit n\tshow n the heaviest files and / or directories
