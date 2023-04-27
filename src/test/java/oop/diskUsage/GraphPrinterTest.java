@@ -1,114 +1,45 @@
 package oop.diskUsage;
 
 import oop.diskUsage.file.DirectoryGraphNode;
+import oop.diskUsage.file.GraphNode;
+import oop.diskUsage.file.RegularFileGraphNode;
+import oop.diskUsage.file.SymbolicLinkGraphNode;
 import org.junit.Test;
 
-import java.io.IOException;
-
-import static junit.framework.TestCase.assertEquals;
+import java.nio.file.Paths;
 
 public class GraphPrinterTest {
 
-    private static final TempFolder tempFolder = new TempFolder();
 
+    // TODO please rename, don't forget about the tests on cycles
     @Test
-    public void testPrintGraph() throws IOException, UserInputException {
+    public void testSimple() {
+        DirectoryGraphNode startDir = createDirectoryNode("/foo");
+        startDir.addChild(createRegularFileNode("/foo/bar.txt", 176));
 
-        JduOptions jduOptions = JduOptionsParser.parse(new String[]{tempFolder.getStartDirPath().toString()});
-
-        DirectoryGraphNode root = new FileGraphBuilder(jduOptions).build();
-
-        FileGraphSorter.sort(root);
-
-        int sizeSymLink = tempFolder.getStartDirPath().toString().length();
-
-        String expectedOutput = "/dir1 [" + sizeSymLink + " B]\n" +
-                "\t/dir2 [" + sizeSymLink + " B]\n" +
-                "\t\t*link_to_dir1 [" + sizeSymLink + " B]\n" + """
-                \t\t/dir3 [0 B]
-                \t\t\tDasha [0 B]
-                \tfile2 [0 B]
-                \tfile1 [0 B]
-                """;
-
-        assertEquals(new FileGraphPrinter(jduOptions).print(root), expectedOutput);
+        // TODO create options here
+        doTest(null, startDir);
     }
 
-    @Test
-    public void testPrintGraphWithCertainDepth() throws IOException, UserInputException {
-
-        JduOptions jduOptions = JduOptionsParser.parse(new String[]{tempFolder.getStartDirPath().toString(), "--depth", "2"});
-
-        DirectoryGraphNode root = new FileGraphBuilder(jduOptions).build();
-
-        FileGraphSorter.sort(root);
-
-
-        String expectedOutput = """
-                /dir1 [0 B]
-                \t/dir2 [0 B]
-                \tfile2 [0 B]
-                \tfile1 [0 B]
-                """;
-
-        assertEquals(new FileGraphPrinter(jduOptions).print(root), expectedOutput);
+    // TODO reuse in all tests
+    private void doTest(JduOptions options, GraphNode root) {
+        StringBuilder output = new StringBuilder();
+        new FileGraphPrinter(options, output).print(root);
     }
 
-    @Test
-    public void testPrintGraphWithCertainLimit() throws IOException, UserInputException {
-
-        JduOptions jduOptions = JduOptionsParser.parse(new String[]{tempFolder.getStartDirPath().toString(), "--limit", "2"});
-
-        DirectoryGraphNode root = new FileGraphBuilder(jduOptions).build();
-
-        FileGraphSorter.sort(root);
-
-        int sizeSymLink = tempFolder.getStartDirPath().toString().length();
-
-        String expectedOutput = "/dir1 [" + sizeSymLink + " B]\n" +
-                "\t/dir2 [" + sizeSymLink + " B]\n" +
-                "\t\t*link_to_dir1 [" + sizeSymLink + " B]\n" + """
-                \t\t/dir3 [0 B]
-                \t\t\tDasha [0 B]
-                \tfile2 [0 B]
-                """;
-
-        assertEquals(new FileGraphPrinter(jduOptions).print(root), expectedOutput);
+    // TODO prevent duplicates (the same as in GraphNodeSizeTest). Utility class?
+    private RegularFileGraphNode createRegularFileNode(String path, long size) {
+        return new RegularFileGraphNode(Paths.get(path), size);
     }
 
-    @Test
-    public void testPrintGraphWithCycles() throws IOException, UserInputException {
+    private DirectoryGraphNode createDirectoryNode(String path) {
+        return new DirectoryGraphNode(Paths.get(path));
 
-        JduOptions jduOptions = JduOptionsParser.parse(new String[]{tempFolder.getStartDirPath().toString(), "-L", "--depth", "9"});
-
-        DirectoryGraphNode root = new FileGraphBuilder(jduOptions).build();
-
-        FileGraphSorter.sort(root);
-
-        int sizeSymLink = tempFolder.getStartDirPath().toString().length();
-
-        String expectedOutput = "/dir1 [" + sizeSymLink + " B]\n" +
-                "\t/dir2 [" + sizeSymLink + " B]\n" +
-                "\t\t*link_to_dir1 [" + sizeSymLink + " B]\n" +
-                "\t\t\t/dir1 [" + sizeSymLink + " B]\n" +
-                "\t\t\t\t/dir2 [" + sizeSymLink + " B]\n" +
-                "\t\t\t\t\t*link_to_dir1 [" + sizeSymLink + " B]\n" +
-                "\t\t\t\t\t\t/dir1 [" + sizeSymLink + " B]\n" +
-                "\t\t\t\t\t\t\t/dir2 [" + sizeSymLink + " B]\n" +
-                "\t\t\t\t\t\t\t\t*link_to_dir1 [" + sizeSymLink + " B]\n" + """
-                \t\t\t\t\t\t\t\t/dir3 [0 B]
-                \t\t\t\t\t\t\tfile2 [0 B]
-                \t\t\t\t\t\t\tfile1 [0 B]
-                \t\t\t\t\t/dir3 [0 B]
-                \t\t\t\t\t\tDasha [0 B]
-                \t\t\t\tfile2 [0 B]
-                \t\t\t\tfile1 [0 B]
-                \t\t/dir3 [0 B]
-                \t\t\tDasha [0 B]
-                \tfile2 [0 B]
-                \tfile1 [0 B]
-                """;
-
-        assertEquals(new FileGraphPrinter(jduOptions).print(root), expectedOutput);
     }
+
+    private SymbolicLinkGraphNode createSymbolicLinkGraphNode(String path, long size) {
+        return new SymbolicLinkGraphNode(Paths.get(path), size);
+
+    }
+
 }

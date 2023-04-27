@@ -11,6 +11,7 @@ public class JduOptionsParserTest {
     public void testNoOptions() throws UserInputException {
         JduOptions jduOptions = JduOptionsParser.parse(new String[]{""});
 
+        // TODO replace expected with actual everywhere
         assertEquals(jduOptions.depth(), JduOptions.MAX_DEPTH);
         assertEquals(jduOptions.limitAmountOfFiles(), JduOptions.MAX_AMOUNT_OF_FILES);
         assertFalse(jduOptions.passThroughSymLink());

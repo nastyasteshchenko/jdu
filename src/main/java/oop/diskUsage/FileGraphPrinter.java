@@ -6,19 +6,25 @@ import java.util.List;
 
 class FileGraphPrinter {
     private final JduOptions jduOptions;
+    private final Appendable output;
 
-    public FileGraphPrinter(JduOptions jduOptions) {
+    public FileGraphPrinter(JduOptions jduOptions, Appendable output) {
         this.jduOptions = jduOptions;
+        this.output = output;
+    }
+
+    void print(GraphNode root) {
+        // TODO implement me, reuse new field output everywhere, remove print method below
     }
 
     public String print(GraphNode root) {
         StringBuilder output = new StringBuilder();
-        graphToString(root, 0, output);
+        print(root, 0, output);
         System.out.println(output);
         return output.toString();
     }
 
-    private void graphToString(GraphNode currFile, int depth, StringBuilder output) {
+    private void print(GraphNode currFile, int depth, StringBuilder output) {
 
         if (depth > jduOptions.depth() - 1) {
             return;
@@ -53,7 +59,7 @@ class FileGraphPrinter {
                         return;
                     }
 
-                    graphToString(file, depth + 1, output);
+                    print(file, depth + 1, output);
 
                 }
             }
