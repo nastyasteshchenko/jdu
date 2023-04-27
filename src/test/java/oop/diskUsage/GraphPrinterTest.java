@@ -12,7 +12,7 @@ public class GraphPrinterTest {
     private static final TempFolder tempFolder = new TempFolder();
 
     @Test
-    public void printGraphTest() throws IOException, UserInputException {
+    public void testPrintGraph() throws IOException, UserInputException {
 
         JduOptions jduOptions = JduOptionsParser.parse(new String[]{tempFolder.getStartDirPath().toString()});
 
@@ -35,7 +35,7 @@ public class GraphPrinterTest {
     }
 
     @Test
-    public void printGraphWithCertainDepthTest() throws IOException, UserInputException {
+    public void testPrintGraphWithCertainDepth() throws IOException, UserInputException {
 
         JduOptions jduOptions = JduOptionsParser.parse(new String[]{tempFolder.getStartDirPath().toString(), "--depth", "2"});
 
@@ -55,7 +55,7 @@ public class GraphPrinterTest {
     }
 
     @Test
-    public void printGraphWithCertainLimitTest() throws IOException, UserInputException {
+    public void testPrintGraphWithCertainLimit() throws IOException, UserInputException {
 
         JduOptions jduOptions = JduOptionsParser.parse(new String[]{tempFolder.getStartDirPath().toString(), "--limit", "2"});
 
@@ -77,7 +77,7 @@ public class GraphPrinterTest {
     }
 
     @Test
-    public void printGraphWithCyclesTest() throws IOException, UserInputException {
+    public void testPrintGraphWithCycles() throws IOException, UserInputException {
 
         JduOptions jduOptions = JduOptionsParser.parse(new String[]{tempFolder.getStartDirPath().toString(), "-L", "--depth", "9"});
 
