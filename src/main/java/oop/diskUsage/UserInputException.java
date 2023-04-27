@@ -1,6 +1,6 @@
 package oop.diskUsage;
 
-public class UserInputException extends Exception{
+public class UserInputException extends Exception {
 
     public static final String availableOptions = """
             Available options:
@@ -9,7 +9,7 @@ public class UserInputException extends Exception{
             --depth n\tset recursion depth n
             -L\t\t\tfollow symlinks""";
 
-    public UserInputException(String message){
+    private UserInputException(String message) {
         super(message);
     }
 
