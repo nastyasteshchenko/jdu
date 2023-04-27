@@ -38,9 +38,8 @@ class FileGraphPrinter {
 
             output.append(currFile.path().getFileName())
                     .append(" ")
-                    .append(FileSizeConverter.print(currFile.size()));
-
-            output.append("\n");
+                    .append(FileSizeConverter.print(currFile.size()))
+                    .append("\n");
 
             List<GraphNode> children = ((GraphCompositeNode) currFile).getChildren();
 
@@ -63,9 +62,8 @@ class FileGraphPrinter {
 
             output.append(currFile.path().getFileName())
                     .append(" ")
-                    .append(FileSizeConverter.print(currFile.size()));
-
-            output.append("\n");
+                    .append(FileSizeConverter.print(currFile.size()))
+                    .append("\n");
 
         }
     }

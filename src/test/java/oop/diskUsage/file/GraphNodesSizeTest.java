@@ -7,21 +7,6 @@ import static junit.framework.TestCase.assertEquals;
 import java.nio.file.Paths;
 
 public class GraphNodesSizeTest {
-
-    private RegularFileGraphNode createRegularFileNode(String path, long size) {
-        return new RegularFileGraphNode(Paths.get(path), size);
-    }
-
-    private DirectoryGraphNode createDirectoryNode(String path) {
-        return new DirectoryGraphNode(Paths.get(path));
-
-    }
-
-    private SymbolicLinkGraphNode createSymbolicLinkGraphNode(String path, long size) {
-        return new SymbolicLinkGraphNode(Paths.get(path), size);
-
-    }
-
     @Test
     public void testSizeOfOneFileDirectory() {
         DirectoryGraphNode startDir = createDirectoryNode("/foo");
@@ -64,4 +49,19 @@ public class GraphNodesSizeTest {
 
         assertEquals(0, startDir.size());
     }
+
+    private RegularFileGraphNode createRegularFileNode(String path, long size) {
+        return new RegularFileGraphNode(Paths.get(path), size);
+    }
+
+    private DirectoryGraphNode createDirectoryNode(String path) {
+        return new DirectoryGraphNode(Paths.get(path));
+
+    }
+
+    private SymbolicLinkGraphNode createSymbolicLinkGraphNode(String path, long size) {
+        return new SymbolicLinkGraphNode(Paths.get(path), size);
+
+    }
+
 }
