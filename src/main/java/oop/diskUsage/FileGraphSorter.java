@@ -12,7 +12,7 @@ import java.util.Map;
 
 class FileGraphSorter {
 
-    public static void sort(DirectoryGraphNode startDir) {
+    static void sort(DirectoryGraphNode startDir) {
         Map<Path, GraphCompositeNode> sortedDirs = new HashMap<>();
         sort(startDir, sortedDirs);
     }

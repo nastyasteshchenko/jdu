@@ -2,7 +2,7 @@ package oop.diskUsage;
 
 public class JduOptionsParser {
 
-    public static JduOptions parse(String[] args) throws UserInputException {
+    static JduOptions parse(String[] args) throws UserInputException {
 
         JduOptions.Builder builder = new JduOptions.Builder();
 

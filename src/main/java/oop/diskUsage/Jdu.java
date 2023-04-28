@@ -6,10 +6,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+// TODO seems the public modifier is redundant almost everywhere, please check all modifiers, make them as private as possible
 public class Jdu {
 
     public static void main(String[] args) throws IOException {
+        run(args, System.out);
+    }
 
+    static void run(String[] args, Appendable output) throws IOException {
         JduOptions jduOptions = parseOptions(args);
         if (jduOptions == null) {
             return;
@@ -22,7 +26,7 @@ public class Jdu {
 
         FileGraphSorter.sort(root);
 
-        printGraph(root, jduOptions);
+        printGraph(root, jduOptions, output);
     }
 
     private static JduOptions parseOptions(String[] args) {
@@ -42,8 +46,12 @@ public class Jdu {
         return jduOptions;
     }
 
-    private static void printGraph(DirectoryGraphNode root, JduOptions jduOptions){
-        new FileGraphPrinter(jduOptions).print(root);
+    private static void printGraph(DirectoryGraphNode root, JduOptions jduOptions, Appendable output) throws IOException {
+        try {
+            new FileGraphPrinter(jduOptions, output).print(root);
+        } catch (IOException e) {
+            printErrorReport(e.getMessage());
+        }
     }
 
     private static DirectoryGraphNode buildGraph(JduOptions jduOptions) throws IOException {

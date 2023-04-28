@@ -12,11 +12,11 @@ import java.util.Map;
 class FileGraphBuilder {
     private final JduOptions jduOptions;
 
-    public FileGraphBuilder(JduOptions jduOptions) {
+    FileGraphBuilder(JduOptions jduOptions) {
         this.jduOptions = jduOptions;
     }
 
-    public DirectoryGraphNode build() throws IOException {
+    DirectoryGraphNode build() throws IOException {
         Map<Path, GraphNode> visitedNodes = new HashMap<>();
         build(null, jduOptions.startDir(), 0, visitedNodes);
         return (DirectoryGraphNode) visitedNodes.get(jduOptions.startDir());

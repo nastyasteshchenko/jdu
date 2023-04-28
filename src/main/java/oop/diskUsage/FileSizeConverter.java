@@ -9,7 +9,7 @@ public class FileSizeConverter {
     private static final double NINTH_POWER_OF_TEN = Math.pow(10, 6);
     private static final double TWELFTH_POWER_OF_TEN = Math.pow(10, 12);
 
-    public static String print(long size) {
+    static String convert(long size) {
 
         DecimalFormat df = new DecimalFormat("#.###");
 

@@ -19,7 +19,7 @@ public record JduOptions(int depth, int limitAmountOfFiles, boolean passThroughS
         private Path startDir;
 
         @SuppressWarnings("UnusedReturnValue")
-        public Builder depth(int depth) throws UserInputException {
+        Builder depth(int depth) throws UserInputException {
 
             if (this.depth != null) {
                 throw UserInputException.duplicateOption("depth");
@@ -35,7 +35,7 @@ public record JduOptions(int depth, int limitAmountOfFiles, boolean passThroughS
         }
 
         @SuppressWarnings("UnusedReturnValue")
-        public Builder limit(int limit) throws UserInputException {
+        Builder limit(int limit) throws UserInputException {
 
             if (this.limitAmountOfFiles != null) {
                 throw UserInputException.duplicateOption("limit");
@@ -50,7 +50,7 @@ public record JduOptions(int depth, int limitAmountOfFiles, boolean passThroughS
         }
 
         @SuppressWarnings("UnusedReturnValue")
-        public Builder passThroughSymlink(boolean passThroughSymLink) throws UserInputException {
+        Builder passThroughSymlink(@SuppressWarnings("SameParameterValue") boolean passThroughSymLink) throws UserInputException {
 
             if (this.passThroughSymLink != null) {
                 throw UserInputException.duplicateOption("-L");
@@ -61,7 +61,7 @@ public record JduOptions(int depth, int limitAmountOfFiles, boolean passThroughS
         }
 
         @SuppressWarnings("UnusedReturnValue")
-        public Builder startDir(String startDir) throws UserInputException {
+        Builder startDir(String startDir) throws UserInputException {
 
             Path dir = Paths.get(startDir);
 
@@ -73,7 +73,7 @@ public record JduOptions(int depth, int limitAmountOfFiles, boolean passThroughS
             return this;
         }
 
-        public JduOptions build() {
+        JduOptions build() {
 
             fillNullOptions();
             return new JduOptions(depth, limitAmountOfFiles, passThroughSymLink, startDir);

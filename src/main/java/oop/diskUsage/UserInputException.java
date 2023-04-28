@@ -2,7 +2,7 @@ package oop.diskUsage;
 
 public class UserInputException extends Exception {
 
-    public static final String availableOptions = """
+    static final String availableOptions = """
             Available options:
 
             --limit n\tshow n the heaviest files and / or directories
@@ -13,19 +13,19 @@ public class UserInputException extends Exception {
         super(message);
     }
 
-    public static UserInputException duplicateOption(String optionName) {
+    static UserInputException duplicateOption(String optionName) {
         return new UserInputException(String.format("double definition of '%s' option", optionName));
     }
 
-    public static UserInputException noArgument(String optionName) {
+    static UserInputException noArgument(String optionName) {
         return new UserInputException(String.format("option requires an argument -- '%s'\n\n" + availableOptions, optionName));
     }
 
-    public static UserInputException wrongDirectory(String dirName) {
+    static UserInputException wrongDirectory(String dirName) {
         return new UserInputException(String.format("cannot access '%s': No such file or directory\n\n" + availableOptions, dirName));
     }
 
-    public static UserInputException wrongArgument(String optionName) {
+    static UserInputException wrongArgument(String optionName) {
         return new UserInputException(String.format("wrong argument for option '%s'\n\n" + availableOptions, optionName));
     }
 }

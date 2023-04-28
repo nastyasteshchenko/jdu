@@ -2,29 +2,29 @@ package oop.diskUsage;
 
 import oop.diskUsage.file.*;
 
+import java.io.IOException;
 import java.util.List;
 
 class FileGraphPrinter {
     private final JduOptions jduOptions;
+    private final Appendable output;
 
-    public FileGraphPrinter(JduOptions jduOptions) {
+    FileGraphPrinter(JduOptions jduOptions, Appendable output) {
         this.jduOptions = jduOptions;
+        this.output = output;
     }
 
-    public String print(GraphNode root) {
-        StringBuilder output = new StringBuilder();
-        graphToString(root, 0, output);
-        System.out.println(output);
-        return output.toString();
+    void print(GraphNode root) throws IOException {
+        print(root, 0);
     }
 
-    private void graphToString(GraphNode currFile, int depth, StringBuilder output) {
+    private void print(GraphNode currFile, int depth) throws IOException {
 
         if (depth > jduOptions.depth() - 1) {
             return;
         }
 
-        addTabs(output, depth);
+        addTabs(depth);
 
         if (currFile instanceof GraphCompositeNode) {
 
@@ -36,9 +36,9 @@ class FileGraphPrinter {
                 output.append("/");
             }
 
-            output.append(currFile.path().getFileName())
+            output.append(currFile.path().getFileName().toString())
                     .append(" ")
-                    .append(FileSizeConverter.print(currFile.size()))
+                    .append(FileSizeConverter.convert(currFile.size()))
                     .append("\n");
 
             List<GraphNode> children = ((GraphCompositeNode) currFile).getChildren();
@@ -53,22 +53,22 @@ class FileGraphPrinter {
                         return;
                     }
 
-                    graphToString(file, depth + 1, output);
+                    print(file, depth + 1);
 
                 }
             }
 
         } else if (currFile instanceof RegularFileGraphNode) {
 
-            output.append(currFile.path().getFileName())
+            output.append(currFile.path().getFileName().toString())
                     .append(" ")
-                    .append(FileSizeConverter.print(currFile.size()))
+                    .append(FileSizeConverter.convert(currFile.size()))
                     .append("\n");
 
         }
     }
 
-    private static void addTabs(StringBuilder string, int count) {
-        string.append("\t".repeat(count));
+    private void addTabs(int count) throws IOException {
+        output.append("\t".repeat(count));
     }
 }

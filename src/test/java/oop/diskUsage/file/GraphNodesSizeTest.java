@@ -3,8 +3,7 @@ package oop.diskUsage.file;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
-
-import java.nio.file.Paths;
+import static oop.diskUsage.FilesCreator.*;
 
 public class GraphNodesSizeTest {
     @Test
@@ -48,20 +47,6 @@ public class GraphNodesSizeTest {
         DirectoryGraphNode startDir = createDirectoryNode("/foo");
 
         assertEquals(0, startDir.size());
-    }
-
-    private RegularFileGraphNode createRegularFileNode(String path, long size) {
-        return new RegularFileGraphNode(Paths.get(path), size);
-    }
-
-    private DirectoryGraphNode createDirectoryNode(String path) {
-        return new DirectoryGraphNode(Paths.get(path));
-
-    }
-
-    private SymbolicLinkGraphNode createSymbolicLinkGraphNode(String path, long size) {
-        return new SymbolicLinkGraphNode(Paths.get(path), size);
-
     }
 
 }
