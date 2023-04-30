@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-// TODO seems the public modifier is redundant almost everywhere, please check all modifiers, make them as private as possible
 public class Jdu {
 
     public static void main(String[] args) throws IOException {

@@ -13,8 +13,6 @@ import static oop.diskUsage.FilesCreator.*;
 
 public class GraphPrinterTest {
 
-
-    // TODO please rename, don't forget about the tests on cycles
     @Test
     public void testDirWithOneFile() throws IOException {
         DirectoryGraphNode startDir = createDirectoryNode("/foo");
