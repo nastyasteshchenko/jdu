@@ -2,7 +2,7 @@ package oop.diskUsage;
 
 import java.text.DecimalFormat;
 
-public class FileSizeConverter {
+class FileSizeConverter {
 
     private static final double THIRD_POWER_OF_TEN = Math.pow(10, 3);
     private static final double SIXTH_POWER_OF_TEN = Math.pow(10, 6);

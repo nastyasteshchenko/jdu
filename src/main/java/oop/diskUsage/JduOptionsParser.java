@@ -1,6 +1,6 @@
 package oop.diskUsage;
 
-public class JduOptionsParser {
+class JduOptionsParser {
 
     static JduOptions parse(String[] args) throws UserInputException {
 

@@ -4,7 +4,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public record JduOptions(int depth, int limitAmountOfFiles, boolean passThroughSymLink, Path startDir) {
+record JduOptions(int depth, int limitAmountOfFiles, boolean passThroughSymLink, Path startDir) {
     static final int MAX_DEPTH = 1000;
     static final int MAX_AMOUNT_OF_FILES = 1000;
     private static final int MIN_DEPTH = 0;

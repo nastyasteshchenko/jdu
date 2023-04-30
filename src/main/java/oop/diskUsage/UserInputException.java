@@ -1,6 +1,6 @@
 package oop.diskUsage;
 
-public class UserInputException extends Exception {
+class UserInputException extends Exception {
 
     static final String availableOptions = """
             Available options:
