@@ -6,14 +6,15 @@ import java.nio.file.Paths;
 
 record JduOptions(int depth, int limitAmountOfFiles, boolean passThroughSymLink, Path startDir) {
     // TODO move to builder
-    static final int MAX_DEPTH = 1000;
-    static final int MAX_AMOUNT_OF_FILES = 1000;
-    private static final int MIN_DEPTH = 0;
-    private static final int MIN_AMOUNT_OF_FILES = 0;
-    private static final boolean DEFAULT_PASS_THROUGH_SYMLINK = false;
-    private static final Path USER_DIR = Paths.get(System.getProperty("user.dir"));
 
     static class Builder {
+        static final int MAX_DEPTH = 1000;
+        static final int MAX_AMOUNT_OF_FILES = 1000;
+        private static final int MIN_DEPTH = 0;
+        private static final int MIN_AMOUNT_OF_FILES = 0;
+        private static final boolean DEFAULT_PASS_THROUGH_SYMLINK = false;
+        private static final Path USER_DIR = Paths.get(System.getProperty("user.dir"));
+
         private Integer depth;
         private Integer limitAmountOfFiles;
         private Boolean passThroughSymLink;
@@ -24,37 +25,19 @@ record JduOptions(int depth, int limitAmountOfFiles, boolean passThroughSymLink,
 
             checkForDuplicates("depth", this.depth);
 
-            if (!isInSegment(depth, MIN_DEPTH, MAX_DEPTH)) {
-                throw UserInputException.wrongArgument("depth");
-            }
+            checkRange("depth", depth, MIN_DEPTH, MAX_DEPTH);
 
             this.depth = depth;
 
             return this;
         }
 
-        private <T> void checkForDuplicates(String optionName, T value) throws UserInputException {
-            if (value != null) {
-                throw UserInputException.duplicateOption(optionName);
-            }
-        }
-
-        private void checkRange(String option, int value, int from, int to) throws UserInputException {
-            if (value < from || value > to) {
-                throw UserInputException.wrongArgument(option);
-            }
-        }
-
         @SuppressWarnings("UnusedReturnValue")
         Builder limit(int limit) throws UserInputException {
 
-            if (this.limitAmountOfFiles != null) {
-                throw UserInputException.duplicateOption("limit");
-            }
+            checkForDuplicates("limit", this.limitAmountOfFiles);
 
-            if (!isInSegment(limit, MIN_AMOUNT_OF_FILES, MAX_AMOUNT_OF_FILES)) {
-                throw UserInputException.wrongArgument("limit");
-            }
+            checkRange("limit", limit, MIN_AMOUNT_OF_FILES, MAX_AMOUNT_OF_FILES);
 
             this.limitAmountOfFiles = limit;
             return this;
@@ -63,9 +46,7 @@ record JduOptions(int depth, int limitAmountOfFiles, boolean passThroughSymLink,
         @SuppressWarnings("UnusedReturnValue")
         Builder passThroughSymlink() throws UserInputException {
 
-            if (this.passThroughSymLink != null) {
-                throw UserInputException.duplicateOption("-L");
-            }
+            checkForDuplicates("-L", passThroughSymLink);
 
             this.passThroughSymLink = true;
             return this;
@@ -88,8 +69,7 @@ record JduOptions(int depth, int limitAmountOfFiles, boolean passThroughSymLink,
 
             fillDefaultForOptions();
             return new JduOptions(depth, limitAmountOfFiles, passThroughSymLink, startDir);
-        }    static final int MAX_DEPTH = 1000;
-    static final int MAX_AMOUNT_OF_FILES = 1000;
+        }
 
         private void fillDefaultForOptions() {
 
@@ -110,9 +90,16 @@ record JduOptions(int depth, int limitAmountOfFiles, boolean passThroughSymLink,
             }
         }
 
-        @SuppressWarnings("BooleanMethodIsAlwaysInverted")
-        private boolean isInSegment(int value, int a, int b) {
-            return value >= a && value <= b;
+        private <T> void checkForDuplicates(String optionName, T value) throws UserInputException {
+            if (value != null) {
+                throw UserInputException.duplicateOption(optionName);
+            }
+        }
+
+        private void checkRange(String option, int value, int from, int to) throws UserInputException {
+            if (value < from || value > to) {
+                throw UserInputException.wrongArgument(option);
+            }
         }
 
     }

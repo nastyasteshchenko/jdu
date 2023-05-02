@@ -8,11 +8,11 @@ import java.nio.file.Path;
 
 class Jdu {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         run(args, System.out);
     }
 
-    static void run(String[] args, Appendable output) throws IOException {
+    static void run(String[] args, Appendable output) {
         JduOptions jduOptions = parseOptions(args);
         if (jduOptions == null) {
             return;
@@ -46,7 +46,7 @@ class Jdu {
         return jduOptions;
     }
 
-    private static void printGraph(DirectoryGraphNode root, JduOptions jduOptions, Appendable output) throws IOException {
+    private static void printGraph(DirectoryGraphNode root, JduOptions jduOptions, Appendable output) {
         try {
             new FileGraphPrinter(jduOptions, output).print(root);
         } catch (IOException e) {
@@ -54,7 +54,7 @@ class Jdu {
         }
     }
 
-    private static DirectoryGraphNode buildGraph(JduOptions jduOptions) throws IOException {
+    private static DirectoryGraphNode buildGraph(JduOptions jduOptions) {
         try {
             return new FileGraphBuilder(jduOptions).build();
         } catch (IOException e) {
@@ -63,17 +63,24 @@ class Jdu {
         return null;
     }
 
-    //TODO delete exception, create try/catch inside function
-    private static void printErrorReport(String errMsg) throws IOException {
+    private static void printErrorReport(String errMsg) {
 
         System.err.println("Jdu is failed\nSee the report:");
 
-        Path pathToTmpDir = Files.createTempDirectory(Path.of(System.getProperty("user.dir")), "report");
+        try {
 
-        Path pathToTmpFile = Files.createTempFile(pathToTmpDir, "error_msg", "");
+            Path pathToTmpDir = Files.createTempDirectory(Path.of(System.getProperty("user.dir")), "report");
+            Path pathToTmpFile = Files.createTempFile(pathToTmpDir, "error_msg", "");
 
-        System.err.println(pathToTmpDir);
+            System.err.println(pathToTmpDir);
 
-        Files.write(pathToTmpFile, errMsg.getBytes());
+            Files.write(pathToTmpFile, errMsg.getBytes());
+
+        } catch (IOException e) {
+
+            System.err.println("Couldn't create a report");
+            System.err.println(e.getMessage());
+
+        }
     }
 }

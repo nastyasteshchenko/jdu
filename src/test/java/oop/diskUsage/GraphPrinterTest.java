@@ -10,6 +10,8 @@ import java.nio.file.Paths;
 
 import static junit.framework.TestCase.assertEquals;
 import static oop.diskUsage.FilesCreator.*;
+import static oop.diskUsage.JduOptions.Builder.MAX_AMOUNT_OF_FILES;
+import static oop.diskUsage.JduOptions.Builder.MAX_DEPTH;
 
 public class GraphPrinterTest {
 
@@ -23,7 +25,7 @@ public class GraphPrinterTest {
                 \tbar.txt [176 B]
                 """;
 
-        doTest(new JduOptions(JduOptions.MAX_DEPTH, JduOptions.MAX_AMOUNT_OF_FILES, false, Paths.get("/foo")), startDir, expectedOutput);
+        doTest(new JduOptions(MAX_DEPTH, MAX_AMOUNT_OF_FILES, false, Paths.get("/foo")), startDir, expectedOutput);
     }
 
     @Test
@@ -58,7 +60,7 @@ public class GraphPrinterTest {
                 \t\t\tfile4 [8 B]
                 """;
 
-        doTest(new JduOptions(JduOptions.MAX_DEPTH, JduOptions.MAX_AMOUNT_OF_FILES, false, Paths.get("/foo")), startDir, expectedOutput);
+        doTest(new JduOptions(MAX_DEPTH, MAX_AMOUNT_OF_FILES, false, Paths.get("/foo")), startDir, expectedOutput);
     }
 
     @Test
@@ -88,7 +90,7 @@ public class GraphPrinterTest {
                 \t\t\t\tfile2 [70 B]
                 """;
 
-        doTest(new JduOptions(JduOptions.MAX_DEPTH, JduOptions.MAX_AMOUNT_OF_FILES, true, Paths.get("/foo")), startDir, expectedOutput);
+        doTest(new JduOptions(MAX_DEPTH, MAX_AMOUNT_OF_FILES, true, Paths.get("/foo")), startDir, expectedOutput);
     }
 
     @Test
@@ -117,7 +119,7 @@ public class GraphPrinterTest {
                 \t/dir2 [55 B]
                 """;
 
-        doTest(new JduOptions(2, JduOptions.MAX_AMOUNT_OF_FILES, false, Paths.get("/foo")), startDir, expectedOutput);
+        doTest(new JduOptions(2, MAX_AMOUNT_OF_FILES, false, Paths.get("/foo")), startDir, expectedOutput);
     }
 
     @Test
@@ -145,7 +147,7 @@ public class GraphPrinterTest {
                 \tbaz.txt [80 B]
                 """;
 
-        doTest(new JduOptions(JduOptions.MAX_DEPTH, 2, false, Paths.get("/foo")), startDir, expectedOutput);
+        doTest(new JduOptions(MAX_DEPTH, 2, false, Paths.get("/foo")), startDir, expectedOutput);
     }
 
     @Test
@@ -192,7 +194,7 @@ public class GraphPrinterTest {
                 \t\t\t\t\t\t\t\t\t\t/dir2 [34 B]
                 """;
 
-        doTest(new JduOptions(11, JduOptions.MAX_AMOUNT_OF_FILES, true, Paths.get("/foo")), startDir, expectedOutput);
+        doTest(new JduOptions(11, MAX_AMOUNT_OF_FILES, true, Paths.get("/foo")), startDir, expectedOutput);
     }
 
     private void doTest(JduOptions options, GraphNode root, String expectedOutput) throws IOException {

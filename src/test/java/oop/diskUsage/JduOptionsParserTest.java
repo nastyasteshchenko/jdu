@@ -3,6 +3,8 @@ package oop.diskUsage;
 import org.junit.Test;
 
 import static junit.framework.TestCase.*;
+import static oop.diskUsage.JduOptions.Builder.MAX_AMOUNT_OF_FILES;
+import static oop.diskUsage.JduOptions.Builder.MAX_DEPTH;
 import static oop.diskUsage.UserInputException.availableOptions;
 import static org.junit.Assert.assertThrows;
 
@@ -11,8 +13,8 @@ public class JduOptionsParserTest {
     public void testNoOptions() throws UserInputException {
         JduOptions jduOptions = JduOptionsParser.parse(new String[]{""});
 
-        assertEquals(JduOptions.MAX_DEPTH, jduOptions.depth());
-        assertEquals(JduOptions.MAX_AMOUNT_OF_FILES, jduOptions.limitAmountOfFiles());
+        assertEquals(MAX_DEPTH, jduOptions.depth());
+        assertEquals(MAX_AMOUNT_OF_FILES, jduOptions.limitAmountOfFiles());
         assertFalse(jduOptions.passThroughSymLink());
 
     }
@@ -21,8 +23,8 @@ public class JduOptionsParserTest {
     public void testSymLinkOption() throws UserInputException {
         JduOptions jduOptions = JduOptionsParser.parse(new String[]{"-L"});
 
-        assertEquals(JduOptions.MAX_DEPTH, jduOptions.depth());
-        assertEquals(JduOptions.MAX_AMOUNT_OF_FILES, jduOptions.limitAmountOfFiles());
+        assertEquals(MAX_DEPTH, jduOptions.depth());
+        assertEquals(MAX_AMOUNT_OF_FILES, jduOptions.limitAmountOfFiles());
         assertTrue(jduOptions.passThroughSymLink());
     }
 
@@ -31,7 +33,7 @@ public class JduOptionsParserTest {
         JduOptions jduOptions = JduOptionsParser.parse(new String[]{"--depth", "6"});
 
         assertEquals(6, jduOptions.depth());
-        assertEquals(JduOptions.MAX_AMOUNT_OF_FILES, jduOptions.limitAmountOfFiles());
+        assertEquals(MAX_AMOUNT_OF_FILES, jduOptions.limitAmountOfFiles());
         assertFalse(jduOptions.passThroughSymLink());
     }
 
@@ -39,7 +41,7 @@ public class JduOptionsParserTest {
     public void testLimitOption() throws UserInputException {
         JduOptions jduOptions = JduOptionsParser.parse(new String[]{"--limit", "8"});
 
-        assertEquals(JduOptions.MAX_DEPTH, jduOptions.depth());
+        assertEquals(MAX_DEPTH, jduOptions.depth());
         assertEquals(8, jduOptions.limitAmountOfFiles());
         assertFalse(jduOptions.passThroughSymLink());
     }
@@ -57,7 +59,7 @@ public class JduOptionsParserTest {
     public void testTwoOptions2() throws UserInputException {
         JduOptions jduOptions = JduOptionsParser.parse(new String[]{"-L", "--limit", "8"});
 
-        assertEquals(JduOptions.MAX_DEPTH, jduOptions.depth());
+        assertEquals(MAX_DEPTH, jduOptions.depth());
         assertEquals(8, jduOptions.limitAmountOfFiles());
         assertTrue(jduOptions.passThroughSymLink());
     }
