@@ -1,7 +1,6 @@
 package oop.diskUsage;
 
 import org.junit.Test;
-import java.io.IOException;
 import static junit.framework.TestCase.assertEquals;
 
 //TODO bad tests
@@ -64,7 +63,7 @@ public class JduIntegrationTest {
 //    }
 
     @Test
-    public void testPrintGraphWithCycles() throws IOException {
+    public void testPrintGraphWithCycles() {
 
         int sizeSymLink = TEMP_FOLDER.getStartDirPath().toString().length();
 
