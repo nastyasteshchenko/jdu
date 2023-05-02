@@ -10,7 +10,7 @@ public class JduIntegrationTest {
     private static final TempFolder TEMP_FOLDER = new TempFolder();
 
     @Test
-    public void testPrintGraph() throws IOException {
+    public void testPrintGraph() {
 
         int sizeSymLink = TEMP_FOLDER.getStartDirPath().toString().length();
 
@@ -27,7 +27,7 @@ public class JduIntegrationTest {
     }
 
     @Test
-    public void testPrintGraphWithCertainDepth() throws IOException {
+    public void testPrintGraphWithCertainDepth() {
 
         String expectedOutput = """
                 /dir1 [0 B]
@@ -40,7 +40,7 @@ public class JduIntegrationTest {
     }
 
     @Test
-    public void testPrintGraphWithCertainLimit() throws IOException {
+    public void testPrintGraphWithCertainLimit(){
 
         int sizeSymLink = TEMP_FOLDER.getStartDirPath().toString().length();
 
@@ -54,6 +54,14 @@ public class JduIntegrationTest {
 
         doTest(expectedOutput, new String[]{TEMP_FOLDER.getStartDirPath().toString(), "--limit", "2"});
     }
+
+//    @Test
+//    public void testWrongArgument(){
+//
+//        String expectedOutput = "";
+//
+//        doTest(expectedOutput, new String[]{TEMP_FOLDER.getStartDirPath().toString(), "--limit", "-2"});
+//    }
 
     @Test
     public void testPrintGraphWithCycles() throws IOException {
@@ -85,7 +93,7 @@ public class JduIntegrationTest {
         doTest(expectedOutput, new String[]{TEMP_FOLDER.getStartDirPath().toString(), "-L", "--depth", "9"});
     }
 
-    private void doTest(String expectedOutput, String[] args) throws IOException {
+    private void doTest(String expectedOutput, String[] args) {
         StringBuilder output = new StringBuilder();
         Jdu.run(args, output);
         assertEquals(expectedOutput, output.toString());

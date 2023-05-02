@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 
 import static junit.framework.TestCase.assertEquals;
-import static oop.diskUsage.FilesCreator.*;
+import static oop.diskUsage.FilesCreationUtils.*;
 import static oop.diskUsage.JduOptions.Builder.MAX_AMOUNT_OF_FILES;
 import static oop.diskUsage.JduOptions.Builder.MAX_DEPTH;
 

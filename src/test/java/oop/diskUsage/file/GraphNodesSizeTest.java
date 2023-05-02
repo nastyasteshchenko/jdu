@@ -3,7 +3,7 @@ package oop.diskUsage.file;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
-import static oop.diskUsage.FilesCreator.*;
+import static oop.diskUsage.FilesCreationUtils.*;
 
 public class GraphNodesSizeTest {
     @Test

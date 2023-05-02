@@ -6,8 +6,8 @@ import oop.diskUsage.file.SymbolicLinkGraphNode;
 
 import java.nio.file.Paths;
 
-public class FilesCreator {
-    //file creation utils
+public class FilesCreationUtils {
+
     public static RegularFileGraphNode createRegularFileNode(String path, long size) {
         return new RegularFileGraphNode(Paths.get(path), size);
     }

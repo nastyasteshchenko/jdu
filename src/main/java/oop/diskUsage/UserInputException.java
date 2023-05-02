@@ -25,8 +25,7 @@ class UserInputException extends Exception {
         return new UserInputException(String.format("cannot access '%s': No such file or directory\n\n" + availableOptions, dirName));
     }
 
-    //TODO add an argument [0, ...] delete available options
-    static UserInputException wrongArgument(String optionName) {
-        return new UserInputException(String.format("wrong argument for option '%s'\n\n" + availableOptions, optionName));
+    static UserInputException wrongArgument(String optionName, int from, int to) {
+        return new UserInputException(String.format("wrong argument for option '%s'\n\nPossible values from " + from + " to " + to, optionName));
     }
 }

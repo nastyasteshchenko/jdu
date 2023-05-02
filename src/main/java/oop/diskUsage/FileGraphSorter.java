@@ -5,7 +5,6 @@ import oop.diskUsage.file.GraphCompositeNode;
 import oop.diskUsage.file.GraphNode;
 
 import java.nio.file.Path;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

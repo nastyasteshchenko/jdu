@@ -72,31 +72,29 @@ class FileGraphPrinter {
         output.append("\t".repeat(count));
     }
 
-    //formater
     private static class FileSizeFormatter {
 
-        //long (int)
-        private static final long BYTES_IN_KB = (long) Math.pow(10, 3);
-        private static final long SIXTH_POWER_OF_TEN = (long) Math.pow(10, 6);
-        private static final long NINTH_POWER_OF_TEN = (long) Math.pow(10, 9);
-        private static final long TWELFTH_POWER_OF_TEN = (long) Math.pow(10, 12);
+        private static final long B_IN_KB = (long) Math.pow(10, 3);
+        private static final long B_IN_MB = (long) Math.pow(10, 6);
+        private static final long B_IN_GB = (long) Math.pow(10, 9);
+        private static final long B_IN_TB = (long) Math.pow(10, 12);
 
         static String convert(long size) {
 
             DecimalFormat df = new DecimalFormat("#.###");
 
-            //TODO: How to join this case
-            if (size < BYTES_IN_KB) {
+            //TODO How to join this case
+            if (size < B_IN_KB) {
                 return "[" + size + " B]";
             }
-            if (size < SIXTH_POWER_OF_TEN) {
-                return "[" + df.format(size / BYTES_IN_KB) + " kB]";
+            if (size < B_IN_MB) {
+                return "[" + df.format(size / B_IN_KB) + " kB]";
             }
-            if (size < NINTH_POWER_OF_TEN) {
-                return "[" + df.format(size / SIXTH_POWER_OF_TEN) + " MB]";
+            if (size < B_IN_GB) {
+                return "[" + df.format(size / B_IN_MB) + " MB]";
             }
-            if (size < TWELFTH_POWER_OF_TEN) {
-                return "[" + df.format(size / NINTH_POWER_OF_TEN) + " GB]";
+            if (size < B_IN_TB) {
+                return "[" + df.format(size / B_IN_GB) + " GB]";
             }
             return " ";
         }

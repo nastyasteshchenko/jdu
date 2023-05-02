@@ -10,8 +10,8 @@ record JduOptions(int depth, int limitAmountOfFiles, boolean passThroughSymLink,
     static class Builder {
         static final int MAX_DEPTH = 1000;
         static final int MAX_AMOUNT_OF_FILES = 1000;
-        private static final int MIN_DEPTH = 0;
-        private static final int MIN_AMOUNT_OF_FILES = 0;
+        static final int MIN_DEPTH = 0;
+        static final int MIN_AMOUNT_OF_FILES = 0;
         private static final boolean DEFAULT_PASS_THROUGH_SYMLINK = false;
         private static final Path USER_DIR = Paths.get(System.getProperty("user.dir"));
 
@@ -98,7 +98,7 @@ record JduOptions(int depth, int limitAmountOfFiles, boolean passThroughSymLink,
 
         private void checkRange(String option, int value, int from, int to) throws UserInputException {
             if (value < from || value > to) {
-                throw UserInputException.wrongArgument(option);
+                throw UserInputException.wrongArgument(option, from, to);
             }
         }
 

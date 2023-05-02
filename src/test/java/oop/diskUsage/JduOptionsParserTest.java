@@ -3,8 +3,7 @@ package oop.diskUsage;
 import org.junit.Test;
 
 import static junit.framework.TestCase.*;
-import static oop.diskUsage.JduOptions.Builder.MAX_AMOUNT_OF_FILES;
-import static oop.diskUsage.JduOptions.Builder.MAX_DEPTH;
+import static oop.diskUsage.JduOptions.Builder.*;
 import static oop.diskUsage.UserInputException.availableOptions;
 import static org.junit.Assert.assertThrows;
 
@@ -51,7 +50,7 @@ public class JduOptionsParserTest {
         JduOptions jduOptions = JduOptionsParser.parse(new String[]{"--limit", "8", "--depth", "7"});
 
         assertEquals(7, jduOptions.depth());
-        assertEquals(8,jduOptions.limitAmountOfFiles());
+        assertEquals(8, jduOptions.limitAmountOfFiles());
         assertFalse(jduOptions.passThroughSymLink());
     }
 
@@ -69,7 +68,7 @@ public class JduOptionsParserTest {
         JduOptions jduOptions = JduOptionsParser.parse(new String[]{"--depth", "10", "--limit", "8", "-L"});
 
         assertEquals(10, jduOptions.depth());
-        assertEquals(8,jduOptions.limitAmountOfFiles());
+        assertEquals(8, jduOptions.limitAmountOfFiles());
         assertTrue(jduOptions.passThroughSymLink());
     }
 
@@ -122,7 +121,7 @@ public class JduOptionsParserTest {
         Throwable thrown = assertThrows(UserInputException.class, () ->
                 JduOptionsParser.parse(new String[]{"--depth", "10", "--limit", "-8", "-L"}));
 
-        assertEquals("wrong argument for option 'limit'\n\n" + availableOptions, thrown.getMessage());
+        assertEquals("wrong argument for option 'limit'\n\nPossible values from " + MIN_AMOUNT_OF_FILES + " to " + MAX_AMOUNT_OF_FILES, thrown.getMessage());
 
     }
 
@@ -131,7 +130,7 @@ public class JduOptionsParserTest {
         Throwable thrown = assertThrows(UserInputException.class, () ->
                 JduOptionsParser.parse(new String[]{"--depth", "10", "--limit", "8000", "-L"}));
 
-        assertEquals("wrong argument for option 'limit'\n\n" + availableOptions, thrown.getMessage());
+        assertEquals("wrong argument for option 'limit'\n\nPossible values from " + MIN_AMOUNT_OF_FILES + " to " + MAX_AMOUNT_OF_FILES, thrown.getMessage());
 
     }
 
@@ -140,7 +139,7 @@ public class JduOptionsParserTest {
         Throwable thrown = assertThrows(UserInputException.class, () ->
                 JduOptionsParser.parse(new String[]{"--depth", "-10", "--limit", "8", "-L"}));
 
-        assertEquals("wrong argument for option 'depth'\n\n" + availableOptions, thrown.getMessage());
+        assertEquals("wrong argument for option 'depth'\n\nPossible values from " + MIN_DEPTH + " to " + MAX_DEPTH, thrown.getMessage());
     }
 
     @Test
@@ -148,7 +147,7 @@ public class JduOptionsParserTest {
         Throwable thrown = assertThrows(UserInputException.class, () ->
                 JduOptionsParser.parse(new String[]{"--depth", "8000", "--limit", "8", "-L"}));
 
-        assertEquals("wrong argument for option 'depth'\n\n" + availableOptions, thrown.getMessage());
+        assertEquals("wrong argument for option 'depth'\n\nPossible values from " + MIN_DEPTH + " to " + MAX_DEPTH, thrown.getMessage());
     }
 
     @Test
