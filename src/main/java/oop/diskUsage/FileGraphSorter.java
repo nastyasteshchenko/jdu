@@ -12,6 +12,11 @@ import java.util.Map;
 
 class FileGraphSorter {
 
+    /**
+     * fsdfdsf
+     *
+     * @param startDir
+     */
     static void sort(DirectoryGraphNode startDir) {
         Map<Path, GraphCompositeNode> sortedDirs = new HashMap<>();
         sort(startDir, sortedDirs);
@@ -24,6 +29,7 @@ class FileGraphSorter {
             return;
         }
 
+        //TODO: compare names
         List<GraphNode> children = compositeNode.getChildren();
         children.sort(Comparator.comparing(GraphNode::size).reversed());
         children.stream()

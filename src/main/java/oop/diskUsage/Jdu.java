@@ -28,6 +28,7 @@ class Jdu {
         printGraph(root, jduOptions, output);
     }
 
+
     private static JduOptions parseOptions(String[] args) {
         JduOptions jduOptions;
 
@@ -62,6 +63,7 @@ class Jdu {
         return null;
     }
 
+    //TODO delete exception, create try/catch inside function
     private static void printErrorReport(String errMsg) throws IOException {
 
         System.err.println("Jdu is failed\nSee the report:");

@@ -20,7 +20,7 @@ public final class SymbolicLinkGraphNode extends GraphCompositeNode {
 
     @Override
     public List<GraphNode> getChildren() {
-        return Collections.singletonList(child);
+        return child == null ? Collections.emptyList() : Collections.singletonList(child);
     }
 
     @Override

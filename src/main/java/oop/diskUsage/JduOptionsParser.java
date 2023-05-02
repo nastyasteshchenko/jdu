@@ -30,7 +30,7 @@ class JduOptionsParser {
 
                 case "-L" -> {
 
-                    builder.passThroughSymlink(true);
+                    builder.passThroughSymlink();
                     ++i;
                 }
 

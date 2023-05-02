@@ -16,6 +16,7 @@ class FileGraphBuilder {
         this.jduOptions = jduOptions;
     }
 
+    //TODO documentation
     DirectoryGraphNode build() throws IOException {
         Map<Path, GraphNode> visitedNodes = new HashMap<>();
         build(null, jduOptions.startDir(), 0, visitedNodes);

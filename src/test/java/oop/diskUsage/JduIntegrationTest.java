@@ -4,14 +4,15 @@ import org.junit.Test;
 import java.io.IOException;
 import static junit.framework.TestCase.assertEquals;
 
+//TODO bad tests
 public class JduIntegrationTest {
 
-    private static final TempFolder tempFolder = new TempFolder();
+    private static final TempFolder TEMP_FOLDER = new TempFolder();
 
     @Test
     public void testPrintGraph() throws IOException {
 
-        int sizeSymLink = tempFolder.getStartDirPath().toString().length();
+        int sizeSymLink = TEMP_FOLDER.getStartDirPath().toString().length();
 
         String expectedOutput = "/dir1 [" + sizeSymLink + " B]\n" +
                 "\t/dir2 [" + sizeSymLink + " B]\n" +
@@ -22,7 +23,7 @@ public class JduIntegrationTest {
                 \tfile1 [0 B]
                 """;
 
-        doTest(new String[]{tempFolder.getStartDirPath().toString()}, expectedOutput);
+        doTest(expectedOutput, new String[]{TEMP_FOLDER.getStartDirPath().toString()});
     }
 
     @Test
@@ -35,13 +36,13 @@ public class JduIntegrationTest {
                 \tfile1 [0 B]
                 """;
 
-        doTest(new String[]{tempFolder.getStartDirPath().toString(), "--depth", "2"}, expectedOutput);
+        doTest(expectedOutput, new String[]{TEMP_FOLDER.getStartDirPath().toString(), "--depth", "2"});
     }
 
     @Test
     public void testPrintGraphWithCertainLimit() throws IOException {
 
-        int sizeSymLink = tempFolder.getStartDirPath().toString().length();
+        int sizeSymLink = TEMP_FOLDER.getStartDirPath().toString().length();
 
         String expectedOutput = "/dir1 [" + sizeSymLink + " B]\n" +
                 "\t/dir2 [" + sizeSymLink + " B]\n" +
@@ -51,13 +52,13 @@ public class JduIntegrationTest {
                 \tfile2 [0 B]
                 """;
 
-        doTest(new String[]{tempFolder.getStartDirPath().toString(), "--limit", "2"}, expectedOutput);
+        doTest(expectedOutput, new String[]{TEMP_FOLDER.getStartDirPath().toString(), "--limit", "2"});
     }
 
     @Test
     public void testPrintGraphWithCycles() throws IOException {
 
-        int sizeSymLink = tempFolder.getStartDirPath().toString().length();
+        int sizeSymLink = TEMP_FOLDER.getStartDirPath().toString().length();
 
         String expectedOutput = "/dir1 [" + sizeSymLink + " B]\n" +
                 "\t/dir2 [" + sizeSymLink + " B]\n" +
@@ -81,10 +82,10 @@ public class JduIntegrationTest {
                 \tfile1 [0 B]
                 """;
 
-        doTest(new String[]{tempFolder.getStartDirPath().toString(), "-L", "--depth", "9"}, expectedOutput);
+        doTest(expectedOutput, new String[]{TEMP_FOLDER.getStartDirPath().toString(), "-L", "--depth", "9"});
     }
 
-    private void doTest(String[] args, String expectedOutput) throws IOException {
+    private void doTest(String expectedOutput, String[] args) throws IOException {
         StringBuilder output = new StringBuilder();
         Jdu.run(args, output);
         assertEquals(expectedOutput, output.toString());
