@@ -55,22 +55,6 @@ public class JduIntegrationTest {
     }
 
     @Test
-    public void testWrongArgumentForLimitOption() {
-
-        String expectedOutput = "";
-
-        doTest(expectedOutput, new String[]{TEMP_FOLDER.getStartDirPath().toString(), "--limit", "-200"});
-    }
-
-    @Test
-    public void testWrongArgumentForDepthOption() {
-
-        String expectedOutput = "";
-
-        doTest(expectedOutput, new String[]{TEMP_FOLDER.getStartDirPath().toString(), "--depth", "2000"});
-    }
-
-    @Test
     public void testPrintGraphWithCycles() {
 
         int sizeSymLink = TEMP_FOLDER.getStartDirPath().toString().length();
@@ -98,6 +82,18 @@ public class JduIntegrationTest {
                 """;
 
         doTest(expectedOutput, new String[]{TEMP_FOLDER.getStartDirPath().toString(), "-L", "--depth", "9"});
+    }
+
+    @Test
+    public void testWrongArgumentForLimitOption() {
+
+        doTest("", new String[]{TEMP_FOLDER.getStartDirPath().toString(), "--limit", "-200"});
+    }
+
+    @Test
+    public void testWrongArgumentForDepthOption() {
+
+        doTest("", new String[]{TEMP_FOLDER.getStartDirPath().toString(), "--depth", "2000"});
     }
 
     private void doTest(String expectedOutput, String[] args) {

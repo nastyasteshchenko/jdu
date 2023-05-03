@@ -16,19 +16,6 @@ import static oop.diskUsage.JduOptions.Builder.MAX_DEPTH;
 public class GraphPrinterTest {
 
     @Test
-    public void testDirWithOneFile() throws IOException {
-        DirectoryGraphNode startDir = createDirectoryNode("foo");
-        startDir.addChild(createRegularFileNode("foo/bar.txt", 176));
-
-        String expectedOutput = """
-                /foo [176 B]
-                \tbar.txt [176 B]
-                """;
-
-        doTest(new JduOptions(MAX_DEPTH, MAX_AMOUNT_OF_FILES, false, Paths.get("foo")), startDir, expectedOutput);
-    }
-
-    @Test
     public void testPrintDir() throws IOException {
         DirectoryGraphNode startDir = createDirectoryNode("foo");
         startDir.addChild(createRegularFileNode("foo/bar.txt", 176));

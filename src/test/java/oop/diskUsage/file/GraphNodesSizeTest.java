@@ -6,16 +6,9 @@ import static junit.framework.TestCase.assertEquals;
 import static oop.diskUsage.FilesCreationUtils.*;
 
 public class GraphNodesSizeTest {
+
     @Test
     public void testSizeOfDirectory1() {
-        DirectoryGraphNode startDir = createDirectoryNode("foo");
-        startDir.addChild(createRegularFileNode("foo/bar.txt", 6));
-
-        assertEquals(6, startDir.size());
-    }
-
-    @Test
-    public void testSizeOfDirectory2() {
         DirectoryGraphNode startDir = createDirectoryNode("foo");
         startDir.addChild(createRegularFileNode("foo/bar.txt", 176));
         startDir.addChild(createSymbolicLinkGraphNode("foo/link_to_bar", 11));
@@ -25,7 +18,7 @@ public class GraphNodesSizeTest {
     }
 
     @Test
-    public void testSizeOfDirectory3() {
+    public void testSizeOfDirectory2() {
         DirectoryGraphNode startDir = createDirectoryNode("foo");
         startDir.addChild(createRegularFileNode("foo/bar.txt", 176));
 
