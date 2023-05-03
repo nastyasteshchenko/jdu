@@ -16,7 +16,13 @@ class FileGraphBuilder {
         this.jduOptions = jduOptions;
     }
 
-    //TODO documentation
+    /**
+     * Returns the root of the graph, i.e. the node of the starting directory.<br><br>
+     * The purpose of this method is to recursively traverse a file system directory and construct a corresponding graph-like structure of nodes.
+     *
+     * @return the root of the graph, i.e. the node of the starting directory.
+     * @throws IOException if it is impossible to read the directory stream.
+     */
     DirectoryGraphNode build() throws IOException {
         Map<Path, GraphNode> visitedNodes = new HashMap<>();
         build(null, jduOptions.startDir(), 0, visitedNodes);

@@ -15,6 +15,12 @@ class FileGraphPrinter {
         this.output = output;
     }
 
+    /**
+     * The purpose of this method is to traverse the filesystem graph recursively and print nodes with the necessary nesting.
+     *
+     * @param root the root of the filesystem graph to be printed.
+     * @throws IOException if an I/O error occurs
+     */
     void print(GraphNode root) throws IOException {
         print(root, 0);
     }
@@ -75,7 +81,7 @@ class FileGraphPrinter {
         private static final String[] UNITS = new String[]{"B", "kB", "MB", "GB"};
         private static final int KILO = 1000;
 
-        static String format(long size) {
+        private static String format(long size) {
 
             DecimalFormat df = new DecimalFormat("#.###");
 
@@ -86,7 +92,7 @@ class FileGraphPrinter {
                 size /= KILO;
             }
 
-            return "[" + df.format(size) + " " + UNITS[UNITS.length-1] + "]";
+            return "[" + df.format(size) + " " + UNITS[UNITS.length - 1] + "]";
         }
 
     }
