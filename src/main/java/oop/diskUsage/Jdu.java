@@ -33,15 +33,10 @@ class Jdu {
         JduOptions jduOptions;
 
         try {
-
             jduOptions = JduOptionsParser.parse(args);
-
         } catch (UserInputException e) {
-
             System.err.println(e.getMessage());
-
             return null;
-
         }
         return jduOptions;
     }

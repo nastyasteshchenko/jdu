@@ -23,11 +23,9 @@ record JduOptions(int depth, int limitAmountOfFiles, boolean passThroughSymLink,
         Builder depth(int depth) throws UserInputException {
 
             checkForDuplicates("depth", this.depth);
-
             checkRange("depth", depth, MIN_DEPTH, MAX_DEPTH);
 
             this.depth = depth;
-
             return this;
         }
 
@@ -35,7 +33,6 @@ record JduOptions(int depth, int limitAmountOfFiles, boolean passThroughSymLink,
         Builder limit(int limit) throws UserInputException {
 
             checkForDuplicates("limit", this.limitAmountOfFiles);
-
             checkRange("limit", limit, MIN_AMOUNT_OF_FILES, MAX_AMOUNT_OF_FILES);
 
             this.limitAmountOfFiles = limit;
