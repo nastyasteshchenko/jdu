@@ -2,6 +2,13 @@ package oop.diskUsage;
 
 class JduOptionsParser {
 
+    /**
+     * Parses options for JDU entered by user.
+     *
+     * @param args array of option strings to parse.
+     * @return the resulting JduOptions.
+     * @throws UserInputException if the user entered an invalid argument, forgot about an argument for an option, duplicated an option or entered a non-existent option.
+     */
     static JduOptions parse(String[] args) throws UserInputException {
 
         JduOptions.Builder builder = new JduOptions.Builder();

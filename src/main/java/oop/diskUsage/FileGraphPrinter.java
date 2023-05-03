@@ -16,7 +16,7 @@ class FileGraphPrinter {
     }
 
     /**
-     * The purpose of this method is to traverse the filesystem graph recursively and print nodes with the necessary nesting.
+     * Traverses the filesystem graph recursively and prints nodes with the necessary nesting.
      *
      * @param root the root of the filesystem graph to be printed.
      * @throws IOException if an I/O error occurs

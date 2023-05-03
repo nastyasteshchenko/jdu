@@ -13,7 +13,7 @@ import java.util.Map;
 class FileGraphSorter {
 
     /**
-     * The purpose of this method is to recursively traverse the filesystem graph and sort the nodes within each filesystem directory.<br><br>
+     * Recursively traverses the filesystem graph and sorts the nodes within each filesystem directory.<br><br>
      * Sorting is done in descending order of file size. If the files are of the same size, then sorting occurs in lexico-orthographic order.
      *
      * @param root the root of the filesystem graph to be sorted.
