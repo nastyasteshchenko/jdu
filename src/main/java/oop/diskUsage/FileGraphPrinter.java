@@ -39,6 +39,10 @@ class FileGraphPrinter {
         printChildren(currFile, depth);
     }
 
+    private void addTabs(int count) throws IOException {
+        output.append("\t".repeat(count));
+    }
+
     private void printNode(GraphNode node) throws IOException {
         if (node instanceof SymbolicLinkGraphNode) {
             output.append("*");
@@ -68,12 +72,7 @@ class FileGraphPrinter {
             }
 
             print(file, depth + 1);
-
         }
-    }
-
-    private void addTabs(int count) throws IOException {
-        output.append("\t".repeat(count));
     }
 
     private static class FileSizeFormatter {
@@ -85,14 +84,15 @@ class FileGraphPrinter {
 
             DecimalFormat df = new DecimalFormat("#.###");
 
+            double doubleSize = size;
             for (String unit : UNITS) {
-                if (size < KILO) {
-                    return "[" + df.format(size) + " " + unit + "]";
+                if (doubleSize < KILO) {
+                    return "[" + df.format(doubleSize) + " " + unit + "]";
                 }
-                size /= KILO;
+                doubleSize /= KILO;
             }
 
-            return "[" + df.format(size) + " " + UNITS[UNITS.length - 1] + "]";
+            return "[" + df.format(doubleSize) + " " + UNITS[UNITS.length - 1] + "]";
         }
 
     }

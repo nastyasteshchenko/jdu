@@ -18,7 +18,7 @@ class FileGraphBuilder {
 
     /**
      * Returns the root of the graph, i.e. the node of the starting directory.<br><br>
-     * Recursively traverses a file system directory and constructs a corresponding graph-like structure of nodes.
+     * Recursively traverses a filesystem directory and constructs a corresponding graph-like structure of nodes.
      *
      * @return the root of the graph, i.e. the node of the starting directory.
      * @throws IOException if it is impossible to read the directory stream.
