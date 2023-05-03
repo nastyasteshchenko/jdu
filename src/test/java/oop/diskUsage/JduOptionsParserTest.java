@@ -121,7 +121,7 @@ public class JduOptionsParserTest {
         Throwable thrown = assertThrows(UserInputException.class, () ->
                 JduOptionsParser.parse(new String[]{"--depth", "10", "--limit", "-8", "-L"}));
 
-        assertEquals("wrong argument for option 'limit'\n\nPossible values from " + MIN_AMOUNT_OF_FILES + " to " + MAX_AMOUNT_OF_FILES, thrown.getMessage());
+        assertEquals("wrong argument for option 'limit'\nPossible values from " + MIN_AMOUNT_OF_FILES + " to " + MAX_AMOUNT_OF_FILES, thrown.getMessage());
 
     }
 
@@ -130,7 +130,7 @@ public class JduOptionsParserTest {
         Throwable thrown = assertThrows(UserInputException.class, () ->
                 JduOptionsParser.parse(new String[]{"--depth", "10", "--limit", "8000", "-L"}));
 
-        assertEquals("wrong argument for option 'limit'\n\nPossible values from " + MIN_AMOUNT_OF_FILES + " to " + MAX_AMOUNT_OF_FILES, thrown.getMessage());
+        assertEquals("wrong argument for option 'limit'\nPossible values from " + MIN_AMOUNT_OF_FILES + " to " + MAX_AMOUNT_OF_FILES, thrown.getMessage());
 
     }
 
@@ -139,7 +139,7 @@ public class JduOptionsParserTest {
         Throwable thrown = assertThrows(UserInputException.class, () ->
                 JduOptionsParser.parse(new String[]{"--depth", "-10", "--limit", "8", "-L"}));
 
-        assertEquals("wrong argument for option 'depth'\n\nPossible values from " + MIN_DEPTH + " to " + MAX_DEPTH, thrown.getMessage());
+        assertEquals("wrong argument for option 'depth'\nPossible values from " + MIN_DEPTH + " to " + MAX_DEPTH, thrown.getMessage());
     }
 
     @Test
@@ -147,7 +147,7 @@ public class JduOptionsParserTest {
         Throwable thrown = assertThrows(UserInputException.class, () ->
                 JduOptionsParser.parse(new String[]{"--depth", "8000", "--limit", "8", "-L"}));
 
-        assertEquals("wrong argument for option 'depth'\n\nPossible values from " + MIN_DEPTH + " to " + MAX_DEPTH, thrown.getMessage());
+        assertEquals("wrong argument for option 'depth'\nPossible values from " + MIN_DEPTH + " to " + MAX_DEPTH, thrown.getMessage());
     }
 
     @Test

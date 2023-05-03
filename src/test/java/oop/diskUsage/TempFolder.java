@@ -8,7 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
- class TempFolder {
+class TempFolder {
 
     @Rule
     public final TemporaryFolder folder = new TemporaryFolder();
@@ -26,7 +26,9 @@ import java.nio.file.Paths;
     private void createFolder() {
         try {
             folder.create();
-            startDirPath = Paths.get(folder.getRoot() + "/dir1");
+
+            String startDir = folder.getRoot().toString().concat("/dir1");
+            startDirPath = Paths.get(startDir);
 
             folder.newFolder("dir1");
             folder.newFile("dir1/file1");
@@ -35,7 +37,9 @@ import java.nio.file.Paths;
             folder.newFolder("dir1/dir2/dir3");
             folder.newFile("dir1/dir2/dir3/Dasha");
 
-            Files.createSymbolicLink(Paths.get(startDirPath + "/dir2/link_to_dir1"), startDirPath);
+            String linkToDir1Path = startDir.concat("/dir2/link_to_dir1");
+
+            Files.createSymbolicLink(Paths.get(linkToDir1Path), startDirPath);
 
         } catch (IOException e) {
             System.err.println("error creating temporary test file");

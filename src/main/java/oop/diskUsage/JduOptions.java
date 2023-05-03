@@ -5,7 +5,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 record JduOptions(int depth, int limitAmountOfFiles, boolean passThroughSymLink, Path startDir) {
-    // TODO move to builder
 
     static class Builder {
         static final int MAX_DEPTH = 1000;

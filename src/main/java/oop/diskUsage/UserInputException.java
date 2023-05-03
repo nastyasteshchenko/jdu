@@ -26,6 +26,6 @@ class UserInputException extends Exception {
     }
 
     static UserInputException wrongArgument(String optionName, int from, int to) {
-        return new UserInputException(String.format("wrong argument for option '%s'\n\nPossible values from " + from + " to " + to, optionName));
+        return new UserInputException(String.format("wrong argument for option '%s'\nPossible values from " + from + " to " + to, optionName));
     }
 }

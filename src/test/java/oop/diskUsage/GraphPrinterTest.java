@@ -17,35 +17,35 @@ public class GraphPrinterTest {
 
     @Test
     public void testDirWithOneFile() throws IOException {
-        DirectoryGraphNode startDir = createDirectoryNode("/foo");
-        startDir.addChild(createRegularFileNode("/foo/bar.txt", 176));
+        DirectoryGraphNode startDir = createDirectoryNode("foo");
+        startDir.addChild(createRegularFileNode("foo/bar.txt", 176));
 
         String expectedOutput = """
                 /foo [176 B]
                 \tbar.txt [176 B]
                 """;
 
-        doTest(new JduOptions(MAX_DEPTH, MAX_AMOUNT_OF_FILES, false, Paths.get("/foo")), startDir, expectedOutput);
+        doTest(new JduOptions(MAX_DEPTH, MAX_AMOUNT_OF_FILES, false, Paths.get("foo")), startDir, expectedOutput);
     }
 
     @Test
     public void testPrintDir() throws IOException {
-        DirectoryGraphNode startDir = createDirectoryNode("/foo");
-        startDir.addChild(createRegularFileNode("/foo/bar.txt", 176));
-        startDir.addChild(createRegularFileNode("/foo/baz.txt", 80));
+        DirectoryGraphNode startDir = createDirectoryNode("foo");
+        startDir.addChild(createRegularFileNode("foo/bar.txt", 176));
+        startDir.addChild(createRegularFileNode("foo/baz.txt", 80));
 
-        DirectoryGraphNode secondDir = createDirectoryNode("/foo/dir2");
+        DirectoryGraphNode secondDir = createDirectoryNode("foo/dir2");
         startDir.addChild(secondDir);
-        secondDir.addChild(createRegularFileNode("/foo/dir2/file1", 30));
+        secondDir.addChild(createRegularFileNode("foo/dir2/file1", 30));
 
-        SymbolicLinkGraphNode symLink = createSymbolicLinkGraphNode("/foo/link", 4);
+        SymbolicLinkGraphNode symLink = createSymbolicLinkGraphNode("foo/link", 4);
         secondDir.addChild(symLink);
 
-        DirectoryGraphNode thirdDir = createDirectoryNode("/foo/dir2/dir3");
+        DirectoryGraphNode thirdDir = createDirectoryNode("foo/dir2/dir3");
         secondDir.addChild(thirdDir);
-        thirdDir.addChild(createRegularFileNode("/foo/dir2/dir3/file2", 6));
-        thirdDir.addChild(createRegularFileNode("/foo/dir2/dir3/file3", 7));
-        thirdDir.addChild(createRegularFileNode("/foo/dir2/dir3/file4", 8));
+        thirdDir.addChild(createRegularFileNode("foo/dir2/dir3/file2", 6));
+        thirdDir.addChild(createRegularFileNode("foo/dir2/dir3/file3", 7));
+        thirdDir.addChild(createRegularFileNode("foo/dir2/dir3/file4", 8));
 
         String expectedOutput = """
                 /foo [311 B]
@@ -60,22 +60,22 @@ public class GraphPrinterTest {
                 \t\t\tfile4 [8 B]
                 """;
 
-        doTest(new JduOptions(MAX_DEPTH, MAX_AMOUNT_OF_FILES, false, Paths.get("/foo")), startDir, expectedOutput);
+        doTest(new JduOptions(MAX_DEPTH, MAX_AMOUNT_OF_FILES, false, Paths.get("foo")), startDir, expectedOutput);
     }
 
     @Test
     public void testPrintDirWithPassThroughSymlink() throws IOException {
-        DirectoryGraphNode startDir = createDirectoryNode("/foo");
-        startDir.addChild(createRegularFileNode("/foo/bar.txt", 176));
-        startDir.addChild(createRegularFileNode("/foo/baz.txt", 80));
+        DirectoryGraphNode startDir = createDirectoryNode("foo");
+        startDir.addChild(createRegularFileNode("foo/bar.txt", 176));
+        startDir.addChild(createRegularFileNode("foo/baz.txt", 80));
 
-        DirectoryGraphNode secondDir = createDirectoryNode("/foo/dir2");
+        DirectoryGraphNode secondDir = createDirectoryNode("foo/dir2");
         startDir.addChild(secondDir);
-        secondDir.addChild(createRegularFileNode("/foo/dir2/file1", 30));
+        secondDir.addChild(createRegularFileNode("foo/dir2/file1", 30));
 
-        SymbolicLinkGraphNode symLink = createSymbolicLinkGraphNode("/foo/link", 4);
-        DirectoryGraphNode dir0 = createDirectoryNode("/dir0");
-        dir0.addChild(createRegularFileNode("/dir0/file2", 70));
+        SymbolicLinkGraphNode symLink = createSymbolicLinkGraphNode("foo/link", 4);
+        DirectoryGraphNode dir0 = createDirectoryNode("dir0");
+        dir0.addChild(createRegularFileNode("dir0/file2", 70));
         symLink.addChild(dir0);
         secondDir.addChild(symLink);
 
@@ -90,27 +90,27 @@ public class GraphPrinterTest {
                 \t\t\t\tfile2 [70 B]
                 """;
 
-        doTest(new JduOptions(MAX_DEPTH, MAX_AMOUNT_OF_FILES, true, Paths.get("/foo")), startDir, expectedOutput);
+        doTest(new JduOptions(MAX_DEPTH, MAX_AMOUNT_OF_FILES, true, Paths.get("foo")), startDir, expectedOutput);
     }
 
     @Test
     public void testPrintDirWithCertainDepth() throws IOException {
-        DirectoryGraphNode startDir = createDirectoryNode("/foo");
-        startDir.addChild(createRegularFileNode("/foo/bar.txt", 176));
-        startDir.addChild(createRegularFileNode("/foo/baz.txt", 80));
+        DirectoryGraphNode startDir = createDirectoryNode("foo");
+        startDir.addChild(createRegularFileNode("foo/bar.txt", 176));
+        startDir.addChild(createRegularFileNode("foo/baz.txt", 80));
 
-        DirectoryGraphNode secondDir = createDirectoryNode("/foo/dir2");
+        DirectoryGraphNode secondDir = createDirectoryNode("foo/dir2");
         startDir.addChild(secondDir);
-        secondDir.addChild(createRegularFileNode("/foo/dir2/file1", 30));
+        secondDir.addChild(createRegularFileNode("foo/dir2/file1", 30));
 
-        SymbolicLinkGraphNode symLink = createSymbolicLinkGraphNode("/foo/link", 4);
+        SymbolicLinkGraphNode symLink = createSymbolicLinkGraphNode("foo/link", 4);
         secondDir.addChild(symLink);
 
-        DirectoryGraphNode thirdDir = createDirectoryNode("/foo/dir2/dir3");
+        DirectoryGraphNode thirdDir = createDirectoryNode("foo/dir2/dir3");
         secondDir.addChild(thirdDir);
-        thirdDir.addChild(createRegularFileNode("/foo/dir2/dir3/file2", 6));
-        thirdDir.addChild(createRegularFileNode("/foo/dir2/dir3/file3", 7));
-        thirdDir.addChild(createRegularFileNode("/foo/dir2/dir3/file4", 8));
+        thirdDir.addChild(createRegularFileNode("foo/dir2/dir3/file2", 6));
+        thirdDir.addChild(createRegularFileNode("foo/dir2/dir3/file3", 7));
+        thirdDir.addChild(createRegularFileNode("foo/dir2/dir3/file4", 8));
 
         String expectedOutput = """
                 /foo [311 B]
@@ -119,27 +119,27 @@ public class GraphPrinterTest {
                 \t/dir2 [55 B]
                 """;
 
-        doTest(new JduOptions(2, MAX_AMOUNT_OF_FILES, false, Paths.get("/foo")), startDir, expectedOutput);
+        doTest(new JduOptions(2, MAX_AMOUNT_OF_FILES, false, Paths.get("foo")), startDir, expectedOutput);
     }
 
     @Test
     public void testPrintDirWithCertainLimit() throws IOException {
-        DirectoryGraphNode startDir = createDirectoryNode("/foo");
-        startDir.addChild(createRegularFileNode("/foo/bar.txt", 176));
-        startDir.addChild(createRegularFileNode("/foo/baz.txt", 80));
+        DirectoryGraphNode startDir = createDirectoryNode("foo");
+        startDir.addChild(createRegularFileNode("foo/bar.txt", 176));
+        startDir.addChild(createRegularFileNode("foo/baz.txt", 80));
 
-        DirectoryGraphNode secondDir = createDirectoryNode("/foo/dir2");
+        DirectoryGraphNode secondDir = createDirectoryNode("foo/dir2");
         startDir.addChild(secondDir);
-        secondDir.addChild(createRegularFileNode("/foo/dir2/file1", 30));
+        secondDir.addChild(createRegularFileNode("foo/dir2/file1", 30));
 
-        SymbolicLinkGraphNode symLink = createSymbolicLinkGraphNode("/foo/link", 4);
+        SymbolicLinkGraphNode symLink = createSymbolicLinkGraphNode("foo/link", 4);
         secondDir.addChild(symLink);
 
-        DirectoryGraphNode thirdDir = createDirectoryNode("/foo/dir2/dir3");
+        DirectoryGraphNode thirdDir = createDirectoryNode("foo/dir2/dir3");
         secondDir.addChild(thirdDir);
-        thirdDir.addChild(createRegularFileNode("/foo/dir2/dir3/file2", 6));
-        thirdDir.addChild(createRegularFileNode("/foo/dir2/dir3/file3", 7));
-        thirdDir.addChild(createRegularFileNode("/foo/dir2/dir3/file4", 8));
+        thirdDir.addChild(createRegularFileNode("foo/dir2/dir3/file2", 6));
+        thirdDir.addChild(createRegularFileNode("foo/dir2/dir3/file3", 7));
+        thirdDir.addChild(createRegularFileNode("foo/dir2/dir3/file4", 8));
 
         String expectedOutput = """
                 /foo [311 B]
@@ -147,21 +147,21 @@ public class GraphPrinterTest {
                 \tbaz.txt [80 B]
                 """;
 
-        doTest(new JduOptions(MAX_DEPTH, 2, false, Paths.get("/foo")), startDir, expectedOutput);
+        doTest(new JduOptions(MAX_DEPTH, 2, false, Paths.get("foo")), startDir, expectedOutput);
     }
 
     @Test
     public void testPrintDirWithCycles() throws IOException {
-        DirectoryGraphNode startDir = createDirectoryNode("/foo");
-        startDir.addChild(createRegularFileNode("/foo/bar.txt", 176));
-        startDir.addChild(createRegularFileNode("/foo/baz.txt", 80));
-        startDir.addChild(createRegularFileNode("/foo/file.txt", 8));
+        DirectoryGraphNode startDir = createDirectoryNode("foo");
+        startDir.addChild(createRegularFileNode("foo/bar.txt", 176));
+        startDir.addChild(createRegularFileNode("foo/baz.txt", 80));
+        startDir.addChild(createRegularFileNode("foo/file.txt", 8));
 
-        DirectoryGraphNode secondDir = createDirectoryNode("/foo/dir2");
+        DirectoryGraphNode secondDir = createDirectoryNode("foo/dir2");
         startDir.addChild(secondDir);
-        secondDir.addChild(createRegularFileNode("/foo/dir2/file1", 30));
+        secondDir.addChild(createRegularFileNode("foo/dir2/file1", 30));
 
-        SymbolicLinkGraphNode symLink = createSymbolicLinkGraphNode("/foo/link", 4);
+        SymbolicLinkGraphNode symLink = createSymbolicLinkGraphNode("foo/link", 4);
         symLink.addChild(startDir);
         secondDir.addChild(symLink);
 
@@ -194,7 +194,7 @@ public class GraphPrinterTest {
                 \t\t\t\t\t\t\t\t\t\t/dir2 [34 B]
                 """;
 
-        doTest(new JduOptions(11, MAX_AMOUNT_OF_FILES, true, Paths.get("/foo")), startDir, expectedOutput);
+        doTest(new JduOptions(11, MAX_AMOUNT_OF_FILES, true, Paths.get("foo")), startDir, expectedOutput);
     }
 
     private void doTest(JduOptions options, GraphNode root, String expectedOutput) throws IOException {

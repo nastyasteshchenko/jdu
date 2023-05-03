@@ -35,16 +35,14 @@ class FileGraphPrinter {
 
     private void printNode(GraphNode node) throws IOException {
         if (node instanceof SymbolicLinkGraphNode) {
-
             output.append("*");
         } else if (node instanceof DirectoryGraphNode) {
-
             output.append("/");
         }
 
         output.append(node.path().getFileName().toString())
                 .append(" ")
-                .append(FileSizeFormatter.convert(node.size()))
+                .append(FileSizeFormatter.format(node.size()))
                 .append("\n");
     }
 
@@ -74,29 +72,21 @@ class FileGraphPrinter {
 
     private static class FileSizeFormatter {
 
-        private static final long B_IN_KB = (long) Math.pow(10, 3);
-        private static final long B_IN_MB = (long) Math.pow(10, 6);
-        private static final long B_IN_GB = (long) Math.pow(10, 9);
-        private static final long B_IN_TB = (long) Math.pow(10, 12);
+        private static final String[] UNITS = new String[]{"B", "kB", "MB", "GB"};
+        private static final int KILO = 1000;
 
-        static String convert(long size) {
+        static String format(long size) {
 
             DecimalFormat df = new DecimalFormat("#.###");
 
-            //TODO How to join this case
-            if (size < B_IN_KB) {
-                return "[" + size + " B]";
+            for (String unit : UNITS) {
+                if (size < KILO) {
+                    return "[" + df.format(size) + " " + unit + "]";
+                }
+                size /= KILO;
             }
-            if (size < B_IN_MB) {
-                return "[" + df.format(size / B_IN_KB) + " kB]";
-            }
-            if (size < B_IN_GB) {
-                return "[" + df.format(size / B_IN_MB) + " MB]";
-            }
-            if (size < B_IN_TB) {
-                return "[" + df.format(size / B_IN_GB) + " GB]";
-            }
-            return " ";
+
+            return "[" + df.format(size) + " " + UNITS[UNITS.length-1] + "]";
         }
 
     }

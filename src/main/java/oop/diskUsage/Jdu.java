@@ -65,16 +65,17 @@ class Jdu {
 
     private static void printErrorReport(String errMsg) {
 
-        System.err.println("Jdu is failed\nSee the report:");
+        System.err.println("Jdu is failed");
 
         try {
 
             Path pathToTmpDir = Files.createTempDirectory(Path.of(System.getProperty("user.dir")), "report");
             Path pathToTmpFile = Files.createTempFile(pathToTmpDir, "error_msg", "");
 
-            System.err.println(pathToTmpDir);
-
             Files.write(pathToTmpFile, errMsg.getBytes());
+
+            System.err.println("See the report:");
+            System.err.println(pathToTmpDir);
 
         } catch (IOException e) {
 

@@ -4,7 +4,6 @@ import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
 
-//TODO bad tests
 public class JduIntegrationTest {
 
     private static final TempFolder TEMP_FOLDER = new TempFolder();
@@ -55,13 +54,21 @@ public class JduIntegrationTest {
         doTest(expectedOutput, new String[]{TEMP_FOLDER.getStartDirPath().toString(), "--limit", "2"});
     }
 
-//    @Test
-//    public void testWrongArgument(){
-//
-//        String expectedOutput = "";
-//
-//        doTest(expectedOutput, new String[]{TEMP_FOLDER.getStartDirPath().toString(), "--limit", "-2"});
-//    }
+    @Test
+    public void testWrongArgumentForLimitOption() {
+
+        String expectedOutput = "";
+
+        doTest(expectedOutput, new String[]{TEMP_FOLDER.getStartDirPath().toString(), "--limit", "-200"});
+    }
+
+    @Test
+    public void testWrongArgumentForDepthOption() {
+
+        String expectedOutput = "";
+
+        doTest(expectedOutput, new String[]{TEMP_FOLDER.getStartDirPath().toString(), "--depth", "2000"});
+    }
 
     @Test
     public void testPrintGraphWithCycles() {
