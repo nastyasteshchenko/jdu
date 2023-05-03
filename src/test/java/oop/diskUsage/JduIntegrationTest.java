@@ -1,6 +1,7 @@
 package oop.diskUsage;
 
 import org.junit.Test;
+
 import static junit.framework.TestCase.assertEquals;
 
 //TODO bad tests
@@ -39,7 +40,7 @@ public class JduIntegrationTest {
     }
 
     @Test
-    public void testPrintGraphWithCertainLimit(){
+    public void testPrintGraphWithCertainLimit() {
 
         int sizeSymLink = TEMP_FOLDER.getStartDirPath().toString().length();
 
