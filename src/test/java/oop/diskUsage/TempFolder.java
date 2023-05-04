@@ -37,9 +37,9 @@ class TempFolder {
             folder.newFolder("dir1/dir2/dir3");
             folder.newFile("dir1/dir2/dir3/Dasha");
 
-            String linkToDir1Path = startDir.concat("/dir2/link_to_dir1");
+            Path linkToDir1Path = Paths.get(startDir.concat("/dir2/link_to_dir1"));
 
-            Files.createSymbolicLink(Paths.get(linkToDir1Path), startDirPath);
+            Files.createSymbolicLink(linkToDir1Path, startDirPath);
 
         } catch (IOException e) {
             System.err.println("error creating temporary test file");
