@@ -92,7 +92,7 @@ class FileGraphPrinter {
                 doubleSize /= KILO;
             }
 
-            return "[" + df.format(doubleSize) + " " + UNITS[UNITS.length - 1] + "]";
+            return "[" + size + " B]";
         }
 
     }
