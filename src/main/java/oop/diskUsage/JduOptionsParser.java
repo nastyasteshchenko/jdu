@@ -7,7 +7,7 @@ class JduOptionsParser {
      *
      * @param args array of option strings to parse.
      * @return the resulting JduOptions.
-     * @throws UserInputException if the user entered an invalid argument, forgot about an argument for an option, duplicated an option or entered a non-existent option.
+     * @throws UserInputException if the user entered an invalid argument, forgot about an argument for an option, duplicated an option or entered a non-existent directory.
      */
     static JduOptions parse(String[] args) throws UserInputException {
 

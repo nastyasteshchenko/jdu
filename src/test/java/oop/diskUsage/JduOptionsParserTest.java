@@ -151,7 +151,7 @@ public class JduOptionsParserTest {
     }
 
     @Test
-    public void testNoDirectory() {
+    public void testNonExistedDirectory() {
         Throwable thrown = assertThrows(UserInputException.class, () ->
                 JduOptionsParser.parse(new String[]{"--depth", "80", "fhfhhfhff", "--limit", "8", "-L"}));
 
