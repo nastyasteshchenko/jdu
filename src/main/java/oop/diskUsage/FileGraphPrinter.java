@@ -78,7 +78,7 @@ class FileGraphPrinter {
     private static class FileSizeFormatter {
 
         private static final String[] UNITS = new String[]{"B", "kB", "MB", "GB"};
-        private static final int KILO = 1000;
+        private static final long KILO = 1000;
 
         private static String format(long size) {
 
