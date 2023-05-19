@@ -1,7 +1,6 @@
 package oop.diskUsage;
 
 import oop.diskUsage.file.DirectoryGraphNode;
-import oop.diskUsage.file.GraphNode;
 import oop.diskUsage.file.SymbolicLinkGraphNode;
 import org.junit.Test;
 
@@ -110,7 +109,7 @@ public class GraphPrinterTest {
     }
 
     @Test
-    public void testPrintDirWithCertainLimit() throws IOException {
+    public void testPrintDirWithCertainAmountOfFiles() throws IOException {
         DirectoryGraphNode startDir = createDirectoryNode("foo");
         startDir.addChild(createRegularFileNode("foo/bar.txt", 176));
         startDir.addChild(createRegularFileNode("foo/baz.txt", 80));
@@ -184,7 +183,7 @@ public class GraphPrinterTest {
         doTest(new JduOptions(11, MAX_AMOUNT_OF_FILES, true, Paths.get("foo")), startDir, expectedOutput);
     }
 
-    private void doTest(JduOptions options, GraphNode root, String expectedOutput) throws IOException {
+    private void doTest(JduOptions options, DirectoryGraphNode root, String expectedOutput) throws IOException {
         StringBuilder output = new StringBuilder();
         new FileGraphPrinter(options, output).print(root);
         assertEquals(expectedOutput, output.toString());

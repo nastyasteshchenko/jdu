@@ -21,7 +21,7 @@ class FileGraphPrinter {
      * @param root the root of the filesystem graph to be printed.
      * @throws IOException if an I/O error occurs
      */
-    void print(GraphNode root) throws IOException {
+    void print(DirectoryGraphNode root) throws IOException {
         print(root, 0);
     }
 
@@ -63,11 +63,10 @@ class FileGraphPrinter {
 
         List<GraphNode> children = compositeNode.getChildren();
 
-        int limitAmountOfFiles = 0;
+        int amountOfFiles = 0;
         for (GraphNode file : children) {
-
-            ++limitAmountOfFiles;
-            if (limitAmountOfFiles > jduOptions.limitAmountOfFiles()) {
+            ++amountOfFiles;
+            if (amountOfFiles > jduOptions.amountOfFiles()) {
                 return;
             }
 
@@ -77,23 +76,27 @@ class FileGraphPrinter {
 
     private static class FileSizeFormatter {
 
-        private static final String[] UNITS = new String[]{"B", "kB", "MB", "GB"};
-        private static final long KILO = 1000;
+        private static final long BYTES_IN_KB = (long) Math.pow(10, 3);
+        private static final long SIXTH_POWER_OF_TEN = (long) Math.pow(10, 6);
+        private static final long NINTH_POWER_OF_TEN = (long) Math.pow(10, 9);
+        private static final long TWELFTH_POWER_OF_TEN = (long) Math.pow(10, 12);
 
-        private static String format(long size) {
+        static String format(long size) {
 
             DecimalFormat df = new DecimalFormat("#.###");
 
-            double doubleSize = size;
-            for (String unit : UNITS) {
-                if (doubleSize < KILO) {
-                    return "[" + df.format(doubleSize) + " " + unit + "]";
-                }
-                doubleSize /= KILO;
+            if (size < BYTES_IN_KB || size > TWELFTH_POWER_OF_TEN) {
+                return "[" + size + " B]";
+            } else if (size < SIXTH_POWER_OF_TEN) {
+                return "[" + df.format(size / BYTES_IN_KB) + " kB]";
+            } else if (size < NINTH_POWER_OF_TEN) {
+                return "[" + df.format(size / SIXTH_POWER_OF_TEN) + " MB]";
+            } else {
+                return "[" + df.format(size / NINTH_POWER_OF_TEN) + " GB]";
             }
 
-            return "[" + size + " B]";
         }
 
     }
+
 }

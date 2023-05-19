@@ -39,7 +39,7 @@ public class JduIntegrationTest {
     }
 
     @Test
-    public void testPrintGraphWithCertainLimit() {
+    public void testPrintGraphWithCertainAmountOfFile() {
 
         int sizeSymLink = TEMP_FOLDER.getStartDirPath().toString().length();
 
@@ -85,7 +85,7 @@ public class JduIntegrationTest {
     }
 
     @Test
-    public void testWrongArgumentForLimitOption() {
+    public void testWrongArgumentForAmountOfFile() {
 
         doTest("", new String[]{TEMP_FOLDER.getStartDirPath().toString(), "--limit", "-200"});
     }

@@ -31,7 +31,7 @@ class JduOptionsParser {
                         throw UserInputException.noArgument("limit");
                     }
 
-                    builder.limit(Integer.parseInt(args[i + 1]));
+                    builder.amountOfFiles(Integer.parseInt(args[i + 1]));
                     i += 2;
                 }
 

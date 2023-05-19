@@ -13,7 +13,7 @@ public class JduOptionsParserTest {
         JduOptions jduOptions = JduOptionsParser.parse(new String[]{""});
 
         assertEquals(MAX_DEPTH, jduOptions.depth());
-        assertEquals(MAX_AMOUNT_OF_FILES, jduOptions.limitAmountOfFiles());
+        assertEquals(MAX_AMOUNT_OF_FILES, jduOptions.amountOfFiles());
         assertFalse(jduOptions.passThroughSymLink());
 
     }
@@ -23,7 +23,7 @@ public class JduOptionsParserTest {
         JduOptions jduOptions = JduOptionsParser.parse(new String[]{"-L"});
 
         assertEquals(MAX_DEPTH, jduOptions.depth());
-        assertEquals(MAX_AMOUNT_OF_FILES, jduOptions.limitAmountOfFiles());
+        assertEquals(MAX_AMOUNT_OF_FILES, jduOptions.amountOfFiles());
         assertTrue(jduOptions.passThroughSymLink());
     }
 
@@ -32,43 +32,25 @@ public class JduOptionsParserTest {
         JduOptions jduOptions = JduOptionsParser.parse(new String[]{"--depth", "6"});
 
         assertEquals(6, jduOptions.depth());
-        assertEquals(MAX_AMOUNT_OF_FILES, jduOptions.limitAmountOfFiles());
+        assertEquals(MAX_AMOUNT_OF_FILES, jduOptions.amountOfFiles());
         assertFalse(jduOptions.passThroughSymLink());
     }
 
     @Test
-    public void testLimitOption() throws UserInputException {
+    public void testAmountOfFilesOption() throws UserInputException {
         JduOptions jduOptions = JduOptionsParser.parse(new String[]{"--limit", "8"});
 
         assertEquals(MAX_DEPTH, jduOptions.depth());
-        assertEquals(8, jduOptions.limitAmountOfFiles());
+        assertEquals(8, jduOptions.amountOfFiles());
         assertFalse(jduOptions.passThroughSymLink());
     }
 
     @Test
-    public void testTwoOptions1() throws UserInputException {
-        JduOptions jduOptions = JduOptionsParser.parse(new String[]{"--limit", "8", "--depth", "7"});
-
-        assertEquals(7, jduOptions.depth());
-        assertEquals(8, jduOptions.limitAmountOfFiles());
-        assertFalse(jduOptions.passThroughSymLink());
-    }
-
-    @Test
-    public void testTwoOptions2() throws UserInputException {
-        JduOptions jduOptions = JduOptionsParser.parse(new String[]{"-L", "--limit", "8"});
-
-        assertEquals(MAX_DEPTH, jduOptions.depth());
-        assertEquals(8, jduOptions.limitAmountOfFiles());
-        assertTrue(jduOptions.passThroughSymLink());
-    }
-
-    @Test
-    public void testThreeOption() throws UserInputException {
+    public void testAllOptions() throws UserInputException {
         JduOptions jduOptions = JduOptionsParser.parse(new String[]{"--depth", "10", "--limit", "8", "-L"});
 
         assertEquals(10, jduOptions.depth());
-        assertEquals(8, jduOptions.limitAmountOfFiles());
+        assertEquals(8, jduOptions.amountOfFiles());
         assertTrue(jduOptions.passThroughSymLink());
     }
 
@@ -91,7 +73,7 @@ public class JduOptionsParserTest {
     }
 
     @Test
-    public void testDuplicateLimitOption() {
+    public void testDuplicateAmountOfFiles() {
         Throwable thrown = assertThrows(UserInputException.class, () ->
                 JduOptionsParser.parse(new String[]{"--depth", "10", "--limit", "8", "--limit", "8", "-L"}));
 
@@ -100,7 +82,7 @@ public class JduOptionsParserTest {
     }
 
     @Test
-    public void testNoArgumentForLimit() {
+    public void testNoArgumentForAmountOfFiles() {
         Throwable thrown = assertThrows(UserInputException.class, () ->
                 JduOptionsParser.parse(new String[]{"--depth", "10", "--limit", "-L"}));
 
@@ -111,13 +93,13 @@ public class JduOptionsParserTest {
     @Test
     public void testNoArgumentForDepth() {
         Throwable thrown = assertThrows(UserInputException.class, () ->
-                JduOptionsParser.parse(new String[]{"--depth", "--limit", "8", "-L"}));
+                JduOptionsParser.parse(new String[]{"--depth", "--amountOfFiles", "8", "-L"}));
 
         assertEquals("option requires an argument -- 'depth'\n\n" + availableOptions, thrown.getMessage());
     }
 
     @Test
-    public void testWrongArgumentForLimit1() {
+    public void testWrongArgumentForAmountOfFiles1() {
         Throwable thrown = assertThrows(UserInputException.class, () ->
                 JduOptionsParser.parse(new String[]{"--depth", "10", "--limit", "-8", "-L"}));
 
@@ -126,7 +108,7 @@ public class JduOptionsParserTest {
     }
 
     @Test
-    public void testWrongArgumentForLimit2() {
+    public void testWrongArgumentForAmountOfFilesF2() {
         Throwable thrown = assertThrows(UserInputException.class, () ->
                 JduOptionsParser.parse(new String[]{"--depth", "10", "--limit", "8000", "-L"}));
 

@@ -4,18 +4,18 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-record JduOptions(int depth, int limitAmountOfFiles, boolean passThroughSymLink, Path startDir) {
+record JduOptions(int depth, int amountOfFiles, boolean passThroughSymLink, Path startDir) {
 
     static class Builder {
         static final int MAX_DEPTH = 1000;
         static final int MAX_AMOUNT_OF_FILES = 1000;
-        static final int MIN_DEPTH = 0;
-        static final int MIN_AMOUNT_OF_FILES = 0;
-        private static final boolean DEFAULT_PASS_THROUGH_SYMLINK = false;
+        static final int MIN_DEPTH = 1;
+        static final int MIN_AMOUNT_OF_FILES = 1;
+        private static final boolean PASS_THROUGH_SYMLINK = false;
         private static final Path USER_DIR = Paths.get(System.getProperty("user.dir"));
 
         private Integer depth;
-        private Integer limitAmountOfFiles;
+        private Integer amountOfFiles;
         private Boolean passThroughSymLink;
         private Path startDir;
 
@@ -30,12 +30,12 @@ record JduOptions(int depth, int limitAmountOfFiles, boolean passThroughSymLink,
         }
 
         @SuppressWarnings("UnusedReturnValue")
-        Builder limit(int limit) throws UserInputException {
+        Builder amountOfFiles(int amountOfFiles) throws UserInputException {
 
-            checkForDuplicates("limit", this.limitAmountOfFiles);
-            checkRange("limit", limit, MIN_AMOUNT_OF_FILES, MAX_AMOUNT_OF_FILES);
+            checkForDuplicates("limit", this.amountOfFiles);
+            checkRange("limit", amountOfFiles, MIN_AMOUNT_OF_FILES, MAX_AMOUNT_OF_FILES);
 
-            this.limitAmountOfFiles = limit;
+            this.amountOfFiles = amountOfFiles;
             return this;
         }
 
@@ -64,7 +64,7 @@ record JduOptions(int depth, int limitAmountOfFiles, boolean passThroughSymLink,
         JduOptions build() {
 
             fillDefaultForOptions();
-            return new JduOptions(depth, limitAmountOfFiles, passThroughSymLink, startDir);
+            return new JduOptions(depth, amountOfFiles, passThroughSymLink, startDir);
         }
 
         private void fillDefaultForOptions() {
@@ -73,12 +73,12 @@ record JduOptions(int depth, int limitAmountOfFiles, boolean passThroughSymLink,
                 depth = MAX_DEPTH;
             }
 
-            if (limitAmountOfFiles == null) {
-                limitAmountOfFiles = MAX_AMOUNT_OF_FILES;
+            if (amountOfFiles == null) {
+                amountOfFiles = MAX_AMOUNT_OF_FILES;
             }
 
             if (passThroughSymLink == null) {
-                passThroughSymLink = DEFAULT_PASS_THROUGH_SYMLINK;
+                passThroughSymLink = PASS_THROUGH_SYMLINK;
             }
 
             if (startDir == null) {
