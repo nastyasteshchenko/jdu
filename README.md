@@ -23,3 +23,8 @@ Tree-like ordered display of files and directories in a given directory
 *  the program must contain unit tests
 *  the program must be written in the OOP style
 *  the program must use the build system
+
+**To run the app:**  
+mvn compile  
+mvn exec:java -Dexec.mainClass="oop.diskUsage.Jdu"  
+**_______________________________**  
