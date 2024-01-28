@@ -17,3 +17,9 @@ dir - root scan directory (current default directory)
 ***The result of the work:***  
 
 Tree-like ordered display of files and directories in a given directory
+
+**Program requirements:**
+
+*  the program must contain unit tests
+*  the program must be written in the OOP style
+*  the program must use the build system
