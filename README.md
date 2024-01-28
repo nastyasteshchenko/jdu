@@ -26,6 +26,6 @@ Tree-like ordered display of files and directories in a given directory
   
 **_______________________________**  
 
-**To run the app:**  
+**To run:**  
 mvn compile  
 mvn exec:java -Dexec.mainClass="oop.diskUsage.Jdu"  
