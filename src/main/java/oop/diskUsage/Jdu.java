@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-class Jdu {
+public class Jdu {
 
     public static void main(String[] args) {
         run(args, System.out);
