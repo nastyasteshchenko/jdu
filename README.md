@@ -28,4 +28,6 @@ Tree-like ordered display of files and directories in a given directory
 
 **To run:**  
 mvn compile  
-mvn exec:java -Dexec.mainClass="oop.diskUsage.Jdu"  
+mvn exec:java -Dexec.mainClass="oop.diskUsage.Jdu" -Dexec.args="args"  
+
+Instead of the word 'args' you need to write options for the utility  
